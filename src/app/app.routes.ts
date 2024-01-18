@@ -7,12 +7,14 @@ import { MasterComponent } from './master/master.component';
 
 export const routes: Routes = [
 
-    { path: "", pathMatch: "full", redirectTo: "" },
+    { path: "", pathMatch: "full", redirectTo: "home" },
+ 
+
     {
       path: '',
       component: MasterComponent,
       children: [
-        { path: '', component: HomeComponent },
+        { path: 'home', component: HomeComponent },
         { path: 'blogs', component: BlogsComponent  },
         { path: 'projects', component: ProjectsComponent },
         { path: 'aboutme', component: AboutMeComponent }
