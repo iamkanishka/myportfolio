@@ -32,9 +32,9 @@
       >
       <a
         class="mr-5 hover:text-white cursor-pointer"
-        [ngClass]="{ 'text-white': clickedLink === 'blogs' }"
+        [ngClass]="{ 'text-white': clickedLink === 'articles' }"
         (click)="onClick('blogs')"
-        >Blogs</a
+        >Articles</a
       >
     </nav>
     <!-- <button class="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">Button
@@ -513,9 +513,9 @@
   <div class="container px-5 py-24 mx-auto">
     <div class="flex justify-between my-9"> 
       <h2 class="tracking-widest text-3xl title-font font-medium text-white ">
-        Blogs
+        Articles
       </h2>
-      <a class="text-indigo-400 inline-flex items-center " [routerLink]="[ '/blogs' ]"
+      <a class="text-indigo-400 inline-flex items-center " [routerLink]="[ '/articles' ]"
       >View All
       <svg
         fill="none"
@@ -628,7 +628,7 @@
     </div>
 
     <div class="flex justify-center mt-5">
-      <button [routerLink]="[ '/blogs' ]"
+      <button [routerLink]="[ '/articles' ]"
       class="inline-flex items-center bg-white border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-black mt-4 md:mt-0"
     >
         View All Blogs
