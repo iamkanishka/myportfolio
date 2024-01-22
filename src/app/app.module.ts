@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { AdminModule } from './admin/admin.module';
 import { PublicModule } from './public/public.module';
 
+
 @NgModule({
   declarations: [
     AppComponent
@@ -14,9 +15,12 @@ import { PublicModule } from './public/public.module';
     BrowserModule,
     AdminModule,
     PublicModule,
-    AppRoutingModule
+    AppRoutingModule,
+
   ],
-  providers: [],
+  providers: [
+ 
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
