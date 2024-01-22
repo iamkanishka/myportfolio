@@ -1,14 +1,8 @@
 {
   "projects": {
     "default": "kanishkanaik-c6343"
-  },
-  "targets": {
-    "kanishkanaik-c6343": {
-      "hosting": {
-        "portfolio": [
-          "kanishkanaik-c6343"
-        ]
-      }
-    }
   }
 }
+
+
+

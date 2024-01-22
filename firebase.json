@@ -13,11 +13,7 @@
           "destination": "/index.html"
         }
       ]
-    },
-    {
-      "target": "portfolio",
-      "source": ".",
-      "frameworksBackend": {}
     }
+   
   ]
 }
