@@ -27,24 +27,38 @@ export class AddOrEditProjectOrArticleComponent {
 
   toastText: string = '';
 
+  formKeys = {};
+
   constructor(
     private formBuilder: FormBuilder,
     private firebaseDB: FirebaseDBService,
     private router: Router
   ) {
+    this.addOrEditType = String(window.location).includes('project')
+      ? 'Project'
+      : 'Article';
+
+    if (this.addOrEditType === 'Project') {
+      this.formKeys = {
+        githubLink: ['', [Validators.required]],
+        mediumLink: ['', []],
+        linkedInLink: ['', []],
+      };
+    } else {
+      this.formKeys = {
+        githubLink: ['', []],
+        mediumLink: ['', [Validators.required]],
+        linkedInLink: ['', []],
+      };
+    }
+
     this.addProjectorArticlesForm = this.formBuilder.group({
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
       imageURL: ['', [Validators.required]],
-      githubLink: ['', [Validators.required]],
-      mediumLink: ['', []],
-      linkedInLink: ['', []],
+      ...this.formKeys,
       tags: ['', [Validators.required]],
     });
-
-    this.addOrEditType = String(window.location).includes('project')
-      ? 'Project'
-      : 'Article';
 
     //   this.formData = {
     //     "title": "asdcasdc",
@@ -77,8 +91,6 @@ export class AddOrEditProjectOrArticleComponent {
       });
     }
   }
-
- 
 
   async AddProject() {
     if (this.addProjectorArticlesForm.invalid) {

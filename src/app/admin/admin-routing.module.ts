@@ -17,7 +17,8 @@ export const routes: Routes = [
         path: 'admin',
         children: [
           { path: 'crudProjectsandBlogs', component: LoginComponent },
-          { path: 'project',     canActivate: [authGuard],
+          { path: 'project',   
+          //  canActivate: [authGuard],
               children:[
             { path: 'list', component: ProjectsDataComponent}, 
             { path: 'add', component: AddOrEditProjectOrArticleComponent}, 
@@ -25,7 +26,8 @@ export const routes: Routes = [
             
            ]
         },
-          { path: 'article', canActivate: [authGuard],
+          { path: 'article',
+          // canActivate: [authGuard],
              children:[
             { path: 'list', component: ArticlesDataComponent}, 
             { path: 'add', component: AddOrEditProjectOrArticleComponent}, 
