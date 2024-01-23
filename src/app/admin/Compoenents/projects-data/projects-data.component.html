@@ -37,7 +37,7 @@
             <th scope="col" class="px-6 py-3">Title</th>
             <th scope="col" class="px-6 py-3">Descrption</th>
             <th scope="col" class="px-6 py-3">Image</th>
-
+            
             <th scope="col" class="px-6 py-3">Github Link</th>
             <th scope="col" class="px-6 py-3">Medium Link</th>
             <th scope="col" class="px-6 py-3">LinkedIn Link</th>
@@ -47,18 +47,27 @@
           </tr>
         </thead>
         <tbody>
+          @for (project of Projects; track project.id) {
+         
+         
           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
             <th
               scope="row"
               class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
             >
-              Apple MacBook Pro 17"
+            {{project.title}}
             </th>
-            <td class="px-6 py-4">Silver</td>
-            <td class="px-6 py-4">Image Url</td>
+            <td class="px-4 py-3 w-3/6">  {{project.description}}</td>
+            <td class="px-6 py-4"> 
+
+              <img [src]="project.imageURL" [alt]="project.title" width="50" height="40" srcset="">
+
+            </td>
 
             <td class="px-6 py-4">
-              <a [routerLink]="''">
+              @if (project.githubLink != '') {
+              
+              <a [href]="project.githubLink" target="_blank">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   x="0px"
@@ -109,9 +118,17 @@
                   </g>
                 </svg>
               </a>
+               
+            } @else {
+            <span>NA</span> 
+            }
+
+
             </td>
             <td class="px-6 py-4">
-              <a [routerLink]="''">
+
+              @if (project.mediumLink != '') {
+              <a [href]="project.mediumLink" target="_blank" >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   x="0px"
@@ -162,10 +179,16 @@
                   </g>
                 </svg>
               </a>
+            } @else {
+              <span>NA</span> 
+              }
+  
             </td>
 
             <td class="px-6 py-4">
-              <a [routerLink]="''">
+              
+              @if (project.linkedInLink != '') {
+              <a [href]="project.linkedInLink" target="_blank">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   x="0px"
@@ -216,6 +239,9 @@
                   </g>
                 </svg>
               </a>
+            } @else {
+              <span>NA</span> 
+              }
             </td>
             <!-- <td class="px-6 py-4"></td> -->
 
@@ -232,6 +258,11 @@
               >
             </td>
           </tr>
+        } @empty {
+          Empty list of Projects
+        }
+
+
         </tbody>
       </table>
     </div>

@@ -20,29 +20,23 @@ export class LoginComponent {
     });
   }
 
-  SignIn() {
-    signInWithEmailAndPassword(
-      this.auth,
-      this.loginForm.value.email,
-      this.loginForm.value.password
-    ).then((res: any) => {
-      console.log(res);
-     console.log(this.auth.currentUser);
-     this.router.navigate(['/admin/project/list']);
-      
-    }).catch((err)=>{
-      console.log(err);
-      
-    })
+  async SignIn() {
+    try{
+    const auth = await  signInWithEmailAndPassword(
+        this.auth,
+        this.loginForm.value.email,
+        this.loginForm.value.password
+      )
 
-    // return this.auth.signInWithEmailAndPassword(this.loginForm.value.email, this.loginForm.value.password)
-    //   .then((result:any) => {
-    //     console.log(result);
-    //   })
-    //   .catch((error:any) => {
-    //     window.alert(error.message);
-    //   });
+      this.router.navigate(["/admin/project/list"])
 
-    // return this.auth.
+
+
+    }catch(err){
+
+    }
+  
+
+    
   }
 }
