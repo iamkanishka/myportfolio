@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FirebaseDBService } from '../../../firebase-db/firebase-db.service';
+import { Router } from '@angular/router';
+import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
 
 @Component({
   selector: 'app-projects-data',
@@ -7,18 +9,26 @@ import { FirebaseDBService } from '../../../firebase-db/firebase-db.service';
   styleUrl: './projects-data.component.css',
 })
 export class ProjectsDataComponent {
-  isshowDetails: boolean = false;
+  Projects: ProjectorArticle[] = [];
 
   constructor(private firebaseDBService: FirebaseDBService) {
-    // firebaseDBService.addDcoument()
-    // firebaseDBService.getDocuments()
+    this.getProjects();
   }
 
-  AddProject() {
-    this.isshowDetails = true;
-  }
+  async getProjects() {
+    try {
+      let Type = String(window.location).includes('project')
+        ? 'projects'
+        : 'articles';
 
-  onClose() {
-    this.isshowDetails = false;
+      const projects: any = await this.firebaseDBService.getAllDocuments(Type);
+      projects.forEach((doc: any) => {
+        this.Projects.push({ id: doc.id, ...doc.data() });
+      });
+      console.log(this.Projects);
+      
+    } catch (err) {
+       console.log(err);
+      }
   }
 }
