@@ -14,6 +14,7 @@ import {
   DocumentSnapshot,
   deleteDoc,
   updateDoc,
+  getFirestore,
 } from '@angular/fire/firestore';
 import { ProjectorArticle } from '../Types/ProjectorArticle.type';
 
@@ -21,17 +22,19 @@ import { ProjectorArticle } from '../Types/ProjectorArticle.type';
   providedIn: 'root',
 })
 export class FirebaseDBService {
-  firestore: Firestore = Inject(Firestore);
+ 
+   db = getFirestore();
 
   constructor() {}
 
-  async addDcoument(
+  async addDocument(
     dataType: string,
     projectorArticledata: ProjectorArticle
   ): Promise<DocumentReference<DocumentData, DocumentData> | undefined> {
     try {
+      
       const docRef = await addDoc(
-        collection(this.firestore, dataType),
+        collection(this.db, dataType),
         projectorArticledata
       );
       return docRef;
@@ -45,7 +48,7 @@ export class FirebaseDBService {
     dataType: string
   ): Promise<QuerySnapshot<DocumentData, DocumentData> | undefined> {
     try {
-      const querySnapshot = await getDocs(collection(this.firestore, dataType));
+      const querySnapshot = await getDocs(collection(this.db, dataType));
       return querySnapshot;
     } catch (e) {
       console.error(`Error fetching ${dataType}  document: `, e);
@@ -59,7 +62,7 @@ export class FirebaseDBService {
   ): Promise<QuerySnapshot<DocumentData, DocumentData> | undefined> {
     try {
       const q = query(
-        collection(this.firestore, dataType),
+        collection(this.db, dataType),
         where('tags', 'array-contains', tagKeyword)
       );
       const querySnapshot = await getDocs(q);
@@ -75,7 +78,7 @@ export class FirebaseDBService {
     dataType: string
   ): Promise<DocumentSnapshot<DocumentData, DocumentData> | undefined> {
     try {
-      const docRef = doc(this.firestore, dataType, id);
+      const docRef = doc(this.db, dataType, id);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -97,7 +100,7 @@ export class FirebaseDBService {
     dataType: string
   ): Promise<void | undefined> {
     try {
-      const deletedoc = await deleteDoc(doc(this.firestore, dataType, id));
+      const deletedoc = await deleteDoc(doc(this.db, dataType, id));
       return deletedoc;
     } catch (e) {
       console.error(`Error fetching ${dataType}  document: `, e);
@@ -112,7 +115,7 @@ export class FirebaseDBService {
     projectorArticledata: ProjectorArticle
   ): Promise<void | undefined> {
     try {
-      const udpatedDoc =  await updateDoc(doc(this.firestore, dataType, id), projectorArticledata as any );
+      const udpatedDoc =  await updateDoc(doc(this.db, dataType, id), projectorArticledata as any );
       return udpatedDoc;
     } catch (e) {
       console.error(`Error fetching ${dataType}  document: `, e);
