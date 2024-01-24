@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProjectorArticle } from '../../../../Types/ProjectorArticle.type';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirebaseDBService } from '../../../../firebase-db/firebase-db.service';
+import { Tags, Tag } from '../../../../Common/Data';
 
 @Component({
   selector: 'app-add-or-edit-project-or-article',
@@ -11,9 +12,9 @@ import { FirebaseDBService } from '../../../../firebase-db/firebase-db.service';
 })
 export class AddOrEditProjectOrArticleComponent {
   addProjectorArticlesForm: FormGroup;
-  route: ActivatedRoute = Inject(ActivatedRoute);
 
   addOrEditType: string = '';
+  projectorArticleType: string = '';
 
   addType: string = '';
   formData!: ProjectorArticle;
@@ -29,16 +30,38 @@ export class AddOrEditProjectOrArticleComponent {
 
   formKeys = {};
 
+  TagsData: Tag[] = [];
+
   constructor(
     private formBuilder: FormBuilder,
     private firebaseDB: FirebaseDBService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
-    this.addOrEditType = String(window.location).includes('project')
+    this.TagsData = Tags;
+    this.addOrEditType = String(window.location.pathname).includes('add')
+      ? 'Add'
+      : 'Edit';
+    this.projectorArticleType = String(window.location.pathname).includes('project')
       ? 'Project'
       : 'Article';
 
-    if (this.addOrEditType === 'Project') {
+      console.log(this.addOrEditType);
+
+
+    if (this.addOrEditType === 'Edit') {
+      console.log(this.addOrEditType);
+      
+      this.route.queryParams.subscribe((params: any) => {
+        console.log(params);
+        
+        this.formData = JSON.parse(params.data);
+      });
+    }
+
+    console.log(this.formData);
+
+    if (this.projectorArticleType === 'Project') {
       this.formKeys = {
         githubLink: ['', [Validators.required]],
         mediumLink: ['', []],
@@ -59,20 +82,6 @@ export class AddOrEditProjectOrArticleComponent {
       ...this.formKeys,
       tags: ['', [Validators.required]],
     });
-
-    //   this.formData = {
-    //     "title": "asdcasdc",
-    //     "description": "asdcasdcasdc",
-    //     "imageURL": "asdcasdcasdc",
-    //     "githubLink": "asdcasdc",
-    //     "mediumLink": "asdcasdc",
-    //     "linkedInLink": "asdcasdc",
-    //     "tags": [
-    //         "Angular",
-    //         "Nodejs",
-    //         "Nestjs"
-    //     ]
-    // }
   }
 
   ngOnInit(): void {
@@ -105,12 +114,45 @@ export class AddOrEditProjectOrArticleComponent {
 
       let formData = this.addProjectorArticlesForm.value;
       await this.firebaseDB.addDocument(
-        this.addOrEditType.toLowerCase().concat('s'),
+        this.projectorArticleType.toLowerCase().concat('s'),
         formData
       );
       this.responseToast = 'success';
       this.addProjectorArticlesForm.reset;
-      this.router.navigate(['/admin/project/list']);
+      this.router.navigate([
+        `/admin/${this.projectorArticleType.toLowerCase()}/list`,
+      ]);
+    } catch (err) {
+      this.toastText = 'Something went wrong';
+      this.loader = false;
+
+      this.responseToast = 'error';
+      console.log(err);
+    }
+  }
+
+  async UpdateProject() {
+    if (this.addProjectorArticlesForm.invalid) {
+      this.toastText = 'Please Enter Valid Values';
+      this.responseToast = 'error';
+      return;
+    }
+
+    this.loader = true;
+    try {
+      this.loader = false;
+
+      let formData = this.addProjectorArticlesForm.value;
+      await this.firebaseDB.updateDocumentId(
+        String(this.formData.id),
+        this.projectorArticleType.toLowerCase().concat('s'),
+        formData
+      );
+      this.responseToast = 'success';
+      this.addProjectorArticlesForm.reset;
+      this.router.navigate([
+        `/admin/${this.projectorArticleType.toLowerCase()}/list`,
+      ]);
     } catch (err) {
       this.toastText = 'Something went wrong';
       this.loader = false;

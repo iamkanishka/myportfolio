@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { FirebaseDBService } from '../../../firebase-db/firebase-db.service';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
 
 @Component({
@@ -11,7 +11,7 @@ import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
 export class ProjectsDataComponent {
   Projects: ProjectorArticle[] = [];
 
-  constructor(private firebaseDBService: FirebaseDBService) {
+  constructor(private firebaseDBService: FirebaseDBService, private router: Router) {
     this.getProjects();
   }
 
@@ -30,5 +30,18 @@ export class ProjectsDataComponent {
     } catch (err) {
        console.log(err);
       }
+  }
+
+
+  redirectTOEdit(project:ProjectorArticle){
+
+    let navigationExtras: NavigationExtras = {
+      queryParams: {data: JSON.stringify(project)} ,
+      queryParamsHandling: 'merge'
+     
+    };
+    
+    // Navigate to the login page with extras
+    this.router.navigate(['/admin/project/edit'], navigationExtras);
   }
 }
