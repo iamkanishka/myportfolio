@@ -10,6 +10,7 @@ import { ProjectsDataComponent } from './Compoenents/projects-data/projects-data
 import { ArticlesDataComponent } from './Compoenents/articles-data/articles-data.component';
 import { AddOrEditProjectOrArticleComponent } from './Compoenents/projects-data/add-or-edit-project-or-article/add-or-edit-project-or-article.component';
 import { FirebaseDBService } from '../firebase-db/firebase-db.service';
+import { HeaderComponent } from './Compoenents/header/header.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { FirebaseDBService } from '../firebase-db/firebase-db.service';
     ProjectsDataComponent,
     
     ArticlesDataComponent,
-    AddOrEditProjectOrArticleComponent
+    AddOrEditProjectOrArticleComponent,
+    HeaderComponent
   ],
   imports: [
     CommonModule,

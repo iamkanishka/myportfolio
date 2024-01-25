@@ -7,14 +7,14 @@
       <div>
         <button
           [routerLink]="['/admin/project/list']"
-          class="inline-flex items-center me-3 bg-black py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-white mt-4 md:mt-0 border-1 border-gray-600"
+          class="inline-flex items-center me-3 bg-black py-1 px-3 focus:outline-none hover:bg-gray-200 rounded hover:text-black  text-white mt-4 md:mt-0 border-1 border-gray-600"
         >
           Go to Projects
         </button>
 
         <button
           [routerLink]="['/admin/article/add']"
-          class="inline-flex items-center bg-black py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-white mt-4 md:mt-0 border-1 border-gray-600"
+          class="inline-flex items-center bg-black py-1 px-3 focus:outline-none hover:bg-gray-200 hover:text-black rounded text-white mt-4 md:mt-0 border-1 border-gray-600"
         >
           Add Article
         </button>
@@ -42,7 +42,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (project of Projects; track project.id) {
+          @for (project of Projects; track project.id;let index = $index) {
 
           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
             <th
@@ -241,13 +241,11 @@
             <!-- <td class="px-6 py-4"></td> -->
 
             <td class="px-6 py-4">
-              <a
-                href="#"
+              <a (click)="redirectTOEdit(project)"
                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                 >Edit</a
               >/
-              <a
-                href="#"
+              <a (click)="DeleteArticles(project.id, index)"
                 class="font-medium text-red-600 dark:text-blue-500 hover:underline"
                 >Delete</a
               >

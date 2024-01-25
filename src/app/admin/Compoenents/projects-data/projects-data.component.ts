@@ -11,7 +11,10 @@ import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
 export class ProjectsDataComponent {
   Projects: ProjectorArticle[] = [];
 
-  constructor(private firebaseDBService: FirebaseDBService, private router: Router) {
+  constructor(
+    private firebaseDBService: FirebaseDBService,
+    private router: Router
+  ) {
     this.getProjects();
   }
 
@@ -25,23 +28,30 @@ export class ProjectsDataComponent {
       projects.forEach((doc: any) => {
         this.Projects.push({ id: doc.id, ...doc.data() });
       });
-      console.log(this.Projects);
-      
     } catch (err) {
-       console.log(err);
-      }
+      console.log(err);
+    }
   }
 
-
-  redirectTOEdit(project:ProjectorArticle){
-
+  redirectTOEdit(project: ProjectorArticle) {
     let navigationExtras: NavigationExtras = {
-      queryParams: {data: JSON.stringify(project)} ,
-      queryParamsHandling: 'merge'
-     
+      queryParams: { data: JSON.stringify(project) },
+      queryParamsHandling: 'merge',
     };
-    
+
     // Navigate to the login page with extras
     this.router.navigate(['/admin/project/edit'], navigationExtras);
   }
+
+  async DeleteProject(id: string| undefined, index : number) {
+     let Type = String(window.location).includes('project')
+    ? 'projects'
+    : 'articles';
+    let text = "Sure want to Cancel Article";
+    if (confirm(text) == true) {
+      const projects: any = await this.firebaseDBService.deleteDocumentId(String(id),Type);
+      this.Projects.splice(index,1)
+    } else {
+      text = "You canceled!";
+    }
 }
