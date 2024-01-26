@@ -1,48 +1,29 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
- 
+import { ProjectorArticle } from '../../../../Types/ProjectorArticle.type';
 
 @Component({
   selector: 'app-projectsdetails',
-  
+
   templateUrl: './projectsdetails.component.html',
-  styleUrl: './projectsdetails.component.css'
+  styleUrl: './projectsdetails.component.css',
 })
 export class ProjectsdetailsComponent {
-
-  @Input('ProjectId')
-  ProjectId: string | undefined = undefined;
+  @Input('ProjectDetails')
+  ProjectDetails!: ProjectorArticle;
 
   @Input('show')
   show = false;
 
   @Output('close')
-  onClose = new EventEmitter()
-  disableBodyScrolling() {
-    document.body.style.setProperty('overflow', 'hidden')
-  }
+  onClose = new EventEmitter();
 
-  enableBodyScrolling() {
-    document.body.style.setProperty('overflow', 'scroll')
-  }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
-    this.init()
-  }
-
-  ngOnChanges(): void {
-    this.init()
-  }
-
-  init() {
-    // if (this.show)
-    //   this.disableBodyScrolling()
-  }
+  ngOnChanges(): void {}
 
   close() {
-   // this.enableBodyScrolling()
-   this.show =  !this.show
-   this.onClose.emit()
- 
+    // this.enableBodyScrolling()
+    this.show = !this.show;
+    this.onClose.emit();
   }
-
 }

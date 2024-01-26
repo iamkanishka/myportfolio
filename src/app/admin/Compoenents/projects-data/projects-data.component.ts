@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { FirebaseDBService } from '../../../firebase-db/firebase-db.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
@@ -43,15 +43,19 @@ export class ProjectsDataComponent {
     this.router.navigate(['/admin/project/edit'], navigationExtras);
   }
 
-  async DeleteProject(id: string| undefined, index : number) {
-     let Type = String(window.location).includes('project')
-    ? 'projects'
-    : 'articles';
-    let text = "Sure want to Cancel Article";
+  async DeleteProject(id: string | undefined, index: number) {
+    let Type = String(window.location).includes('project')
+      ? 'projects'
+      : 'articles';
+    let text = 'Sure want to Cancel Article';
     if (confirm(text) == true) {
-      const projects: any = await this.firebaseDBService.deleteDocumentId(String(id),Type);
-      this.Projects.splice(index,1)
+      const projects: any = await this.firebaseDBService.deleteDocumentId(
+        String(id),
+        Type
+      );
+      this.Projects.splice(index, 1);
     } else {
-      text = "You canceled!";
+      text = 'You canceled!';
     }
+  }
 }
