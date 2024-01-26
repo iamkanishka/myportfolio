@@ -72,6 +72,7 @@ export class AddOrEditProjectOrArticleComponent {
         githubLink: ['', []],
         mediumLink: ['', [Validators.required]],
         linkedInLink: ['', []],
+        
       };
     }
 
@@ -81,6 +82,7 @@ export class AddOrEditProjectOrArticleComponent {
       imageURL: ['', [Validators.required]],
       ...this.formKeys,
       tags: ['', [Validators.required]],
+      createdAt:[new Date(), [Validators.required]],
     });
   }
 

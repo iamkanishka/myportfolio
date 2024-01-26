@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import {
   getDocs,
-  Firestore,
   addDoc,
   collection,
   DocumentReference,
@@ -15,6 +14,8 @@ import {
   deleteDoc,
   updateDoc,
   getFirestore,
+  orderBy,
+  limit,
 } from '@angular/fire/firestore';
 import { ProjectorArticle } from '../Types/ProjectorArticle.type';
 
@@ -22,8 +23,7 @@ import { ProjectorArticle } from '../Types/ProjectorArticle.type';
   providedIn: 'root',
 })
 export class FirebaseDBService {
- 
-   db = getFirestore();
+  db = getFirestore();
 
   constructor() {}
 
@@ -32,7 +32,6 @@ export class FirebaseDBService {
     projectorArticledata: ProjectorArticle
   ): Promise<DocumentReference<DocumentData, DocumentData> | undefined> {
     try {
-      
       const docRef = await addDoc(
         collection(this.db, dataType),
         projectorArticledata
@@ -45,10 +44,24 @@ export class FirebaseDBService {
   }
 
   async getAllDocuments(
-    dataType: string
+    dataType: string,
+    dataLimit?: any
   ): Promise<QuerySnapshot<DocumentData, DocumentData> | undefined> {
     try {
-      const querySnapshot = await getDocs(collection(this.db, dataType));
+      let querySnapshot;
+      if (dataLimit) {
+        querySnapshot = await getDocs(
+          query(
+            collection(this.db, dataType),
+            orderBy('createdAt'),
+            limit(dataLimit)
+          )
+        );
+      } else {
+        querySnapshot = await getDocs(
+          query(collection(this.db, dataType), orderBy('createdAt'))
+        );
+      }
       return querySnapshot;
     } catch (e) {
       console.error(`Error fetching ${dataType}  document: `, e);
@@ -108,22 +121,20 @@ export class FirebaseDBService {
     }
   }
 
-
   async updateDocumentId(
     id: string,
     dataType: string,
     projectorArticledata: ProjectorArticle
   ): Promise<void | undefined> {
     try {
-      const udpatedDoc =  await updateDoc(doc(this.db, dataType, id), projectorArticledata as any );
+      const udpatedDoc = await updateDoc(
+        doc(this.db, dataType, id),
+        projectorArticledata as any
+      );
       return udpatedDoc;
     } catch (e) {
       console.error(`Error fetching ${dataType}  document: `, e);
       return;
     }
   }
-
-
-
-
 }
