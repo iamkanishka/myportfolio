@@ -4,42 +4,41 @@ import { Router } from '@angular/router';
 import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
 
 @Component({
-  selector: 'app-projects',
-
-  templateUrl: './projects.component.html',
-  styleUrl: './projects.component.css',
+  selector: 'app-articles',
+  templateUrl: './articles.component.html',
+  styleUrl: './articles.component.css',
 })
-export class ProjectsComponent {
+export class ArticlesComponent {
   isshowDetails: boolean = false;
-  projectDetailsData!: ProjectorArticle;
+  articleDetailsData!: ProjectorArticle;
 
-  Projects: ProjectorArticle[] = [];
+  Articles: ProjectorArticle[] = [];
 
   constructor(
     private firebaseDBService: FirebaseDBService,
     private router: Router
   ) {
     window.scrollTo(0, 0);
-    this.getProjects();
+    this.getArticles();
   }
 
-  async getProjects() {
+  async getArticles() {
     try {
-      const projects: any = await this.firebaseDBService.getAllDocuments(
-        'projects'
+      const articles: any = await this.firebaseDBService.getAllDocuments(
+        'articles'
       );
-      projects.forEach((doc: any) => {
-        this.Projects.push({ id: doc.id, ...doc.data() });
+      articles.forEach((doc: any) => {
+        this.Articles.push({ id: doc.id, ...doc.data() });
       });
 
-      console.log(this.Projects);
+      console.log(this.Articles);
     } catch (err) {
       console.log(err);
     }
   }
 
   showDetails(project: ProjectorArticle) {
-    this.projectDetailsData = project;
+    this.articleDetailsData = project;
     this.isshowDetails = true;
   }
 

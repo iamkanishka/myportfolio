@@ -33,9 +33,17 @@
       <a
         class="mr-5 hover:text-white cursor-pointer"
         [ngClass]="{ 'text-white': clickedLink === 'articles' }"
-        (click)="onClick('blogs')"
+        (click)="onClick('articles')"
         >Articles</a
       >
+
+      <a
+      class="mr-5 hover:text-white cursor-pointer"
+      [ngClass]="{ 'text-white': clickedLink === 'articles' }"
+      (click)="onClick('contact')"
+      >Contact me</a
+    >
+
     </nav>
     <!-- <button class="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">Button
       <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
@@ -297,7 +305,7 @@
 </section>
 
 <section class="text-gray-400 bg-gray-900 body-font px-5" id="aboutme">
-  <div class="container px-5 md:py-24 py-4 mx-auto flex flex-col">
+  <div class="container px-5 md:py-8 py-4 mx-auto flex flex-col">
     <div class="lg:w-4/6 mx-auto">
       <div class="rounded-lg h-64 overflow-hidden">
         <img
@@ -371,9 +379,9 @@
 </section>
 
 <section class="text-gray-400 bg-gray-900 body-font " id="projects">
-  <div class="container px-5 py-24 mx-auto">
-    <div class="flex justify-between my-9"> 
-    <h2 class="tracking-widest text-3xl title-font font-medium text-white">
+  <div class="container px-5 md:py-4 py-24 mx-auto">
+    <div class="flex justify-between "> 
+    <h2 class="tracking-widest text-3xl title-font font-medium text-white py-5">
       Projects
     </h2>
     <a class="text-indigo-400 inline-flex items-center " [routerLink]="[ '/projects' ]"
@@ -447,46 +455,46 @@
   </div>
 </section>
 
-<section class="text-gray-400 bg-gray-900 body-font " id="blogs">
-  <div class="container px-5 py-24 mx-auto">
+
+<section class="text-gray-400 bg-gray-900 body-font " id="articles">
+  <div class="container px-5 py-8 mx-auto">
     <div class="flex justify-between my-9"> 
-      <h2 class="tracking-widest text-3xl title-font font-medium text-white ">
-        Articles
-      </h2>
-      <a class="text-indigo-400 inline-flex items-center " [routerLink]="[ '/articles' ]"
-      >View All
-      <svg
-        fill="none"
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        class="w-4 h-4 ml-2"
-        viewBox="0 0 24 24"
-      >
-        <path d="M5 12h14M12 5l7 7-7 7"></path>
-      </svg>
-    </a>
-    </div>
+    <h2 class="tracking-widest text-3xl title-font font-medium text-white">
+      Articles
+    </h2>
+    <a class="text-indigo-400 inline-flex items-center " [routerLink]="[ '/articles' ]"
+    >View All
+    <svg
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      class="w-4 h-4 ml-2"
+      viewBox="0 0 24 24"
+    >
+      <path d="M5 12h14M12 5l7 7-7 7"></path>
+    </svg>
+  </a>
+  </div>
 
     <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
+      @for (article of Articles; track $index) {
       <div class="p-4 md:w-1/3 sm:mb-0 mb-6">
-        <div class="rounded-lg h-64 overflow-hidden">
+        <div class="rounded-lg h-auto bg-white  w-full md:h-64 md:w-3/ overflow-hidden">
           <img
             alt="content"
-            class="object-cover object-center h-full w-full"
-            src="https://dummyimage.com/1203x503"
+            class="object-cover object-center h-100 w-100"
+            [src]="article.imageURL"
           />
         </div>
         <h2 class="text-xl font-medium title-font text-white mt-5">
-          Shooting Stars
+        {{article.title}}
         </h2>
-        <p class="text-base leading-relaxed mt-2">
-          Swag shoindxgoitch literally meditation subway tile tumblr
-          cold-pressed. Gastropub street art beard dreamcatcher neutra, ethical
-          XOXO lumbersexual.
-        </p>
-        <a class="text-indigo-400 inline-flex items-center mt-3"
+        <span class="text-base leading-relaxed mt-2">
+          {{article.description |   slice : 0 : 150}}...
+        </span>
+        <a class="text-indigo-400 inline-flex items-center  "
           >Learn More
           <svg
             fill="none"
@@ -501,75 +509,14 @@
           </svg>
         </a>
       </div>
-      <div class="p-4 md:w-1/3 sm:mb-0 mb-6">
-        <div class="rounded-lg h-64 overflow-hidden">
-          <img
-            alt="content"
-            class="object-cover object-center h-full w-full"
-            src="https://dummyimage.com/1204x504"
-          />
-        </div>
-        <h2 class="text-xl font-medium title-font text-white mt-5">
-          The Catalyzer
-        </h2>
-        <p class="text-base leading-relaxed mt-2">
-          Swag shoindxigoitch literally meditation subway tile tumblr
-          cold-pressed. Gastropub street art beard dreamcatcher neutra, ethical
-          XOXO lumbersexual.
-        </p>
-        <a class="text-indigo-400 inline-flex items-center mt-3"
-          >Learn More
-          <svg
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            class="w-4 h-4 ml-2"
-            viewBox="0 0 24 24"
-          >
-            <path d="M5 12h14M12 5l7 7-7 7"></path>
-          </svg>
-        </a>
-      </div>
-      <div class="p-4 md:w-1/3 sm:mb-0 mb-6">
-        <div class="rounded-lg h-64 overflow-hidden">
-          <img
-            alt="content"
-            class="object-cover object-center h-full w-full"
-            src="https://dummyimage.com/1205x505"
-          />
-        </div>
-        <h2 class="text-xl font-medium title-font text-white mt-5">
-          The 400 Blows
-        </h2>
-        <p class="text-base leading-relaxed mt-2">
-          Swag shoindegoitch literally meditation subway tile tumblr
-          cold-pressed. Gastropub street art beard dreamcatcher neutra, ethical
-          XOXO lumbersexual.
-        </p>
-        <a class="text-indigo-400 inline-flex items-center mt-3"
-          >Learn More
-          <svg
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            class="w-4 h-4 ml-2"
-            viewBox="0 0 24 24"
-          >
-            <path d="M5 12h14M12 5l7 7-7 7"></path>
-          </svg>
-        </a>
-      </div>
+    }
     </div>
 
-    <div class="flex justify-center mt-5">
+    <div class="flex justify-center mt-9">
       <button [routerLink]="[ '/articles' ]"
-      class="inline-flex items-center bg-white border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-black mt-4 md:mt-0"
-    >
-        View All Blogs
+        class="inline-flex items-center bg-white border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-black mt-4 md:mt-0"
+      >
+        View All Articles
         <svg
           fill="none"
           stroke="currentColor"
@@ -585,3 +532,40 @@
     </div>
   </div>
 </section>
+
+
+<section class="text-gray-400 bg-gray-900 body-font relative" id="contact">
+  <div class="container px-5 py-8 mx-auto">
+    <div class="flex flex-col text-center w-full mb-12">
+      <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-white">Get in touch</h1>
+      <p class="lg:w-2/3 mx-auto leading-relaxed text-base">If you wanna Connect with me Im one mail/message away </p>
+    </div>
+    <div class="lg:w-1/2 md:w-2/3 mx-auto">
+      <div class="flex flex-wrap ">
+        <div class="p-2 w-full">
+          <div class="relative">
+            <label for="name" class="leading-7 text-sm text-gray-400">Subject</label>
+            <input type="text" id="name" name="name" class="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:border-indigo-500 focus:bg-gray-900 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+          </div>
+        </div>
+      
+        <div class="p-2 w-full">
+          <div class="relative">
+            <label for="message" class="leading-7 text-sm text-gray-400">Message</label>
+            <textarea id="message" name="message" class="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:border-indigo-500 focus:bg-gray-900 focus:ring-2 focus:ring-indigo-900 h-32 text-base outline-none text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+          </div>
+        </div>
+        <div class="p-2 w-full">
+          <button class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Get in touch</button>
+        </div>
+    
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- <a href="mailto:no-one@snai1mai1.com?subject=look at this website&body=Hi,I found this website and thought you might like it http://www.geocities.com/wowhtml/">tell a friend</a> -->
+
+

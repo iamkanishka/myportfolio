@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PublicComponent } from './public.component';
 import { HomeComponent } from './Compoenents/home/home.component';
-import { BlogsComponent } from './Compoenents/blogs/blogs.component';
 import { ProjectsComponent } from './Compoenents/projects/projects.component';
 import { AboutMeComponent } from './Compoenents/about-me/about-me.component';
+import { ArticlesComponent } from './Compoenents/articles/articles.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -14,7 +14,7 @@ export const routes: Routes = [
     component: PublicComponent,
     children: [
       { path: 'home', component: HomeComponent },
-      { path: 'articles', component: BlogsComponent },
+      { path: 'articles', component: ArticlesComponent },
       { path: 'projects', component: ProjectsComponent },
       { path: 'aboutme', component: AboutMeComponent },
       
@@ -22,6 +22,7 @@ export const routes: Routes = [
      
   },
 ]
+
 
 
 @NgModule({

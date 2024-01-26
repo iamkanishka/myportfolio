@@ -7,9 +7,11 @@ import { ProjectsComponent } from './Compoenents/projects/projects.component';
 import { ProjectsdetailsComponent } from './Compoenents/projects/projectsdetails/projectsdetails.component';
 import { HomeComponent } from './Compoenents/home/home.component';
 import { AboutMeComponent } from './Compoenents/about-me/about-me.component';
-import { BlogsComponent } from './Compoenents/blogs/blogs.component';
 import { HeaderComponent } from './Compoenents/header/header.component';
 import { FirebaseDBModule } from '../firebase-db/firebase-db.module';
+import { ArticlesComponent } from './Compoenents/articles/articles.component';
+import { ArticlesDetailsComponent } from './Compoenents/articles/articles-details/articles-details.component';
+import { FooterComponent } from './Compoenents/footer/footer.component';
 
 
 @NgModule({
@@ -19,8 +21,10 @@ import { FirebaseDBModule } from '../firebase-db/firebase-db.module';
     ProjectsdetailsComponent,
     HomeComponent,
     AboutMeComponent,
-    BlogsComponent,
     HeaderComponent,
+    ArticlesComponent,
+    ArticlesDetailsComponent,
+    FooterComponent,
 
   ],
   imports: [
