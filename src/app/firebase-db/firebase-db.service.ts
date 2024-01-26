@@ -45,10 +45,10 @@ export class FirebaseDBService {
 
   async getAllDocuments(
     dataType: string,
-    dataLimit?: any
+    dataLimit?: number
   ): Promise<QuerySnapshot<DocumentData, DocumentData> | undefined> {
     try {
-      let querySnapshot;
+       let querySnapshot;
       if (dataLimit) {
         querySnapshot = await getDocs(
           query(
@@ -57,6 +57,13 @@ export class FirebaseDBService {
             limit(dataLimit)
           )
         );
+
+       
+
+        
+
+      
+
       } else {
         querySnapshot = await getDocs(
           query(collection(this.db, dataType), orderBy('createdAt'))
