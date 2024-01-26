@@ -57,14 +57,7 @@ export class FirebaseDBService {
             limit(dataLimit)
           )
         );
-
-       
-
-        
-
-      
-
-      } else {
+   } else {
         querySnapshot = await getDocs(
           query(collection(this.db, dataType), orderBy('createdAt'))
         );
