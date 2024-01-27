@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProjectorArticle } from '../../../../Types/ProjectorArticle.type';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirebaseDBService } from '../../../../firebase-db/firebase-db.service';
-import { Tags, Tag } from '../../../../Common/Data';
+import { Tags, Tag } from '../../../../Common/Utilities/Data';
 
 @Component({
   selector: 'app-add-or-edit-project-or-article',

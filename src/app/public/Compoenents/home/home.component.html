@@ -1,4 +1,4 @@
-<header class="text-gray-400 bg-gray-900 body-font sticky top-0">
+<header class="text-gray-400 bg-gray-900 body-font sticky top-0" >
   <div
     class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center"
   >
@@ -37,12 +37,7 @@
         >Articles</a
       >
 
-      <a
-      class="mr-5 hover:text-white cursor-pointer"
-      [ngClass]="{ 'text-white': clickedLink === 'articles' }"
-      (click)="onClick('contact')"
-      >Contact me</a
-    >
+  
 
     </nav>
     <!-- <button class="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">Button
@@ -53,9 +48,11 @@
   </div>
 </header>
 
+
+
 <section class="text-gray-400 bg-gray-900 body-font" id="home">
   <div
-    class="container mx-auto flex px-5 md:py-24 py-8 md:flex-row flex-col items-center"
+    class="container mx-auto flex px-5 md:py-24 py-8 md:flex-row flex-col items-center "
   >
     <div
       class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center"
@@ -305,7 +302,7 @@
 </section>
 
 <section class="text-gray-400 bg-gray-900 body-font px-5" id="aboutme">
-  <div class="container px-5 md:py-8 py-4 mx-auto flex flex-col">
+  <div class="container px-5 md:py-8 py-4 mx-auto flex flex-col pt-16">
     <div class="lg:w-4/6 mx-auto">
       <div class="rounded-lg h-64 overflow-hidden">
         <img
@@ -379,9 +376,9 @@
 </section>
 
 <section class="text-gray-400 bg-gray-900 body-font " id="projects">
-  <div class="container px-5 md:py-4 py-24 mx-auto">
-    <div class="flex justify-between "> 
-    <h2 class="tracking-widest text-3xl title-font font-medium text-white py-5">
+  <div class="container px-5 md:py-8 py-4 pt-20 mx-auto ">
+    <div class="flex justify-between my-9"> 
+    <h2 class="tracking-widest text-3xl title-font font-medium text-white">
       Projects
     </h2>
     <a class="text-indigo-400 inline-flex items-center " [routerLink]="[ '/projects' ]"
@@ -457,7 +454,7 @@
 
 
 <section class="text-gray-400 bg-gray-900 body-font " id="articles">
-  <div class="container px-5 py-8 mx-auto">
+  <div class="container px-5 md:py-8 py-4 pt-20 mx-auto ">
     <div class="flex justify-between my-9"> 
     <h2 class="tracking-widest text-3xl title-font font-medium text-white">
       Articles
@@ -535,7 +532,7 @@
 
 
 <section class="text-gray-400 bg-gray-900 body-font relative" id="contact">
-  <div class="container px-5 py-8 mx-auto">
+  <div class="container px-5 md:py-8 py-4 mx-auto pt-16">
     <div class="flex flex-col text-center w-full mb-12">
       <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-white">Get in touch</h1>
       <p class="lg:w-2/3 mx-auto leading-relaxed text-base">If you wanna Connect with me Im one mail/message away </p>
@@ -563,6 +560,7 @@
     </div>
   </div>
 </section>
+
 
 
 
