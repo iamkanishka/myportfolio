@@ -9,11 +9,19 @@ import { combineLatestAll, last, pipe } from 'rxjs';
 })
 export class PublicComponent {
   headerVisibility: Boolean = true;
+  isScrolled = false;
+
 
   constructor(protected router: Router) {
     router.events.subscribe((event: any) => {
       this.headerVisibility =
         this.router.url === '/home' || this.router.url === '/' ? false : true;
     });
+  }
+
+
+  onScroll(event: any) {
+    // You can adjust the threshold based on your requirements
+    this.isScrolled = event.target.scrollTop > 100; // Adjust the threshold as needed
   }
 }

@@ -1,3 +1,5 @@
+import { Tag } from "../Common/Utilities/Data";
+
 export interface ProjectorArticle {
   id?:string
     title: string;
@@ -7,5 +9,5 @@ export interface ProjectorArticle {
     githubLink: string;
     mediumLink: string;
     imageURL:string;
-    tags?: string[];
+    tags?: Tag[];
   }
