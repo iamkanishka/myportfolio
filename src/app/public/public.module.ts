@@ -12,6 +12,7 @@ import { FirebaseDBModule } from '../firebase-db/firebase-db.module';
 import { ArticlesComponent } from './Compoenents/articles/articles.component';
 import { ArticlesDetailsComponent } from './Compoenents/articles/articles-details/articles-details.component';
 import { FooterComponent } from './Compoenents/footer/footer.component';
+import { TagsComponent } from '../Common/Components/tags/tags.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { FooterComponent } from './Compoenents/footer/footer.component';
     ArticlesComponent,
     ArticlesDetailsComponent,
     FooterComponent,
+    TagsComponent
 
   ],
   imports: [

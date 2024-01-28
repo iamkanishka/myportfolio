@@ -11,7 +11,7 @@ import { ProjectorArticleCardComponent } from './Common/Components/projector-art
 @NgModule({
   declarations: [
     AppComponent,
-    ProjectorArticleCardComponent
+    ProjectorArticleCardComponent,
   ],
   imports: [
     BrowserModule,
