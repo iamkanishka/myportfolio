@@ -5,22 +5,32 @@
 ></app-projectsdetails>
 
 <section class="text-gray-400 bg-gray-900 body-font h-100">
-  <div class="container px-5 py-2 mx-auto">
-    <h2
-      class="tracking-widest text-3xl title-font font-medium text-white mb-1 py-2"
-    >
+  <div class="container  mx-auto">
+   <div class="p-4">
+    <h2 class="tracking-widest text-3xl title-font font-medium text-white py-2">
       Projects
     </h2>
-    <div class="flex flex-wrap p-4">
-      @for (tag of tagsData; track $index) {
-      <button
-        class="py-2 my-1 px-4 shadow-md no-underline rounded-full bg-gray-50 font-sans font-semibold text-xs border-blue btn-primary focus:outline-none active:shadow-none mr-2"
-        [ngStyle]="{ color: tag.color }"
-      >
-        {{ tag.lang }}
-      </button>
-      }
+
+    <div class="hidden md:block">
+      <app-tags
+        [CustomOption]="{
+          tagsData: tagsData!,
+          disableShowMore: true,
+          totalTagsVisible: 0
+        }"
+      ></app-tags>
     </div>
+
+    <div class="block md:hidden">
+      <app-tags
+        [CustomOption]="{
+          tagsData: tagsData!,
+          disableShowMore: false,
+          totalTagsVisible: 7
+        }"
+      ></app-tags>
+    </div>
+  </div>
 
     <div class="flex flex-wrap">
       @for (project of Projects; track $index) {
@@ -54,16 +64,14 @@
             <path d="M5 12h14M12 5l7 7-7 7"></path>
           </svg>
         </a>
-        <div class="flex flex-wrap">
-          @for (tag of project.tags; track $index) {
-          <button
-            class="py-2 my-1 px-4 shadow-md no-underline rounded-full bg-gray-50 font-sans font-semibold text-xs border-blue btn-primary focus:outline-none active:shadow-none mr-2"
-            [ngStyle]="{ color: tag.color }"
-          >
-            {{ tag.lang }}
-          </button>
-          }
-        </div>
+
+        <app-tags
+          [CustomOption]="{
+            tagsData: project.tags!,
+            disableShowMore: true,
+            totalTagsVisible: 5
+          }"
+        ></app-tags>
       </div>
       }
     </div>

@@ -1,6 +1,6 @@
 <section
   *ngIf="show"
-  class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-25  "
+  class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-25"
 >
   <svg
     (click)="this.close()"
@@ -20,12 +20,10 @@
 
   <div class="bg-black p-1 rounded shadow-md md:w-4/6 w-full">
     <div class="flex flex-wrap m-2">
-      <div class="p-4 md:w-full sm:mb-0 ">
-       
-
-        <div class="flex ">
+      <div class="p-4 md:w-full sm:mb-0">
+        <div class="flex">
           <div
-            class="flex-none rounded-lg h-auto  w-full md:h-64 md:w-3/6 overflow-hidden bg-white"
+            class="flex-none rounded-lg h-auto w-full md:w-3/6 overflow-hidden bg-white"
           >
             <img
               alt="content"
@@ -33,12 +31,12 @@
               [src]="ArticletDetails.imageURL"
             />
           </div>
-         
+
           <div
             class="flex justify-between h-28 w-15 invisible md:visible mt-5 ms-5"
           >
             @if(ArticletDetails.mediumLink){
-            <a [href]="ArticletDetails.mediumLink" target="_blank"  >
+            <a [href]="ArticletDetails.mediumLink" target="_blank">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 x="0px"
@@ -204,7 +202,6 @@
         <h2 class="text-xl font-medium title-font text-white mb-1">
           {{ ArticletDetails.title }}
         </h2>
-
 
         <p
           class="text-base leading-relaxed text-white mt-2 overflow-auto md:h-80 h-80"

@@ -13,7 +13,7 @@ export class ProjectsComponent {
   isshowDetails: boolean = false;
   projectDetailsData!: ProjectorArticle;
 
-  tagsData:Tag[] = []
+  tagsData:Tag[] = [];
 
   Projects: ProjectorArticle[] = [];
 
