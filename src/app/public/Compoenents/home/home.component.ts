@@ -13,6 +13,9 @@ export class HomeComponent {
   Projects: ProjectorArticle[] = [];
   Articles: ProjectorArticle[] = [];
 
+  isshowDetails: boolean = false;
+  projectDetailsData!: ProjectorArticle;
+
   isScrolled = false;
 
   constructor(
@@ -55,4 +58,15 @@ export class HomeComponent {
       console.log(err);
     }
   }
+
+
+  showDetails(project: ProjectorArticle) {
+    this.projectDetailsData = project;
+    this.isshowDetails = true;
+  }
+
+  onClose() {
+    this.isshowDetails = false;
+  }
+
 }

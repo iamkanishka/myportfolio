@@ -4,29 +4,31 @@ import { CommonModule } from '@angular/common';
 import { PublicRoutingModule } from './public-routing.module';
 import { PublicComponent } from './public.component';
 import { ProjectsComponent } from './Compoenents/projects/projects.component';
-import { ProjectsdetailsComponent } from './Compoenents/projects/projectsdetails/projectsdetails.component';
 import { HomeComponent } from './Compoenents/home/home.component';
 import { AboutMeComponent } from './Compoenents/about-me/about-me.component';
 import { HeaderComponent } from './Compoenents/header/header.component';
 import { FirebaseDBModule } from '../firebase-db/firebase-db.module';
 import { ArticlesComponent } from './Compoenents/articles/articles.component';
-import { ArticlesDetailsComponent } from './Compoenents/articles/articles-details/articles-details.component';
 import { FooterComponent } from './Compoenents/footer/footer.component';
 import { TagsComponent } from '../Common/Components/tags/tags.component';
+import { SocialIconsComponent } from '../Common/Components/social-icons/social-icons.component';
+import { ProjectorArticleDetailPageComponent } from '../Common/Components/projector-article-detail-page/projector-article-detail-page.component';
+import { ProjectorArticleCardComponent } from '../Common/Components/projector-article-card/projector-article-card.component';
 
 
 @NgModule({
   declarations: [
     PublicComponent,
     ProjectsComponent,
-    ProjectsdetailsComponent,
     HomeComponent,
     AboutMeComponent,
     HeaderComponent,
     ArticlesComponent,
-    ArticlesDetailsComponent,
     FooterComponent,
-    TagsComponent
+    TagsComponent,
+    SocialIconsComponent,
+    ProjectorArticleDetailPageComponent,
+    ProjectorArticleCardComponent
 
   ],
   imports: [
