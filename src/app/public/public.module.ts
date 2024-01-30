@@ -14,6 +14,7 @@ import { TagsComponent } from '../Common/Components/tags/tags.component';
 import { SocialIconsComponent } from '../Common/Components/social-icons/social-icons.component';
 import { ProjectorArticleDetailPageComponent } from '../Common/Components/projector-article-detail-page/projector-article-detail-page.component';
 import { ProjectorArticleCardComponent } from '../Common/Components/projector-article-card/projector-article-card.component';
+import { noDataComponent } from '../Common/Components/no-data/no-data.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { ProjectorArticleCardComponent } from '../Common/Components/projector-ar
     ArticlesComponent,
     FooterComponent,
     TagsComponent,
+    noDataComponent,
     SocialIconsComponent,
     ProjectorArticleDetailPageComponent,
     ProjectorArticleCardComponent

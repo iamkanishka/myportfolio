@@ -16,6 +16,13 @@ export class HomeComponent {
   isshowDetails: boolean = false;
   projectDetailsData!: ProjectorArticle;
 
+  mailData = {
+    name: '',
+    subject: '',
+    body: '',
+  };
+
+ 
   isScrolled = false;
 
   constructor(
@@ -29,6 +36,9 @@ export class HomeComponent {
     this.clickedLink = elementId;
     this.viewportScroller.scrollToAnchor(elementId);
   }
+
+
+
 
   async getProjects() {
     try {
@@ -59,7 +69,6 @@ export class HomeComponent {
     }
   }
 
-
   showDetails(project: ProjectorArticle) {
     this.projectDetailsData = project;
     this.isshowDetails = true;
@@ -68,5 +77,11 @@ export class HomeComponent {
   onClose() {
     this.isshowDetails = false;
   }
-
+ 
+  triggeMail(){
+    var anchor = document.createElement('a');
+    anchor.href = `mailto:kanishkanaik97@gmail.com?subject=${this.mailData.subject}&body=${this.mailData.name}\n${this.mailData.body}`;
+    anchor.target = "_blank";
+    anchor.click();
+  }
 }
