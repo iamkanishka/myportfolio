@@ -24,7 +24,6 @@ export class ArticlesComponent {
     private router: Router
   ) {
     this.tagsData = Tags
-
     window.scrollTo(0, 0);
     this.getArticles();
   }
@@ -37,9 +36,7 @@ export class ArticlesComponent {
       articles.forEach((doc: any) => {
         this.Articles.push({ id: doc.id, ...doc.data() });
       });
-
-      console.log(this.Articles);
-    } catch (err) {
+   } catch (err) {
       console.log(err);
     }
   }

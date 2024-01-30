@@ -35,7 +35,6 @@ export class ProjectsComponent {
         this.Projects.push({ id: doc.id, ...doc.data() });
       });
 
-      console.log(this.Projects);
     } catch (err) {
       console.log(err);
     }
