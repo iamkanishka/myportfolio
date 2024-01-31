@@ -3,6 +3,7 @@ import { FirebaseDBService } from '../../../firebase-db/firebase-db.service';
 import { Router } from '@angular/router';
 import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
 import { Tags, Tag } from '../../../Common/Utilities/Data';
+import { DocumentData, QueryDocumentSnapshot } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-projects',
@@ -17,9 +18,10 @@ export class ProjectsComponent {
 
   Projects: ProjectorArticle[] = [];
 
+  lastProjectSanpshot! : ProjectorArticle
+
   constructor(
     private firebaseDBService: FirebaseDBService,
-    private router: Router
   ) {
     this.tagsData = Tags
     window.scrollTo(0, 0);
@@ -31,9 +33,13 @@ export class ProjectsComponent {
       const projects: any = await this.firebaseDBService.getAllDocuments(
         'projects'
       );
+    
       projects.forEach((doc: any) => {
         this.Projects.push({ id: doc.id, ...doc.data() });
       });
+
+      this.lastProjectSanpshot =  this.Projects[ this.Projects.length-1];
+    
 
     } catch (err) {
       console.log(err);
@@ -47,5 +53,24 @@ export class ProjectsComponent {
 
   onClose() {
     this.isshowDetails = false;
+  }
+
+ async loadMore(){
+    try {
+      const projects: any = await this.firebaseDBService.paginateLoadMore(
+        'projects',
+        this.lastProjectSanpshot,
+        9
+      );
+
+      projects.forEach((doc: any) => {
+        this.Projects.push({ id: doc.id, ...doc.data() });
+      });
+      this.lastProjectSanpshot =  this.Projects[ this.Projects.length-1];
+
+
+    } catch (err) {
+      console.log(err);
+    }
   }
 }

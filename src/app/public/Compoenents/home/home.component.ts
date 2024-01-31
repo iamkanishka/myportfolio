@@ -34,7 +34,13 @@ export class HomeComponent {
   }
   public onClick(elementId: string): void {
     this.clickedLink = elementId;
+    if(elementId === 'home'){
+          window.scrollTo(0,0);
+    }else{
+
     this.viewportScroller.scrollToAnchor(elementId);
+  }
+
   }
 
 
@@ -79,6 +85,8 @@ export class HomeComponent {
   }
  
   triggeMail(){
+    console.log(this.mailData.subject);
+    
     var anchor = document.createElement('a');
     anchor.href = `mailto:kanishkanaik97@gmail.com?subject=${this.mailData.subject}&body=${this.mailData.name}\n${this.mailData.body}`;
     anchor.target = "_blank";
