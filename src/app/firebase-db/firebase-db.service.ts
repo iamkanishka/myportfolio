@@ -16,6 +16,8 @@ import {
   getFirestore,
   orderBy,
   limit,
+  startAfter,
+  QueryDocumentSnapshot,
 } from '@angular/fire/firestore';
 import { ProjectorArticle } from '../Types/ProjectorArticle.type';
 
@@ -48,7 +50,7 @@ export class FirebaseDBService {
     dataLimit?: number
   ): Promise<QuerySnapshot<DocumentData, DocumentData> | undefined> {
     try {
-       let querySnapshot;
+      let querySnapshot;
       if (dataLimit) {
         querySnapshot = await getDocs(
           query(
@@ -57,7 +59,7 @@ export class FirebaseDBService {
             limit(dataLimit)
           )
         );
-   } else {
+      } else {
         querySnapshot = await getDocs(
           query(collection(this.db, dataType), orderBy('createdAt'))
         );
@@ -132,6 +134,29 @@ export class FirebaseDBService {
         projectorArticledata as any
       );
       return udpatedDoc;
+    } catch (e) {
+      console.error(`Error fetching ${dataType}  document: `, e);
+      return;
+    }
+  }
+
+  async paginateLoadMore(dataType: string, lastDoc: ProjectorArticle, limitData:number) {
+    try {
+    
+      console.log('last', lastDoc);
+
+      // Construct a new query starting at this document,
+      // get the next 25 cities.
+      const next = await getDocs(
+        query(
+          collection(this.db, dataType),
+          orderBy('createdAt'),
+          startAfter(lastDoc),
+          limit(limitData)
+        )
+      );
+
+      return next;
     } catch (e) {
       console.error(`Error fetching ${dataType}  document: `, e);
       return;
