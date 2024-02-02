@@ -11,11 +11,15 @@ import {
 } from '@angular/fire/analytics';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { environment } from '../../environments/environment.development';
+import { RestAPIServiceService } from './MongodbRESTAPIDB/rest-apiservice.service';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
+    HttpClientModule,
     provideFirebaseApp(() =>
       initializeApp(environment.firebaseConfig)
     ),
@@ -23,6 +27,6 @@ import { environment } from '../../environments/environment.development';
     provideAnalytics(() => getAnalytics()),
     provideFirestore(() => getFirestore()),
   ],
-  providers: [FirebaseDBService, ScreenTrackingService, UserTrackingService],
+  providers: [FirebaseDBService, ScreenTrackingService, UserTrackingService,RestAPIServiceService ],
 })
 export class FirebaseDBModule {}

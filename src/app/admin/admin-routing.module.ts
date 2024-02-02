@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
-import { LoginComponent } from './Compoenents/login/login.component';
-import { ProjectsDataComponent } from './Compoenents/projects-data/projects-data.component';
-import { ArticlesDataComponent } from './Compoenents/articles-data/articles-data.component';
-import { AddOrEditProjectOrArticleComponent } from './Compoenents/projects-data/add-or-edit-project-or-article/add-or-edit-project-or-article.component';
+import { LoginComponent } from './Components/login/login.component';
+import { ProjectsDataComponent } from './Components/projects-data/projects-data.component';
+import { ArticlesDataComponent } from './Components/articles-data/articles-data.component';
+import { AddOrEditProjectOrArticleComponent } from './Components/projects-data/add-or-edit-project-or-article/add-or-edit-project-or-article.component';
 import { authGuard } from './Guards/auth/auth.guard';
 
 export const routes: Routes = [

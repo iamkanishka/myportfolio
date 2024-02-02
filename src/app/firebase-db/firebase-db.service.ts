@@ -21,13 +21,14 @@ import {
 } from '@angular/fire/firestore';
 import { ProjectorArticle } from '../Types/ProjectorArticle.type';
 
+
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseDBService {
   db = getFirestore();
 
-  constructor() {}
+  constructor( ) {}
 
   async addDocument(
     dataType: string,

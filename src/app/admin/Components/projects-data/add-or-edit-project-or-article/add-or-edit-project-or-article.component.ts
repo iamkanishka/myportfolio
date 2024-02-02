@@ -4,6 +4,7 @@ import { ProjectorArticle } from '../../../../Types/ProjectorArticle.type';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirebaseDBService } from '../../../../firebase-db/firebase-db.service';
 import { Tags, Tag } from '../../../../Common/Utilities/Data';
+import { RestAPIServiceService } from '../../../../firebase-db/MongodbRESTAPIDB/rest-apiservice.service';
 
 @Component({
   selector: 'app-add-or-edit-project-or-article',
@@ -36,7 +37,8 @@ export class AddOrEditProjectOrArticleComponent {
     private formBuilder: FormBuilder,
     private firebaseDB: FirebaseDBService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private restAPIServiceService:RestAPIServiceService
   ) {
     this.TagsData = Tags;
     this.addOrEditType = String(window.location.pathname).includes('add')
