@@ -4,6 +4,7 @@ import { ProjectorArticle } from '../../../../Types/ProjectorArticle.type';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirebaseDBService } from '../../../../firebase-db/firebase-db.service';
 import { Tags, Tag } from '../../../../Common/Utilities/Data';
+import { RestAPIServiceService } from '../../../../firebase-db/MongodbRESTAPIDB/rest-apiservice.service';
 
 @Component({
   selector: 'app-add-or-edit-project-or-article',
@@ -36,25 +37,27 @@ export class AddOrEditProjectOrArticleComponent {
     private formBuilder: FormBuilder,
     private firebaseDB: FirebaseDBService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private restAPIServiceService: RestAPIServiceService
   ) {
     this.TagsData = Tags;
     this.addOrEditType = String(window.location.pathname).includes('add')
       ? 'Add'
       : 'Edit';
-    this.projectorArticleType = String(window.location.pathname).includes('project')
+    this.projectorArticleType = String(window.location.pathname).includes(
+      'project'
+    )
       ? 'Project'
       : 'Article';
 
-      console.log(this.addOrEditType);
-
+    console.log(this.addOrEditType);
 
     if (this.addOrEditType === 'Edit') {
       console.log(this.addOrEditType);
-      
+
       this.route.queryParams.subscribe((params: any) => {
         console.log(params);
-        
+
         this.formData = JSON.parse(params.data);
       });
     }
@@ -72,7 +75,6 @@ export class AddOrEditProjectOrArticleComponent {
         githubLink: ['', []],
         mediumLink: ['', [Validators.required]],
         linkedInLink: ['', []],
-        
       };
     }
 
@@ -82,7 +84,7 @@ export class AddOrEditProjectOrArticleComponent {
       imageURL: ['', [Validators.required]],
       ...this.formKeys,
       tags: ['', [Validators.required]],
-      createdAt:[new Date(), [Validators.required]],
+      createdAt: [new Date(), [Validators.required]],
     });
   }
 
@@ -115,10 +117,18 @@ export class AddOrEditProjectOrArticleComponent {
       this.loader = false;
 
       let formData = this.addProjectorArticlesForm.value;
-      await this.firebaseDB.addDocument(
+      const addtofireDB = await this.firebaseDB.addDocument(
         this.projectorArticleType.toLowerCase().concat('s'),
         formData
       );
+
+      formData['uniqueId'] = addtofireDB!.id;
+      const addtoMongoDB = await this.restAPIServiceService.addDoc(
+        this.projectorArticleType.toLowerCase(),
+        formData
+      );
+      await Promise.all([addtofireDB, addtoMongoDB]);
+
       this.responseToast = 'success';
       this.addProjectorArticlesForm.reset;
       this.router.navigate([
@@ -145,11 +155,19 @@ export class AddOrEditProjectOrArticleComponent {
       this.loader = false;
 
       let formData = this.addProjectorArticlesForm.value;
-      await this.firebaseDB.updateDocumentId(
+      const updatetofireDB = this.firebaseDB.updateDocumentId(
         String(this.formData.id),
         this.projectorArticleType.toLowerCase().concat('s'),
         formData
       );
+
+      const updatetoMongoDB = this.restAPIServiceService.updateDoc(
+        this.projectorArticleType.toLowerCase(),
+        formData,
+        this.formData.id!
+      );
+      await Promise.all([updatetofireDB, updatetoMongoDB]);
+
       this.responseToast = 'success';
       this.addProjectorArticlesForm.reset;
       this.router.navigate([
