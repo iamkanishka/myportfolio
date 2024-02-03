@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FirebaseDBService } from '../../../firebase-db/firebase-db.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
+import { RestAPIServiceService } from '../../../firebase-db/MongodbRESTAPIDB/rest-apiservice.service';
 
 @Component({
   selector: 'app-projects-data',
@@ -13,6 +14,7 @@ export class ProjectsDataComponent {
 
   constructor(
     private firebaseDBService: FirebaseDBService,
+    private restAPIServiceService: RestAPIServiceService,
     private router: Router
   ) {
     this.getProjects();
@@ -49,10 +51,17 @@ export class ProjectsDataComponent {
       : 'articles';
     let text = 'Sure want to Cancel Article';
     if (confirm(text) == true) {
-      const projects: any = await this.firebaseDBService.deleteDocumentId(
+      const deletfromfireDB = await this.firebaseDBService.deleteDocumentId(
         String(id),
         Type
       );
+
+      const deletfromMongoDB = await this.restAPIServiceService.deleteDoc(
+        Type,
+        String(id)
+      );
+      await Promise.all([deletfromfireDB, deletfromMongoDB]);
+
       this.Projects.splice(index, 1);
     } else {
       text = 'You canceled!';

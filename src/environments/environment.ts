@@ -9,7 +9,7 @@ export const environment = {
     measurementId: 'G-F1TMZDKQ17',
   },
 
-  MongoRESTAPIURL: 'https://smoggy-belt-crab.cyclic.app/'
+  MongoRESTAPIURL: 'https://different-goat-buckle.cyclic.app/'
 
 };
 

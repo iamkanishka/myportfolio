@@ -13,7 +13,7 @@ export class RestAPIServiceService {
     projectorArticledata: ProjectorArticle
   ): Promise<any> {
     try {
-      return await this.http.post(`${environment.MongoRESTAPIURL}/${dataType}`, projectorArticledata).toPromise()
+      return await this.http.post(`${environment.MongoRESTAPIURL}${dataType}`, projectorArticledata).toPromise()
     } catch (err) {
       console.log(err);
       
@@ -22,14 +22,28 @@ export class RestAPIServiceService {
 
 async  updateDoc(
   dataType: string,
-  projectorArticledata: ProjectorArticle
+  projectorArticledata: ProjectorArticle,
+  projectOrArticleId: string
 ): Promise<any> {
   try {
-    return await this.http.post(`${environment.MongoRESTAPIURL}/${dataType}/${projectorArticledata.id}`, projectorArticledata).toPromise()
+    return await this.http.patch(`${environment.MongoRESTAPIURL}${dataType}/${projectOrArticleId}`, projectorArticledata).toPromise()
   } catch (err) {
     return 
     console.log(err);
     
   }
 }
+
+async  deleteDoc(
+  dataType: string, projectOrArticleId: string
+): Promise<any> {
+  try {
+    return await this.http.delete(`${environment.MongoRESTAPIURL}${dataType}/${projectOrArticleId}`,).toPromise()
+  } catch (err) {
+    return 
+    console.log(err);
+    
+  }
+}
+
 }
