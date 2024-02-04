@@ -20,6 +20,8 @@ export class ProjectsComponent {
 
   lastProjectSanpshot! : ProjectorArticle
 
+  projectsLoader:Boolean=false
+
   constructor(
     private firebaseDBService: FirebaseDBService,
   ) {
@@ -30,6 +32,7 @@ export class ProjectsComponent {
 
   async getProjects() {
     try {
+      this.projectsLoader = true
       const projects: any = await this.firebaseDBService.getAllDocuments(
         'projects'
       );
@@ -38,10 +41,16 @@ export class ProjectsComponent {
         this.Projects.push({ id: doc.id, ...doc.data() });
       });
 
+      this.projectsLoader = false
+      console.log(this.Projects);
+      
+
       this.lastProjectSanpshot =  this.Projects[ this.Projects.length-1];
     
 
     } catch (err) {
+      this.projectsLoader = false
+
       console.log(err);
     }
   }
@@ -57,6 +66,8 @@ export class ProjectsComponent {
 
  async loadMore(){
     try {
+      this.projectsLoader = true;
+
       const projects: any = await this.firebaseDBService.paginateLoadMore(
         'projects',
         this.lastProjectSanpshot,
@@ -66,10 +77,14 @@ export class ProjectsComponent {
       projects.forEach((doc: any) => {
         this.Projects.push({ id: doc.id, ...doc.data() });
       });
+      this.projectsLoader = false;
+
       this.lastProjectSanpshot =  this.Projects[ this.Projects.length-1];
 
 
     } catch (err) {
+      this.projectsLoader = false;
+
       console.log(err);
     }
   }

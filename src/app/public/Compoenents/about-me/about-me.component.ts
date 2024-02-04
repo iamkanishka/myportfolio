@@ -6,5 +6,19 @@ import { Component } from '@angular/core';
   styleUrl: './about-me.component.css'
 })
 export class AboutMeComponent {
+  Projects:any[]=[]
+
+  constructor(){
+  window.scrollTo(0, 0);
+
+}
+
+showDetails(project:any){
+
+}
+
+loadMore(){
+  
+}
 
 }

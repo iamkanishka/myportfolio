@@ -25,6 +25,10 @@ export class HomeComponent {
  
   isScrolled = false;
 
+  projectsLoader:Boolean=false
+  articlesLoader:Boolean=false
+
+
   constructor(
     private viewportScroller: ViewportScroller,
     private firebaseDBService: FirebaseDBService
@@ -48,6 +52,8 @@ export class HomeComponent {
 
   async getProjects() {
     try {
+      this.projectsLoader = true
+
       const projects: any = await this.firebaseDBService.getAllDocuments(
         'projects',
         3
@@ -55,13 +61,19 @@ export class HomeComponent {
       projects.forEach((doc: any) => {
         this.Projects.push({ id: doc.id, ...doc.data() });
       });
+      this.projectsLoader = false
+
     } catch (err) {
+      this.projectsLoader = false
+
       console.log(err);
     }
   }
 
   async getArticles() {
     try {
+      this.articlesLoader = true;
+
       const articles: any = await this.firebaseDBService.getAllDocuments(
         'articles',
         3
@@ -69,8 +81,12 @@ export class HomeComponent {
       articles.forEach((doc: any) => {
         this.Articles.push({ id: doc.id, ...doc.data() });
       });
-      console.log(this.Articles);
+     
+      this.articlesLoader = false;
+
     } catch (err) {
+      this.articlesLoader = false;
+
       console.log(err);
     }
   }

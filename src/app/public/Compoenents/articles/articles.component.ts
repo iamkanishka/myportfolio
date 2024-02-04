@@ -20,6 +20,8 @@ export class ArticlesComponent {
 
   lastArticleSanpshot! : ProjectorArticle
 
+  articlesLoader:Boolean=false
+
 
   constructor(
     private firebaseDBService: FirebaseDBService,
@@ -32,6 +34,8 @@ export class ArticlesComponent {
 
   async getArticles() {
     try {
+      this.articlesLoader = true;
+
       const articles: any = await this.firebaseDBService.getAllDocuments(
         'articles',
         9
@@ -41,8 +45,11 @@ export class ArticlesComponent {
         this.Articles.push({ id: doc.id, ...doc.data() });
       });
       this.lastArticleSanpshot = this.Articles[this.Articles.length-1]
-
+      this.articlesLoader = false;
+ 
    } catch (err) {
+    this.articlesLoader = false;
+
       console.log(err);
     }
   }
@@ -58,6 +65,7 @@ export class ArticlesComponent {
 
   async loadMore(){
     try {
+      this.articlesLoader = true;
       const articles: any = await this.firebaseDBService.paginateLoadMore(
         'articles',
         this.lastArticleSanpshot,
@@ -67,13 +75,15 @@ export class ArticlesComponent {
         this.Articles.push({ id: doc.id, ...doc.data() });
       });
 
-      console.log(this.Articles);
-      
+      this.articlesLoader = false;
 
+       
       this.lastArticleSanpshot = this.Articles[this.Articles.length-1]
 
 
     } catch (err) {
+      this.articlesLoader = false;
+
       console.log(err);
     }
   }
