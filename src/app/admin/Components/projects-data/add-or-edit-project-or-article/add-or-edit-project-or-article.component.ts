@@ -181,4 +181,8 @@ export class AddOrEditProjectOrArticleComponent {
       console.log(err);
     }
   }
+
+  compareLang(t1: Tag, t2: Tag): boolean {
+    return t1 && t2 ? t1.lang === t2.lang : t1 === t2;
+  } 
 }

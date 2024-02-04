@@ -15,7 +15,7 @@ import { SocialIconsComponent } from '../Common/Components/social-icons/social-i
 import { ProjectorArticleDetailPageComponent } from '../Common/Components/projector-article-detail-page/projector-article-detail-page.component';
 import { ProjectorArticleCardComponent } from '../Common/Components/projector-article-card/projector-article-card.component';
 import { noDataComponent } from '../Common/Components/no-data/no-data.component';
-
+import { LoaderComponent } from '../Common/Components/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,8 @@ import { noDataComponent } from '../Common/Components/no-data/no-data.component'
     noDataComponent,
     SocialIconsComponent,
     ProjectorArticleDetailPageComponent,
-    ProjectorArticleCardComponent
+    ProjectorArticleCardComponent,
+    LoaderComponent
 
   ],
   imports: [

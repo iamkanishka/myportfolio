@@ -10,6 +10,7 @@ import { PublicModule } from './public/public.module';
   declarations: [
     AppComponent,
    
+   
   ],
   imports: [
     BrowserModule,
