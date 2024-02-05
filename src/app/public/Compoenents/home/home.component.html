@@ -364,7 +364,7 @@
             <input
               type="text"
               id="name"
-              [value]="mailData.name"
+              [(ngModel)]="mailData.name"
               name="name"
               class="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:border-indigo-500 focus:bg-gray-900 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
@@ -378,7 +378,7 @@
             <input
               type="text"
               id="name"
-              [value]="mailData.subject"
+              [(ngModel)]="mailData.subject"
               name="name"
               class="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:border-indigo-500 focus:bg-gray-900 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
@@ -392,7 +392,7 @@
             >
             <textarea
               id="message"
-              [value]="mailData.body"
+              [(ngModel)]="mailData.body"
               name="message"
               class="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:border-indigo-500 focus:bg-gray-900 focus:ring-2 focus:ring-indigo-900 h-32 text-base outline-none text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
             ></textarea>
