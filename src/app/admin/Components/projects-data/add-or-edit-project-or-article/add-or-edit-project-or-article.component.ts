@@ -84,7 +84,9 @@ export class AddOrEditProjectOrArticleComponent {
       imageURL: ['', [Validators.required]],
       ...this.formKeys,
       tags: ['', [Validators.required]],
-      createdAt: [new Date(), [Validators.required]],
+      created_at: [new Date(), [Validators.required]],
+      updated_at: [new Date(), [Validators.required]],
+
     });
   }
 
@@ -155,11 +157,14 @@ export class AddOrEditProjectOrArticleComponent {
       this.loader = false;
 
       let formData = this.addProjectorArticlesForm.value;
+      formData.updated_at = new Date();
       const updatetofireDB = this.firebaseDB.updateDocumentId(
         String(this.formData.id),
         this.projectorArticleType.toLowerCase().concat('s'),
         formData
       );
+
+
 
       const updatetoMongoDB = this.restAPIServiceService.updateDoc(
         this.projectorArticleType.toLowerCase(),

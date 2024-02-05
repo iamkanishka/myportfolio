@@ -40,7 +40,9 @@ import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
       [CustomOption]="{
         tagsData: ProjectorArticleData.tags!,
         disableShowMore: true,
-        totalTagsVisible: 5
+        totalTagsVisible: 5,
+        clickable : false
+
       }"
     ></app-tags>
    `,
