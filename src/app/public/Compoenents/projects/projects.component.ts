@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import { FirebaseDBService } from '../../../firebase-db/firebase-db.service';
-import { Router } from '@angular/router';
 import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
 import { Tags, Tag } from '../../../Common/Utilities/Data';
-import { DocumentData, QueryDocumentSnapshot } from '@angular/fire/firestore';
+
+interface ITagEmit {
+  tag: Tag;
+  operationType: 'remove' | 'add';
+}
 
 @Component({
   selector: 'app-projects',
@@ -14,42 +17,41 @@ export class ProjectsComponent {
   isshowDetails: boolean = false;
   projectDetailsData!: ProjectorArticle;
 
-  tagsData:Tag[] = [];
+  tagsData: Tag[] = [];
 
   Projects: ProjectorArticle[] = [];
 
-  lastProjectSanpshot! : ProjectorArticle
+  lastProjectSanpshot!: ProjectorArticle;
 
-  projectsLoader:Boolean=false
+  projectsLoader: Boolean = false;
 
-  constructor(
-    private firebaseDBService: FirebaseDBService,
-  ) {
-    this.tagsData = Tags
+  selectedTags: Tag[] = [];
+
+  constructor(private firebaseDBService: FirebaseDBService) {
+    this.tagsData = Tags.map((tag) => {
+      return { ...tag, selected: false };
+    });
     window.scrollTo(0, 0);
     this.getProjects();
   }
 
   async getProjects() {
     try {
-      this.projectsLoader = true
+      this.projectsLoader = true;
       const projects: any = await this.firebaseDBService.getAllDocuments(
-        'projects'
+        'projects',
+        9,
+        this.selectedTags.length != 0 ? this.selectedTags : null
       );
-    
+
       projects.forEach((doc: any) => {
         this.Projects.push({ id: doc.id, ...doc.data() });
       });
 
-      this.projectsLoader = false
-      console.log(this.Projects);
-      
-
-      this.lastProjectSanpshot =  this.Projects[ this.Projects.length-1];
-    
-
+      this.projectsLoader = false;
+      this.lastProjectSanpshot = this.Projects[this.Projects.length - 1];
     } catch (err) {
-      this.projectsLoader = false
+      this.projectsLoader = false;
 
       console.log(err);
     }
@@ -64,14 +66,15 @@ export class ProjectsComponent {
     this.isshowDetails = false;
   }
 
- async loadMore(){
+  async loadMore() {
     try {
       this.projectsLoader = true;
 
       const projects: any = await this.firebaseDBService.paginateLoadMore(
         'projects',
         this.lastProjectSanpshot,
-        9
+        9,
+        this.selectedTags.length != 0 ? this.selectedTags : null
       );
 
       projects.forEach((doc: any) => {
@@ -79,13 +82,27 @@ export class ProjectsComponent {
       });
       this.projectsLoader = false;
 
-      this.lastProjectSanpshot =  this.Projects[ this.Projects.length-1];
-
-
+      this.lastProjectSanpshot = this.Projects[this.Projects.length - 1];
     } catch (err) {
       this.projectsLoader = false;
 
       console.log(err);
     }
+  }
+
+  selectTag(tag: ITagEmit) {
+    this.Projects = [];
+    let tempTag = JSON.parse(JSON.stringify(tag.tag));
+    delete tempTag.selected;
+
+    if (tag.operationType === 'remove') {
+      this.selectedTags.splice(
+        this.selectedTags.findIndex((tagData) => tagData.lang === tempTag.lang),
+        1
+      );
+    } else {
+      this.selectedTags.push(tempTag);
+    }
+    this.getProjects();
   }
 }

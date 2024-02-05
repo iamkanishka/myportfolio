@@ -14,14 +14,15 @@ export class HomeComponent {
   Articles: ProjectorArticle[] = [];
 
   isshowDetails: boolean = false;
-  projectDetailsData!: ProjectorArticle;
+  
 
   mailData = {
     name: '',
     subject: '',
     body: '',
   };
-
+ 
+  ProjectorArticleDetailsData! :ProjectorArticle
  
   isScrolled = false;
 
@@ -56,7 +57,8 @@ export class HomeComponent {
 
       const projects: any = await this.firebaseDBService.getAllDocuments(
         'projects',
-        3
+        3,
+        null
       );
       projects.forEach((doc: any) => {
         this.Projects.push({ id: doc.id, ...doc.data() });
@@ -76,7 +78,7 @@ export class HomeComponent {
 
       const articles: any = await this.firebaseDBService.getAllDocuments(
         'articles',
-        3
+        3, null
       );
       articles.forEach((doc: any) => {
         this.Articles.push({ id: doc.id, ...doc.data() });
@@ -91,8 +93,8 @@ export class HomeComponent {
     }
   }
 
-  showDetails(project: ProjectorArticle) {
-    this.projectDetailsData = project;
+  showDetails(projectorArticle: ProjectorArticle) {
+    this.ProjectorArticleDetailsData = projectorArticle;
     this.isshowDetails = true;
   }
 
@@ -108,4 +110,7 @@ export class HomeComponent {
     anchor.target = "_blank";
     anchor.click();
   }
+
+ 
+
 }

@@ -1,6 +1,7 @@
 export interface Tag {
   lang: string;
   color: string;
+  selected?:boolean
 }
 
 export const Tags: Tag[] = [

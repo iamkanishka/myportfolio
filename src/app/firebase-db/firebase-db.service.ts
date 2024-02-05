@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   getDocs,
   addDoc,
@@ -17,10 +17,9 @@ import {
   orderBy,
   limit,
   startAfter,
-  QueryDocumentSnapshot,
 } from '@angular/fire/firestore';
 import { ProjectorArticle } from '../Types/ProjectorArticle.type';
-
+import { Tag } from '../Common/Utilities/Data';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +27,7 @@ import { ProjectorArticle } from '../Types/ProjectorArticle.type';
 export class FirebaseDBService {
   db = getFirestore();
 
-  constructor( ) {}
+  constructor() {}
 
   async addDocument(
     dataType: string,
@@ -48,21 +47,27 @@ export class FirebaseDBService {
 
   async getAllDocuments(
     dataType: string,
-    dataLimit?: number
+    dataLimit: number,
+    tags: Tag[] | null
   ): Promise<QuerySnapshot<DocumentData, DocumentData> | undefined> {
     try {
       let querySnapshot;
-      if (dataLimit) {
+      if (tags) {
         querySnapshot = await getDocs(
           query(
             collection(this.db, dataType),
-            orderBy('createdAt'),
-            limit(dataLimit)
+            orderBy('created_at'),
+            limit(dataLimit),
+            where('tags', 'array-contains-any', tags)
           )
         );
       } else {
         querySnapshot = await getDocs(
-          query(collection(this.db, dataType), orderBy('createdAt'))
+          query(
+            collection(this.db, dataType),
+            orderBy('created_at'),
+            limit(dataLimit)
+          )
         );
       }
       return querySnapshot;
@@ -73,13 +78,13 @@ export class FirebaseDBService {
   }
 
   async getFilteredDocumentsByTags(
-    tagKeyword: string,
-    dataType: string
+    dataType: string,
+    tag: Tag | null
   ): Promise<QuerySnapshot<DocumentData, DocumentData> | undefined> {
     try {
       const q = query(
         collection(this.db, dataType),
-        where('tags', 'array-contains', tagKeyword)
+        where('tags', 'array-contains', tag)
       );
       const querySnapshot = await getDocs(q);
       return querySnapshot;
@@ -141,9 +146,13 @@ export class FirebaseDBService {
     }
   }
 
-  async paginateLoadMore(dataType: string, lastDoc: ProjectorArticle, limitData:number) {
+  async paginateLoadMore(
+    dataType: string,
+    lastDoc: ProjectorArticle,
+    limitData: number,
+    tag: Tag[] | null
+  ) {
     try {
-    
       console.log('last', lastDoc);
 
       // Construct a new query starting at this document,
@@ -151,9 +160,10 @@ export class FirebaseDBService {
       const next = await getDocs(
         query(
           collection(this.db, dataType),
-          orderBy('createdAt'),
+          orderBy('created_at'),
           startAfter(lastDoc),
-          limit(limitData)
+          limit(limitData),
+          where('tags', 'array-contains', tag)
         )
       );
 

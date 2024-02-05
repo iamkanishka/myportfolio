@@ -18,8 +18,10 @@
           [CustomOption]="{
             tagsData: tagsData!,
             disableShowMore: true,
-            totalTagsVisible: 0
+            totalTagsVisible: 0,
+            clickable : true
           }"
+              (emitSelectedtag) = selectTag($event)
         ></app-tags>
       </div>
 
@@ -28,8 +30,11 @@
           [CustomOption]="{
             tagsData: tagsData!,
             disableShowMore: false,
-            totalTagsVisible: 7
+            totalTagsVisible: 7,
+            clickable : true
+
           }"
+           (emitSelectedtag) = selectTag($event)
         ></app-tags>
       </div>
     </div>
