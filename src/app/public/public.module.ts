@@ -17,6 +17,8 @@ import { ProjectorArticleCardComponent } from '../Common/Components/projector-ar
 import { noDataComponent } from '../Common/Components/no-data/no-data.component';
 import { LoaderComponent } from '../Common/Components/loader/loader.component';
 
+import { FormsModule  } from '@angular/forms';
+
 @NgModule({
   declarations: [
     PublicComponent,
@@ -31,13 +33,15 @@ import { LoaderComponent } from '../Common/Components/loader/loader.component';
     SocialIconsComponent,
     ProjectorArticleDetailPageComponent,
     ProjectorArticleCardComponent,
-    LoaderComponent
+    LoaderComponent,
 
   ],
   imports: [
     CommonModule,
+    FormsModule,
     FirebaseDBModule,
-    PublicRoutingModule
+    PublicRoutingModule,
+   
   ]
 })
 export class PublicModule { }

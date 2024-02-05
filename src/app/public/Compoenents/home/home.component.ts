@@ -103,7 +103,7 @@ export class HomeComponent {
   }
  
   triggeMail(){
-    console.log(this.mailData.subject);
+    console.log(this.mailData);
     
     var anchor = document.createElement('a');
     anchor.href = `mailto:kanishkanaik97@gmail.com?subject=${this.mailData.subject}&body=${this.mailData.name}\n${this.mailData.body}`;
