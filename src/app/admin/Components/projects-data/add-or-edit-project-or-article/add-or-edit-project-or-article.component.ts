@@ -86,7 +86,6 @@ export class AddOrEditProjectOrArticleComponent {
       tags: ['', [Validators.required]],
       created_at: [new Date(), [Validators.required]],
       updated_at: [new Date(), [Validators.required]],
-
     });
   }
 
@@ -117,18 +116,22 @@ export class AddOrEditProjectOrArticleComponent {
     this.loader = true;
     try {
       this.loader = false;
+      const uniqueId = new Date().getTime();
 
       let formData = this.addProjectorArticlesForm.value;
-      const addtofireDB = await this.firebaseDB.addDocument(
-        this.projectorArticleType.toLowerCase().concat('s'),
-        formData
-      );
 
-      formData['uniqueId'] = addtofireDB!.id;
+      formData['uniqueId'] = String(uniqueId);
       const addtoMongoDB = await this.restAPIServiceService.addDoc(
         this.projectorArticleType.toLowerCase(),
         formData
       );
+
+      const addtofireDB = await this.firebaseDB.setDocument(
+        this.projectorArticleType.toLowerCase().concat('s'),
+        formData,
+        String(uniqueId)
+      );
+
       await Promise.all([addtofireDB, addtoMongoDB]);
 
       this.responseToast = 'success';
@@ -158,19 +161,18 @@ export class AddOrEditProjectOrArticleComponent {
 
       let formData = this.addProjectorArticlesForm.value;
       formData.updated_at = new Date();
+      const updatetoMongoDB = this.restAPIServiceService.updateDoc(
+        this.projectorArticleType.toLowerCase(),
+        formData,
+        this.formData.id!
+      );
+
       const updatetofireDB = this.firebaseDB.updateDocumentId(
         String(this.formData.id),
         this.projectorArticleType.toLowerCase().concat('s'),
         formData
       );
 
-
-
-      const updatetoMongoDB = this.restAPIServiceService.updateDoc(
-        this.projectorArticleType.toLowerCase(),
-        formData,
-        this.formData.id!
-      );
       await Promise.all([updatetofireDB, updatetoMongoDB]);
 
       this.responseToast = 'success';
@@ -189,5 +191,5 @@ export class AddOrEditProjectOrArticleComponent {
 
   compareLang(t1: Tag, t2: Tag): boolean {
     return t1 && t2 ? t1.lang === t2.lang : t1 === t2;
-  } 
+  }
 }

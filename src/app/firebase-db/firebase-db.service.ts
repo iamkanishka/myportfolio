@@ -17,6 +17,7 @@ import {
   orderBy,
   limit,
   startAfter,
+  setDoc,
 } from '@angular/fire/firestore';
 import { ProjectorArticle } from '../Types/ProjectorArticle.type';
 import { Tag } from '../Common/Utilities/Data';
@@ -44,6 +45,26 @@ export class FirebaseDBService {
       return;
     }
   }
+
+  async setDocument(
+    dataType: string,
+    projectorArticledata: ProjectorArticle,
+    uniqueId:string
+  ): Promise<DocumentReference<DocumentData, DocumentData> | undefined | void> {
+    try {
+      
+      const docRef = await setDoc(
+        doc(this.db, dataType, String(uniqueId)),
+        projectorArticledata
+      );
+      return docRef;
+    } catch (e) {
+      console.error('Error adding : ' + dataType, e);
+      return;
+    }
+  }
+
+
 
   async getAllDocuments(
     dataType: string,
