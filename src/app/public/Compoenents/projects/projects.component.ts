@@ -77,6 +77,10 @@ export class ProjectsComponent {
         this.selectedTags.length != 0 ? this.selectedTags : null
       );
 
+      if(projects.length!=9){
+        
+       }
+
       projects.forEach((doc: any) => {
         this.Projects.push({ id: doc.id, ...doc.data() });
       });
