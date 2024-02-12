@@ -1,9 +1,5 @@
 
-<app-projector-article-detail-page
-  [show]="isshowDetails"
-  (close)="onClose()"
-  [ProjectorArticleDetails]="ProjectorArticleDetailsData"
-></app-projector-article-detail-page>
+
 
 <header class="text-gray-400 bg-gray-900 body-font sticky top-0">
   <div
@@ -58,6 +54,13 @@
     </button> -->
   </div>
 </header>
+
+
+<app-projector-article-detail-page 
+  [show]="isshowDetails"
+  (close)="onClose()"
+  [ProjectorArticleDetails]="ProjectorArticleDetailsData"
+></app-projector-article-detail-page>
 
 <section class="text-gray-400 bg-gray-900 body-font" id="home">
   <div

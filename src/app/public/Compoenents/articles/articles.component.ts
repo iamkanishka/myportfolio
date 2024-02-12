@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FirebaseDBService } from '../../../firebase-db/firebase-db.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
 import { Tags, Tag } from '../../../Common/Utilities/Data';
 
@@ -27,9 +27,21 @@ export class ArticlesComponent {
 
   constructor(
     private firebaseDBService: FirebaseDBService,
-    private router: Router
+    private activatedRoute: ActivatedRoute,
+
   ) {
-    this.tagsData = Tags;
+    if (this.activatedRoute.queryParams) {
+      this.activatedRoute.queryParams.subscribe((params) => {
+        var tags: String[] = String(params['tags']).split(',');
+       this.tagsData = Tags.map((tag: Tag) => {
+          let isItRightTag = tags.includes(tag.lang);
+          if (isItRightTag) {
+            this.selectedTags.push(tag);
+          }
+          return { ...tag, selected: isItRightTag };
+        });
+      });
+    }
     window.scrollTo(0, 0);
     this.getArticles();
   }
