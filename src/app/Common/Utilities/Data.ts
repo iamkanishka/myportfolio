@@ -19,6 +19,10 @@ export const Tags: Tag[] = [
   { lang: 'Phoenix', color: '#ff6f61' },
   { lang: 'Ionic', color: 'skyblue' },
   { lang: 'Nx', color: '#0f172a' },
+  { lang: 'Microservice', color: 'black' },
+
+  { lang: 'Microfrontend', color: 'black' },
+
   { lang: 'Mobile App', color: 'black' },
   { lang: 'System Design', color: 'black' },
   { lang: 'Web App', color: 'black' },

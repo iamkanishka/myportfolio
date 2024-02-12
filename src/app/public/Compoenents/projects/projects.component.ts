@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FirebaseDBService } from '../../../firebase-db/firebase-db.service';
 import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
 import { Tags, Tag } from '../../../Common/Utilities/Data';
+import { ActivatedRoute } from '@angular/router';
 
 interface ITagEmit {
   tag: Tag;
@@ -27,10 +28,23 @@ export class ProjectsComponent {
 
   selectedTags: Tag[] = [];
 
-  constructor(private firebaseDBService: FirebaseDBService) {
-    this.tagsData = Tags.map((tag) => {
-      return { ...tag, selected: false };
-    });
+  constructor(
+    private firebaseDBService: FirebaseDBService,
+    private activatedRoute: ActivatedRoute
+  ) {
+    if (this.activatedRoute.queryParams) {
+      this.activatedRoute.queryParams.subscribe((params) => {
+        var tags: String[] = String(params['tags']).split(',');
+       this.tagsData = Tags.map((tag: Tag) => {
+          let isItRightTag = tags.includes(tag.lang);
+          if (isItRightTag) {
+            this.selectedTags.push(tag);
+          }
+          return { ...tag, selected: isItRightTag };
+        });
+      });
+    }
+
     window.scrollTo(0, 0);
     this.getProjects();
   }
@@ -77,9 +91,8 @@ export class ProjectsComponent {
         this.selectedTags.length != 0 ? this.selectedTags : null
       );
 
-      if(projects.length!=9){
-        
-       }
+      if (projects.length != 9) {
+      }
 
       projects.forEach((doc: any) => {
         this.Projects.push({ id: doc.id, ...doc.data() });
