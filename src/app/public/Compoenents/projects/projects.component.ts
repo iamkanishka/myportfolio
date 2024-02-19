@@ -34,19 +34,32 @@ export class ProjectsComponent {
   ) {
     if (this.activatedRoute.queryParams) {
       this.activatedRoute.queryParams.subscribe((params) => {
-        var tags: String[] = String(params['tags']).split(',');
-       this.tagsData = Tags.map((tag: Tag) => {
-          let isItRightTag = tags.includes(tag.lang);
-          if (isItRightTag) {
-            this.selectedTags.push(tag);
-          }
-          return { ...tag, selected: isItRightTag };
-        });
+        if (params.hasOwnProperty('tags')) {
+          var tags: String[] = String(params['tags']).split(',');
+          this.tagsData = Tags.map((tag: Tag) => {
+            let isItRightTag = tags.includes(tag.lang);
+            if (isItRightTag) {
+              this.selectedTags.push(tag);
+            }
+            return { ...tag, selected: isItRightTag };
+          });
+        } else if (params.hasOwnProperty('id')) {
+          this.getProjectById(String(params['id']));
+          this.initializeTagData();
+        } else {
+          this.initializeTagData();
+        }
       });
     }
 
     window.scrollTo(0, 0);
     this.getProjects();
+  }
+
+  initializeTagData() {
+    this.tagsData = Tags.map((tag: Tag) => {
+      return { ...tag, selected: false };
+    });
   }
 
   async getProjects() {
@@ -67,6 +80,21 @@ export class ProjectsComponent {
     } catch (err) {
       this.projectsLoader = false;
 
+      console.log(err);
+    }
+  }
+
+  async getProjectById(id: string) {
+    try {
+      let projectData = await this.firebaseDBService.getDocumentId(
+        id,
+        'projects'
+      );
+
+      if (projectData!.data() != undefined) {
+        this.showDetails(projectData!.data() as ProjectorArticle);
+      }
+    } catch (err) {
       console.log(err);
     }
   }

@@ -49,10 +49,9 @@ export class FirebaseDBService {
   async setDocument(
     dataType: string,
     projectorArticledata: ProjectorArticle,
-    uniqueId:string
+    uniqueId: string
   ): Promise<DocumentReference<DocumentData, DocumentData> | undefined | void> {
     try {
-      
       const docRef = await setDoc(
         doc(this.db, dataType, String(uniqueId)),
         projectorArticledata
@@ -63,8 +62,6 @@ export class FirebaseDBService {
       return;
     }
   }
-
-
 
   async getAllDocuments(
     dataType: string,
@@ -123,12 +120,12 @@ export class FirebaseDBService {
       const docRef = doc(this.db, dataType, id);
       const docSnap = await getDoc(docRef);
 
-      if (docSnap.exists()) {
-        console.log('Document data:', docSnap.data());
-      } else {
-        // docSnap.data() will be undefined in this case
-        console.log('No such document!');
-      }
+      // if (docSnap.exists()) {
+      //   console.log('Document data:', docSnap.data());
+      // } else {
+      //   // docSnap.data() will be undefined in this case
+      //   console.log('No such document!');
+      // }
 
       return docSnap;
     } catch (e) {
