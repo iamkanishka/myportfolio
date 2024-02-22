@@ -18,12 +18,22 @@ export class ProjectorArticleDetailPageComponent {
   @Output('close')
   onClose = new EventEmitter();
 
-  ngOnInit(): void {}
 
-  ngOnChanges(): void {}
+  tab:string = 'detail'
+
+  ngOnInit(): void {
+    console.log(this.ProjectorArticleDetails);
+    
+  }
+
+  ngOnChanges(): void {
+    console.log(this.ProjectorArticleDetails);
+
+  }
 
   close() {
     // this.enableBodyScrolling()
+    this.tab = 'detail'
     this.show = !this.show;
     this.onClose.emit();
   }
