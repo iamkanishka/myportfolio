@@ -1,5 +1,11 @@
 import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ProjectorArticle } from '../../../../Types/ProjectorArticle.type';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirebaseDBService } from '../../../../firebase-db/firebase-db.service';
@@ -50,8 +56,6 @@ export class AddOrEditProjectOrArticleComponent {
       ? 'Project'
       : 'Article';
 
-    console.log(this.addOrEditType);
-
     if (this.addOrEditType === 'Edit') {
       console.log(this.addOrEditType);
 
@@ -78,6 +82,10 @@ export class AddOrEditProjectOrArticleComponent {
       };
     }
 
+    let whatiLearnt = new FormArray<
+      FormGroup<{ point: FormControl<string | null> }>
+    >([]);
+
     this.addProjectorArticlesForm = this.formBuilder.group({
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
@@ -86,7 +94,14 @@ export class AddOrEditProjectOrArticleComponent {
       tags: ['', [Validators.required]],
       created_at: [new Date(), [Validators.required]],
       updated_at: [new Date(), [Validators.required]],
+      whatiLearnt: whatiLearnt,
     });
+
+    whatiLearnt.push(
+      new FormGroup({
+        point: new FormControl('', Validators.required),
+      })
+    );
   }
 
   ngOnInit(): void {
@@ -102,6 +117,8 @@ export class AddOrEditProjectOrArticleComponent {
         mediumLink: this.formData.mediumLink,
         linkedInLink: this.formData.linkedInLink,
         tags: this.formData.tags,
+        whatiLearnt: this.formData.whatiLearnt,
+
       });
     }
   }
@@ -189,7 +206,29 @@ export class AddOrEditProjectOrArticleComponent {
     }
   }
 
+  onAdd_Points() {
+    (<FormArray>this.addProjectorArticlesForm.get('whatiLearnt')).push(
+      new FormGroup({
+        point: new FormControl('', Validators.required),
+      })
+    );
+  }
+
+  onDelete_Points(index: number) {
+    (<FormArray>this.addProjectorArticlesForm.get("whatiLearnt")).removeAt(index);
+  }
+
+  get pointsControls() {
+    return (<FormArray>this.addProjectorArticlesForm.get("whatiLearnt")).controls;
+  }
+
+
   compareLang(t1: Tag, t2: Tag): boolean {
     return t1 && t2 ? t1.lang === t2.lang : t1 === t2;
+  }
+
+
+  getNumber(index:number):number{
+    return index+1
   }
 }

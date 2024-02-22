@@ -19,6 +19,8 @@ export const Tags: Tag[] = [
   { lang: 'Phoenix', color: '#ff6f61' },
   { lang: 'Ionic', color: 'skyblue' },
   { lang: 'Nx', color: '#0f172a' },
+  { lang: 'Clone', color: 'black' },
+
   { lang: 'Microservice', color: 'black' },
 
   { lang: 'Microfrontend', color: 'black' },
@@ -29,3 +31,8 @@ export const Tags: Tag[] = [
   { lang: 'Docker', color: '#1d63ed' },
   { lang: 'K8s', color: '#316ce6' },
 ];
+
+
+export interface IWhatILearnt {
+  point: string;
+}

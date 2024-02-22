@@ -18,12 +18,12 @@
     />
   </svg>
 
-  <div class="bg-black p-1 rounded shadow-md md:w-4/6 w-full">
+  <div class="bg-black p-1 rounded shadow-md md:w-11/12 w-full">
     <div class="flex flex-wrap m-2">
       <div class="p-4 md:w-full sm:mb-0">
         <div class="flex">
           <div
-            class=" flex-none rounded-lg h-auto w-full md:w-3/6 overflow-hidden bg-white"
+            class="flex-none rounded-lg h-auto w-full md:w-3/6 overflow-hidden bg-white"
           >
             <img
               alt="content"
@@ -32,73 +32,106 @@
             />
           </div>
 
-          <div  class="flex flex-col  md:w-3/6 h-auto w-full invisible md:visible mt-3" >
+          <div
+            class="flex flex-col md:w-3/6 h-auto w-full invisible md:visible mt-3"
+          >
             <p class="text-white text-xs ms-3">Links:</p>
-            <div class="flex flex-row flex-wrap justify-evenly ">
-            @if(ProjectorArticleDetails.mediumLink){
-            <a [href]="ProjectorArticleDetails.mediumLink" target="_blank">
-             <app-social-icons [icon]="'Medium'"></app-social-icons>
-            </a>
+            <div class="flex flex-row flex-wrap justify-evenly">
+              @if(ProjectorArticleDetails.mediumLink){
+              <a [href]="ProjectorArticleDetails.mediumLink" target="_blank">
+                <app-social-icons [icon]="'Medium'"></app-social-icons>
+              </a>
 
-            } @if(ProjectorArticleDetails.githubLink){
+              } @if(ProjectorArticleDetails.githubLink){
 
-            <a [href]="ProjectorArticleDetails.githubLink" target="_blank">
-              <app-social-icons [icon]="'Github'"></app-social-icons>
-            
-            </a>
-            } @if(ProjectorArticleDetails.linkedInLink){
+              <a [href]="ProjectorArticleDetails.githubLink" target="_blank">
+                <app-social-icons [icon]="'Github'"></app-social-icons>
+              </a>
+              } @if(ProjectorArticleDetails.linkedInLink){
 
-            <a [href]="ProjectorArticleDetails.linkedInLink" target="_blank">
-             <app-social-icons [icon]="'LinkedIn'"></app-social-icons>
-            </a>
+              <a [href]="ProjectorArticleDetails.linkedInLink" target="_blank">
+                <app-social-icons [icon]="'LinkedIn'"></app-social-icons>
+              </a>
 
-            }
+              }
+            </div>
+            <div class="ms-3 mt-2">
+              <p class="text-white text-xs">Tags:</p>
+              <app-tags
+                [CustomOption]="{
+                  tagsData: ProjectorArticleDetails.tags!,
+                  disableShowMore: true,
+                  totalTagsVisible: 0,
+                  clickable: false
+                }"
+              ></app-tags>
+            </div>
           </div>
-          <div class="ms-3 mt-2">
-            <p class="text-white text-xs">Tags:</p>
-            <app-tags
-            [CustomOption]="{
-              tagsData: ProjectorArticleDetails.tags!,
-              disableShowMore: true,
-              totalTagsVisible: 0,
-            clickable : false
-
-            }"
-          ></app-tags>
-        </div>
-        </div>
-     
         </div>
 
+        <div
+          class="flex flex-wrap gap-3 text-white text-xl my-2 cursor-pointer"
+        >
+          <span
+            [ngClass]="tab === 'detail' ? 'text-indigo-400' : null"
+            (click)="tab = 'detail'"
+            >Details</span
+          >
+
+          <span
+            [ngClass]="tab === 'whatILearnt' ? 'text-indigo-400' : null"
+            (click)="tab = 'whatILearnt'"
+            >What I learnt</span
+          >
+        </div>
+
+        @if(tab==='detail'){ 
         <h2 class="text-3xl font-medium title-font text-white mb-1 py-1">
           {{ ProjectorArticleDetails.title }}
         </h2>
 
         <p
-          class="text-base leading-relaxed text-white mt-2 overflow-auto md:h-80 h-80"
+          class="text-base leading-relaxed text-white mt-2 overflow-auto md:h-72 h-72"
         >
           {{ ProjectorArticleDetails.description }}
         </p>
-     
+      }
+
+        @if(tab==='whatILearnt'){
+
+          <h2 class="text-3xl font-medium title-font text-white mb-1 py-1">
+            {{ ProjectorArticleDetails.title }}
+          </h2>
+  
+          <div
+            class="text-base leading-relaxed text-white mt-2 overflow-auto md:h-72 h-72">
+        <ol>
+          @for (item of ProjectorArticleDetails.whatiLearnt; track $index) {
+          <li>
+          {{item.point}}
+          </li>
+        }
+       
+        </ol>
+      </div>
+
+        }
 
         <div class="flex justify-evenly visible md:invisible mt-5">
           @if(ProjectorArticleDetails.mediumLink){
           <a href="https://medium.com/@kanishkanaik" target="_blank">
             <app-social-icons [icon]="'Medium'"></app-social-icons>
-        
           </a>
 
           } @if(ProjectorArticleDetails.githubLink){
 
           <a href="https://github.com/iamkanishka" target="_blank">
             <app-social-icons [icon]="'Github'"></app-social-icons>
-           
           </a>
           } @if(ProjectorArticleDetails.linkedInLink){
 
-          <a [href]="ProjectorArticleDetails.linkedInLink" target="_blank" >
+          <a [href]="ProjectorArticleDetails.linkedInLink" target="_blank">
             <app-social-icons [icon]="'LinkedIn'"></app-social-icons>
-            
           </a>
 
           }
@@ -116,9 +149,6 @@
       </div>
     </div>
 
-    <div class="text-gray-400 bg-gray-900 rounded body-font">
-    
-    </div>
-
+    <div class="text-gray-400 bg-gray-900 rounded body-font"></div>
   </div>
 </section>
