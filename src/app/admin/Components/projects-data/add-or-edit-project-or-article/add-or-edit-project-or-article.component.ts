@@ -94,6 +94,8 @@ export class AddOrEditProjectOrArticleComponent {
       tags: ['', [Validators.required]],
       created_at: [new Date(), [Validators.required]],
       updated_at: [new Date(), [Validators.required]],
+      isPinned: [false, [Validators.required]],
+
       whatiLearnt: whatiLearnt,
     });
 
@@ -118,6 +120,8 @@ export class AddOrEditProjectOrArticleComponent {
         linkedInLink: this.formData.linkedInLink,
         tags: this.formData.tags,
         whatiLearnt: this.formData.whatiLearnt,
+        isPinned: this.formData.isPinned,
+
 
       });
     }

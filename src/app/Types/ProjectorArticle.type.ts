@@ -12,5 +12,5 @@ export interface ProjectorArticle {
   imageURL: string;
   tags?: Tag[];
   whatiLearnt?:IWhatILearnt[],
-
+  isPinned?:boolean
 }
