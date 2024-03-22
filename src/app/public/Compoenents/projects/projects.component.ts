@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FirebaseDBService } from '../../../firebase-db/firebase-db.service';
 import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
-import { Tags, Tag } from '../../../Common/Utilities/Data';
+import { Tags, Tag, categories } from '../../../Common/Utilities/Data';
 import { ActivatedRoute } from '@angular/router';
 
 interface ITagEmit {
@@ -28,6 +28,13 @@ export class ProjectsComponent {
 
   selectedTags: Tag[] = [];
 
+  category:String[] = []
+  categoryData:String[] = []
+
+
+
+  catergoryTitle:String = 'Important'
+
   constructor(
     private firebaseDBService: FirebaseDBService,
     private activatedRoute: ActivatedRoute
@@ -52,6 +59,7 @@ export class ProjectsComponent {
       });
     }
 
+   this.categoryData = categories;
     window.scrollTo(0, 0);
     this.getProjects();
   }
@@ -68,7 +76,8 @@ export class ProjectsComponent {
       const projects: any = await this.firebaseDBService.getAllDocuments(
         'projects',
         9,
-        this.selectedTags.length != 0 ? this.selectedTags : null
+        this.selectedTags.length != 0 ? this.selectedTags : null,
+        this.category
       );
 
       projects.forEach((doc: any) => {
@@ -150,4 +159,15 @@ export class ProjectsComponent {
     }
     this.getProjects();
   }
+
+
+  selectCategory(category:String){
+   this.catergoryTitle = category
+
+   this.Projects = [];
+   this.category = [category]
+   this.getProjects();
+
+  }
+
 }

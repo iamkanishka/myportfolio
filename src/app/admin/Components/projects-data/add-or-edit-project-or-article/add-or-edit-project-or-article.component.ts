@@ -9,7 +9,7 @@ import {
 import { ProjectorArticle } from '../../../../Types/ProjectorArticle.type';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirebaseDBService } from '../../../../firebase-db/firebase-db.service';
-import { Tags, Tag } from '../../../../Common/Utilities/Data';
+import { Tags, Tag, categories } from '../../../../Common/Utilities/Data';
 import { RestAPIServiceService } from '../../../../firebase-db/MongodbRESTAPIDB/rest-apiservice.service';
 
 @Component({
@@ -39,6 +39,8 @@ export class AddOrEditProjectOrArticleComponent {
 
   TagsData: Tag[] = [];
 
+  categoriesData:String[] =[]
+
   constructor(
     private formBuilder: FormBuilder,
     private firebaseDB: FirebaseDBService,
@@ -46,6 +48,7 @@ export class AddOrEditProjectOrArticleComponent {
     private route: ActivatedRoute,
     private restAPIServiceService: RestAPIServiceService
   ) {
+    this.categoriesData= categories
     this.TagsData = Tags;
     this.addOrEditType = String(window.location.pathname).includes('add')
       ? 'Add'
@@ -94,7 +97,7 @@ export class AddOrEditProjectOrArticleComponent {
       tags: ['', [Validators.required]],
       created_at: [new Date(), [Validators.required]],
       updated_at: [new Date(), [Validators.required]],
-      isPinned: [false, [Validators.required]],
+      categories: [['All'], [Validators.required]],
 
       whatiLearnt: whatiLearnt,
     });

@@ -66,7 +66,8 @@ export class FirebaseDBService {
   async getAllDocuments(
     dataType: string,
     dataLimit: number,
-    tags: Tag[] | null
+    tags: Tag[] | null,
+    category:String[]
   ): Promise<QuerySnapshot<DocumentData, DocumentData> | undefined> {
     try {
       let querySnapshot;
@@ -76,7 +77,9 @@ export class FirebaseDBService {
             collection(this.db, dataType),
             orderBy('created_at'),
             limit(dataLimit),
-            where('tags', 'array-contains-any', tags)
+            where('tags', 'array-contains-any', tags),
+            where('category', '==', category)
+
           )
         );
       } else {

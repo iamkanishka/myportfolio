@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FirebaseDBService } from '../../../firebase-db/firebase-db.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
-import { Tags, Tag } from '../../../Common/Utilities/Data';
+import { Tags, Tag, categories } from '../../../Common/Utilities/Data';
 
 interface ITagEmit {
   tag: Tag;
@@ -24,6 +24,14 @@ export class ArticlesComponent {
 
   articlesLoader: Boolean = false;
   selectedTags: Tag[] = [];
+
+  category:String[] = []
+  categoryData:String[] = []
+
+
+
+  catergoryTitle:String = 'Important'
+
 
   constructor(
     private firebaseDBService: FirebaseDBService,
@@ -47,6 +55,11 @@ export class ArticlesComponent {
         }
       });
     }
+
+   this.categoryData = categories;
+
+   this.category = [this.catergoryTitle];
+
     window.scrollTo(0, 0);
     this.getArticles();
   }
@@ -58,7 +71,8 @@ export class ArticlesComponent {
       const articles: any = await this.firebaseDBService.getAllDocuments(
         'articles',
         9,
-        this.selectedTags.length != 0 ? this.selectedTags : null
+        this.selectedTags.length != 0 ? this.selectedTags : null,
+        this.category
       );
 
       articles.forEach((doc: any) => {
@@ -134,5 +148,18 @@ export class ArticlesComponent {
     }
 
     this.getArticles();
+  
   }
+
+
+  
+  selectCategory(category:String){
+    this.catergoryTitle = category;
+   
+    this.Articles = [];
+    this.category = [category]
+    this.getArticles();
+ 
+   }
+
 }
