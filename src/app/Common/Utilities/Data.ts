@@ -36,3 +36,6 @@ export const Tags: Tag[] = [
 export interface IWhatILearnt {
   point: string;
 }
+
+
+export const categories:String[]=['Important', 'All']

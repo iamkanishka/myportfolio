@@ -141,7 +141,8 @@
           </div>
         </div>
 
-        <div>
+        <div class="flex flex-wrap">
+          <div class="w-3/6 p-2">
           <label
             for="email"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -160,6 +161,32 @@
 
             }
           </select>
+          </div>
+
+          <div class="w-3/6 p-2">
+
+            <label
+            for="email"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >{{ projectorArticleType }} Category</label
+          >
+          <select  formControlName="categories"
+            multiple
+            class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+          >
+
+        
+
+            @for(category of categoriesData; track category){
+            <option   [ngValue]="category">
+              {{ category }}
+            </option>
+
+            }
+          </select>
+
+          </div>
+
         </div>
 
 
@@ -201,6 +228,11 @@
 
         }
       </div>
+
+
+
+    
+
 
 
 
