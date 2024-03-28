@@ -22,12 +22,12 @@ export class ProjectorArticleDetailPageComponent {
   tab:string = 'detail'
 
   ngOnInit(): void {
-    console.log(this.ProjectorArticleDetails);
+    //console.log(this.ProjectorArticleDetails);
     
   }
 
   ngOnChanges(): void {
-    console.log(this.ProjectorArticleDetails);
+   // console.log(this.ProjectorArticleDetails);
 
   }
 

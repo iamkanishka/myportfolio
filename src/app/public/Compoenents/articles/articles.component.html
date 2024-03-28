@@ -14,12 +14,12 @@
 
         @for (item of categoryData; track $index) {
           <button
-              (click)="selectCategory(item)"
-              [ngClass]="catergoryTitle === item ? 'border-4 border-indigo-500/100' : null"
+              (click)="selectCategory(item.value)"
+              [ngClass]="catergoryTitle === item.value ? 'border-4 border-indigo-500/100' : null"
               class="py-2 my-1 px-4 shadow-md no-underline rounded-full bg-gray-50 font-sans font-semibold text-xs border-blue btn-primary focus:outline-none active:shadow-none mr-2"
               [ngStyle]="{ color: 'black' }"
             >
-               {{item}}
+            {{item.name}}
             </button>
           }
 

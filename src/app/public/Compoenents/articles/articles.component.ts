@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FirebaseDBService } from '../../../firebase-db/firebase-db.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
-import { Tags, Tag, categories } from '../../../Common/Utilities/Data';
+import { Tags, Tag, categories, Icategory } from '../../../Common/Utilities/Data';
 
 interface ITagEmit {
   tag: Tag;
@@ -26,7 +26,7 @@ export class ArticlesComponent {
   selectedTags: Tag[] = [];
 
   category:String[] = []
-  categoryData:String[] = []
+  categoryData:Icategory[] = []
 
 
 
@@ -76,7 +76,20 @@ export class ArticlesComponent {
       );
 
       articles.forEach((doc: any) => {
-        this.Articles.push({ id: doc.id, ...doc.data() });
+
+        
+        if(  this.category[0]==='Important'){
+          let articletData = {...doc.data()};
+          if(articletData.category.includes('Important')){
+            this.Articles.push({ id: doc.id, ...doc.data() });
+
+          }
+        }else{
+          this.Articles.push({ id: doc.id, ...doc.data() });
+
+        }
+
+   
       });
       this.lastArticleSanpshot = this.Articles[this.Articles.length - 1];
       this.articlesLoader = false;
@@ -121,7 +134,19 @@ export class ArticlesComponent {
         this.selectedTags.length != 0 ? this.selectedTags : null
       );
       articles.forEach((doc: any) => {
-        this.Articles.push({ id: doc.id, ...doc.data() });
+      
+        
+        if(  this.category[0]==='Important'){
+          let articletData = {...doc.data()};
+          if(articletData.category.includes('Important')){
+            this.Articles.push({ id: doc.id, ...doc.data() });
+
+          }
+        }else{
+          this.Articles.push({ id: doc.id, ...doc.data() });
+
+        }
+
       });
 
       this.articlesLoader = false;
@@ -155,8 +180,7 @@ export class ArticlesComponent {
   
   selectCategory(category:String){
     this.catergoryTitle = category;
-   
-    this.Articles = [];
+     this.Articles = [];
     this.category = [category]
     this.getArticles();
  
