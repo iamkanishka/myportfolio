@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
 import { FirebaseDBService } from '../../../firebase-db/firebase-db.service';
 import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
-import { Tags, Tag, categories } from '../../../Common/Utilities/Data';
+import {
+  Tags,
+  Tag,
+  categories,
+  Icategory,
+} from '../../../Common/Utilities/Data';
 import { ActivatedRoute } from '@angular/router';
 
 interface ITagEmit {
@@ -28,12 +33,10 @@ export class ProjectsComponent {
 
   selectedTags: Tag[] = [];
 
-  category:String[] = []
-  categoryData:String[] = []
+  category: String[] = [];
+  categoryData: Icategory[] = [];
 
-
-
-  catergoryTitle:String = 'Important'
+  catergoryTitle: String = 'Important';
 
   constructor(
     private firebaseDBService: FirebaseDBService,
@@ -59,7 +62,8 @@ export class ProjectsComponent {
       });
     }
 
-   this.categoryData = categories;
+    this.categoryData = categories;
+    this.category = ['Important'];
     window.scrollTo(0, 0);
     this.getProjects();
   }
@@ -81,7 +85,14 @@ export class ProjectsComponent {
       );
 
       projects.forEach((doc: any) => {
-        this.Projects.push({ id: doc.id, ...doc.data() });
+        if (this.category[0] === 'Important') {
+          let projectData = { ...doc.data() };
+          if (projectData.category.includes('Important')) {
+            this.Projects.push({ id: doc.id, ...doc.data() });
+          }
+        } else {
+          this.Projects.push({ id: doc.id, ...doc.data() });
+        }
       });
 
       this.projectsLoader = false;
@@ -128,11 +139,18 @@ export class ProjectsComponent {
         this.selectedTags.length != 0 ? this.selectedTags : null
       );
 
-      if (projects.length != 9) {
-      }
+      // if (projects.length != 9) {
+      // }
 
       projects.forEach((doc: any) => {
-        this.Projects.push({ id: doc.id, ...doc.data() });
+        if (this.category[0] === 'Important') {
+          let projectData = { ...doc.data() };
+          if (projectData.category.includes('Important')) {
+            this.Projects.push({ id: doc.id, ...doc.data() });
+          }
+        } else {
+          this.Projects.push({ id: doc.id, ...doc.data() });
+        }
       });
       this.projectsLoader = false;
 
@@ -160,14 +178,10 @@ export class ProjectsComponent {
     this.getProjects();
   }
 
-
-  selectCategory(category:String){
-   this.catergoryTitle = category
-
-   this.Projects = [];
-   this.category = [category]
-   this.getProjects();
-
+  selectCategory(category: String) {
+    this.catergoryTitle = category;
+    this.Projects = [];
+    this.category = [category];
+    this.getProjects();
   }
-
 }

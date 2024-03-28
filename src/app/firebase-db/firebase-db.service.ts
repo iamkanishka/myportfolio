@@ -70,7 +70,7 @@ export class FirebaseDBService {
     category:String[]
   ): Promise<QuerySnapshot<DocumentData, DocumentData> | undefined> {
     try {
-      let querySnapshot;
+    let querySnapshot;
       if (tags) {
         querySnapshot = await getDocs(
           query(
@@ -78,16 +78,15 @@ export class FirebaseDBService {
             orderBy('created_at'),
             limit(dataLimit),
             where('tags', 'array-contains-any', tags),
-            where('category', '==', category)
-
-          )
+            )
         );
       } else {
         querySnapshot = await getDocs(
           query(
             collection(this.db, dataType),
             orderBy('created_at'),
-            limit(dataLimit)
+            limit(dataLimit),
+            where('category', 'array-contains-any', category)
           )
         );
       }
