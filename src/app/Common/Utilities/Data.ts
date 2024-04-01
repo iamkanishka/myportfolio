@@ -19,16 +19,15 @@ export const Tags: Tag[] = [
   { lang: 'Nestjs', color: 'red' },
   { lang: 'Phoenix', color: '#ff6f61' },
   { lang: 'Solidity', color: 'black' },
-  { lang: 'Ionic', color: 'skyblue' },
+  { lang: 'Ionic(Mobile Apps)', color: 'skyblue' },
   { lang: 'Nx', color: '#0f172a' },
   { lang: 'Docker', color: '#1d63ed' },
   { lang: 'K8s', color: '#316ce6' },
   { lang: 'Web App', color: 'black' },
-  { lang: 'Mobile App', color: 'black' },
   { lang: 'Microservice', color: 'black' },
   { lang: 'Microfrontend', color: 'black' },
-  { lang: 'System Design', color: 'black' },
   { lang: 'Clone', color: 'black' },
+ { lang: 'System Design', color: 'black' },
 
 
 ];
