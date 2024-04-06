@@ -4,10 +4,21 @@ import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
 import {
   Tags,
   Tag,
-  categories,
   Icategory,
+  projectCategories,
 } from '../../../Common/Utilities/Data';
 import { ActivatedRoute } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+} from 'rxjs/operators';
+import { fromEvent } from 'rxjs';
+
+// export for others scripts to use
 
 interface ITagEmit {
   tag: Tag;
@@ -38,6 +49,11 @@ export class ProjectsComponent {
 
   catergoryTitle: String = 'Important';
 
+  projectInput: string = '';
+
+  originalState!: any;
+
+  searchControl = new FormControl();
   constructor(
     private firebaseDBService: FirebaseDBService,
     private activatedRoute: ActivatedRoute
@@ -62,7 +78,7 @@ export class ProjectsComponent {
       });
     }
 
-    this.categoryData = categories;
+    this.categoryData = projectCategories;
     this.category = ['Important'];
     window.scrollTo(0, 0);
     this.getProjects();
@@ -72,6 +88,29 @@ export class ProjectsComponent {
     this.tagsData = Tags.map((tag: Tag) => {
       return { ...tag, selected: false };
     });
+  }
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+  }
+  ngAfterViewInit(): void {
+    const searchBox = document.getElementById('search-box') as HTMLInputElement;
+     if (searchBox) {
+      fromEvent(searchBox, 'input')
+        .pipe(
+          map((e) => (e.target as HTMLInputElement).value),
+          //  filter(text => text.length > 2),
+          debounceTime(800),
+          distinctUntilChanged()
+        )
+        .subscribe((data) => {
+          // Handle the data from the API
+          this.projectInput = data;
+          this.searchbyTitle();
+          console.log(typeof data, data);
+        });
+    }
   }
 
   async getProjects() {
@@ -87,12 +126,21 @@ export class ProjectsComponent {
       projects.forEach((doc: any) => {
         if (this.category[0] === 'Important') {
           let projectData = { ...doc.data() };
-          if (projectData.category.includes('Important')) {
+          if (
+            this.projectInput !== ''
+              ? String(projectData.title)
+                  .toLowerCase()
+                  .includes(String(this.projectInput).toLowerCase()) &&
+                projectData.category.includes('Important')
+              : projectData.category.includes('Important')
+          ) {
             this.Projects.push({ id: doc.id, ...doc.data() });
           }
         } else {
           this.Projects.push({ id: doc.id, ...doc.data() });
         }
+
+        console.log(this.Projects);
       });
 
       this.projectsLoader = false;
@@ -121,6 +169,7 @@ export class ProjectsComponent {
 
   showDetails(project: ProjectorArticle) {
     this.projectDetailsData = project;
+
     this.isshowDetails = true;
   }
 
@@ -145,7 +194,12 @@ export class ProjectsComponent {
       projects.forEach((doc: any) => {
         if (this.category[0] === 'Important') {
           let projectData = { ...doc.data() };
-          if (projectData.category.includes('Important')) {
+          if (
+            this.projectInput !== ''
+              ? projectData.title.includes(this.projectInput) &&
+                projectData.category.includes('Important')
+              : projectData.category.includes('Important')
+          ) {
             this.Projects.push({ id: doc.id, ...doc.data() });
           }
         } else {
@@ -175,6 +229,8 @@ export class ProjectsComponent {
     } else {
       this.selectedTags.push(tempTag);
     }
+    console.log(this.selectedTags, this.category);
+
     this.getProjects();
   }
 
@@ -183,5 +239,18 @@ export class ProjectsComponent {
     this.Projects = [];
     this.category = [category];
     this.getProjects();
+  }
+
+  searchbyTitle() {
+    this.Projects = [];
+    this.cleartags();
+    this.getProjects();
+  }
+
+  cleartags() {
+    this.selectedTags = [];
+    this.tagsData = Tags.map((tag: Tag) => {
+      return { ...tag, selected: false };
+    });
   }
 }

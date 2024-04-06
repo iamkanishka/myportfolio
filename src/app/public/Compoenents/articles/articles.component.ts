@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { FirebaseDBService } from '../../../firebase-db/firebase-db.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
-import { Tags, Tag, categories, Icategory } from '../../../Common/Utilities/Data';
+import { Tags, Tag, articleCategories, Icategory } from '../../../Common/Utilities/Data';
+import { FormControl } from '@angular/forms';
+import { debounce } from 'rxjs';
 
 interface ITagEmit {
   tag: Tag;
@@ -32,6 +34,10 @@ export class ArticlesComponent {
 
   catergoryTitle:String = 'Important'
 
+  articleInput:string = ''
+
+  searchControl = new FormControl();
+
 
   constructor(
     private firebaseDBService: FirebaseDBService,
@@ -56,13 +62,17 @@ export class ArticlesComponent {
       });
     }
 
-   this.categoryData = categories;
+   this.categoryData = articleCategories;
 
    this.category = [this.catergoryTitle];
 
     window.scrollTo(0, 0);
     this.getArticles();
   }
+
+
+
+
 
   async getArticles() {
     try {
@@ -80,7 +90,8 @@ export class ArticlesComponent {
         
         if(  this.category[0]==='Important'){
           let articletData = {...doc.data()};
-          if(articletData.category.includes('Important')){
+         
+          if (this.articleInput!=="" ? (articletData.title.includes(this.articleInput) && articletData.category.includes('Important') ) :articletData.category.includes('Important'))   {
             this.Articles.push({ id: doc.id, ...doc.data() });
 
           }
@@ -138,8 +149,9 @@ export class ArticlesComponent {
         
         if(  this.category[0]==='Important'){
           let articletData = {...doc.data()};
-          if(articletData.category.includes('Important')){
-            this.Articles.push({ id: doc.id, ...doc.data() });
+          if (this.articleInput!=="" ? (articletData.title.includes(this.articleInput) && articletData.category.includes('Important') ) :articletData.category.includes('Important'))   {
+          
+          this.Articles.push({ id: doc.id, ...doc.data() });
 
           }
         }else{
@@ -185,5 +197,13 @@ export class ArticlesComponent {
     this.getArticles();
  
    }
+
+
+   
+  searchbyTitle(){
+    this.Articles = [];
+    this.getArticles();
+  }
+
 
 }
