@@ -16,7 +16,15 @@ import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
       />
     </div>
     <h2 class="text-xl font-medium title-font text-white mt-5">
+      @if(ProjectorArticleData.title.length<=48){
       {{ ProjectorArticleData.title }}
+
+      }
+      @if(ProjectorArticleData.title.length>48){
+      {{ ProjectorArticleData.title | slice : 0 : 48 }} ...
+
+      }
+    
     </h2>
     <span class="text-base leading-relaxed mt-2">
       {{ ProjectorArticleData.description | slice : 0 : 150 }}...
