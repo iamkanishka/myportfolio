@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
 import { Tags, Tag, articleCategories, Icategory } from '../../../Common/Utilities/Data';
 import { FormControl } from '@angular/forms';
-import { debounce } from 'rxjs';
+
 
 interface ITagEmit {
   tag: Tag;
@@ -82,7 +82,8 @@ export class ArticlesComponent {
         'articles',
         9,
         this.selectedTags.length != 0 ? this.selectedTags : null,
-        this.category
+        this.category,
+        this.articleInput.split('')
       );
 
       articles.forEach((doc: any) => {
@@ -142,7 +143,8 @@ export class ArticlesComponent {
         'articles',
         this.lastArticleSanpshot,
         9,
-        this.selectedTags.length != 0 ? this.selectedTags : null
+        this.selectedTags.length != 0 ? this.selectedTags : null,
+        this.category
       );
       articles.forEach((doc: any) => {
       

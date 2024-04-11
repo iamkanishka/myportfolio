@@ -23,12 +23,9 @@ export const Tags: Tag[] = [
   { lang: 'Solidity', color: 'black' },
   { lang: 'Ionic/Flutter', color: 'skyblue' },
   { lang: 'Nx', color: '#0f172a' },
-  { lang: 'AI', color: 'black' },
-  { lang: 'Docker', color: '#1d63ed' },
-  { lang: 'K8s', color: '#316ce6' },
+  { lang: 'AI/ML', color: 'black' },
   { lang: 'Microservice', color: 'black' },
   { lang: 'Microfrontend', color: 'black' },
-  { lang: 'Clone', color: 'black' },
   { lang: 'System Design', color: 'black' },
 ];
 

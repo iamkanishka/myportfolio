@@ -67,26 +67,50 @@ export class FirebaseDBService {
     dataType: string,
     dataLimit: number,
     tags: Tag[] | null,
-    category:String[]
+    category:String[],
+    searchQuery:string[]
   ): Promise<QuerySnapshot<DocumentData, DocumentData> | undefined> {
-    try {
-    let querySnapshot;
-      if (tags) {
+    try { 
+      let querySnapshot;
+    if (tags) {
         querySnapshot = await getDocs(
           query(
             collection(this.db, dataType),
             orderBy('created_at'),
             limit(dataLimit),
-            where('tags', 'array-contains-any', tags),
+           where('tags', 'array-contains-any', tags),
             )
         );
-      } else {
+      } else if(category) {
         querySnapshot = await getDocs(
           query(
             collection(this.db, dataType),
             orderBy('created_at'),
             limit(dataLimit),
             where('category', 'array-contains-any', category)
+          )
+        );
+      }else if(category&&tags) {
+        querySnapshot = await getDocs(
+          query(
+            collection(this.db, dataType),
+            orderBy('created_at'),
+            limit(dataLimit),
+            where('category', 'in', category),
+            where('tags', 'array-contains-any', tags===null?[]:tags)
+    
+          )
+        );
+      }else if(category&&tags&&searchQuery) {
+        querySnapshot = await getDocs(
+          query(
+            collection(this.db, dataType),
+            orderBy('created_at'),
+            limit(dataLimit),
+            where('category', 'in', category),
+            where('searchTitle', 'in', searchQuery),
+            where('tags', 'array-contains-any', tags===null?[]:tags)
+    
           )
         );
       }
@@ -169,25 +193,50 @@ export class FirebaseDBService {
   async paginateLoadMore(
     dataType: string,
     lastDoc: ProjectorArticle,
-    limitData: number,
-    tag: Tag[] | null
+    dataLimit: number,
+    tags: Tag[] | null,
+    category:String[]
   ) {
     try {
-      console.log('last', lastDoc);
+       let querySnapshot;
+       if (tags) {
+        querySnapshot = await getDocs(
+          query(
+            collection(this.db, dataType),
+            orderBy('created_at'),
+            limit(dataLimit),
+            where('tags', 'array-contains-any', tags),
+            )
+        );
+      } else if(category) {
+        querySnapshot = await getDocs(
+          query(
+            collection(this.db, dataType),
+            orderBy('created_at'),
+            limit(dataLimit),
+            where('category', 'array-contains-any', category)
+          )
+        );
+      }else if(category&&tags) {
+        querySnapshot = await getDocs(
+          query(
+            collection(this.db, dataType),
+            orderBy('created_at'),
+            limit(dataLimit),
+            where('category', 'in', category),
+            where('tags', 'array-contains-any', tags===null?[]:tags)
+    
+          )
+        );
+      }
+      return querySnapshot;
 
-      // Construct a new query starting at this document,
-      // get the next 25 cities.
-      const next = await getDocs(
-        query(
-          collection(this.db, dataType),
-          orderBy('created_at'),
-          startAfter(lastDoc),
-          limit(limitData),
-          where('tags', 'array-contains', tag)
-        )
-      );
 
-      return next;
+
+
+
+
+
     } catch (e) {
       console.error(`Error fetching ${dataType}  document: `, e);
       return;
