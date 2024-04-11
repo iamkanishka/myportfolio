@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { FirebaseDBService } from '../../../firebase-db/firebase-db.service';
 import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
 import {
@@ -96,7 +96,7 @@ export class ProjectsComponent {
   }
   ngAfterViewInit(): void {
     const searchBox = document.getElementById('search-box') as HTMLInputElement;
-     if (searchBox) {
+    if (searchBox) {
       fromEvent(searchBox, 'input')
         .pipe(
           map((e) => (e.target as HTMLInputElement).value),
@@ -120,25 +120,43 @@ export class ProjectsComponent {
         'projects',
         9,
         this.selectedTags.length != 0 ? this.selectedTags : null,
-        this.category
+        this.category,
+        this.projectInput.split("")
+        
       );
 
       projects.forEach((doc: any) => {
-        if (this.category[0] === 'Important') {
-          let projectData = { ...doc.data() };
-          if (
-            this.projectInput !== ''
-              ? String(projectData.title)
-                  .toLowerCase()
-                  .includes(String(this.projectInput).toLowerCase()) &&
-                projectData.category.includes('Important')
-              : projectData.category.includes('Important')
-          ) {
-            this.Projects.push({ id: doc.id, ...doc.data() });
-          }
-        } else {
-          this.Projects.push({ id: doc.id, ...doc.data() });
-        }
+
+        this.Projects.push({ id: doc.id, ...doc.data() });
+
+        // if (this.category[0] === 'Important') {
+        //   let projectData = { ...doc.data() };
+        //   if (
+        //     this.projectInput !== '' ? 
+        //     String(projectData.title)
+        //           .toLowerCase()
+        //           .includes(String(this.projectInput).toLowerCase()) 
+        //          && projectData.category.includes('Important')
+        //      : projectData.category.includes('Important')
+        //   ) {
+        //     this.Projects.push({ id: doc.id, ...doc.data() });
+        //   }
+        // } else  {
+        //   let projectData = { ...doc.data() };
+        //   if (
+        //     this.projectInput !== ''
+        //       ? String(projectData.title)
+        //           .toLowerCase()
+        //           .includes(String(this.projectInput).toLowerCase()) &&
+        //         projectData.category.includes('All')
+        //       : projectData.category.includes('All')
+        //   )
+                
+        //         {
+        //           this.Projects.push({ id: doc.id, ...doc.data() });
+
+        //         }
+        // }
 
         console.log(this.Projects);
       });
@@ -185,7 +203,8 @@ export class ProjectsComponent {
         'projects',
         this.lastProjectSanpshot,
         9,
-        this.selectedTags.length != 0 ? this.selectedTags : null
+        this.selectedTags.length != 0 ? this.selectedTags : null,
+        this.category
       );
 
       // if (projects.length != 9) {
@@ -253,4 +272,17 @@ export class ProjectsComponent {
       return { ...tag, selected: false };
     });
   }
+
+  // @HostListener('window:scroll', ['$event'])
+  // onScroll(event: Event) {
+  //   // Check if the user has scrolled to the bottom
+  //   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+  //     // User has scrolled to the bottom, you can perform your action here
+  //     // setTimeout(()=>{
+  //     //   console.log('Scrolled to the bottom');
+  //        this.loadMore();
+  //     // }, 5000)
+    
+  //   }
+  // }
 }

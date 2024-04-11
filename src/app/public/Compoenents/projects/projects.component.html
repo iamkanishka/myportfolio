@@ -66,8 +66,9 @@
         ></app-tags>
       </div>
     </div>
+    @if(projectsLoader){
 
-    @if(projectsLoader&&Projects.length===0){
+    <!-- @if(projectsLoader&&Projects.length===0){ -->
     <div class="w-full h-96">
       <app-loader></app-loader>
     </div>

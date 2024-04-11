@@ -59,7 +59,8 @@ export class HomeComponent {
         'projects',
         3,
         null,
-        ['Important']
+        ['Important'],
+        []
       );
       projects.forEach((doc: any) => {
         this.Projects.push({ id: doc.id, ...doc.data() });
@@ -80,7 +81,8 @@ export class HomeComponent {
       const articles: any = await this.firebaseDBService.getAllDocuments(
         'articles',
         3, null,
-        ['Important']
+        ['Important'],
+        []
       );
       articles.forEach((doc: any) => {
         this.Articles.push({ id: doc.id, ...doc.data() });
