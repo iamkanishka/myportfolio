@@ -11,6 +11,8 @@ import { ArticlesDataComponent } from './Components/articles-data/articles-data.
 import { AddOrEditProjectOrArticleComponent } from './Components/projects-data/add-or-edit-project-or-article/add-or-edit-project-or-article.component';
 import { FirebaseDBService } from '../firebase-db/firebase-db.service';
 import { HeaderComponent } from './Components/header/header.component';
+import { SocialIconsComponent } from '../Common/Components/social-icons/social-icons.component';
+import { SocialIconsModule } from '../Common/Components/social-icons/social-icons.module';
 
 
 @NgModule({
@@ -21,13 +23,15 @@ import { HeaderComponent } from './Components/header/header.component';
     
     ArticlesDataComponent,
     AddOrEditProjectOrArticleComponent,
-    HeaderComponent
+    HeaderComponent,
+    
   ],
   imports: [
     CommonModule,
     FirebaseDBModule,
     ReactiveFormsModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    SocialIconsModule
   ],
   providers:[FirebaseDBService]
 })

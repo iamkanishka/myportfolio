@@ -9,7 +9,12 @@ import {
 import { ProjectorArticle } from '../../../../Types/ProjectorArticle.type';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirebaseDBService } from '../../../../firebase-db/firebase-db.service';
-import { Tags, Tag, categories, Icategory } from '../../../../Common/Utilities/Data';
+import {
+  Tags,
+  Tag,
+  categories,
+  Icategory,
+} from '../../../../Common/Utilities/Data';
 import { RestAPIServiceService } from '../../../../firebase-db/MongodbRESTAPIDB/rest-apiservice.service';
 
 @Component({
@@ -39,7 +44,7 @@ export class AddOrEditProjectOrArticleComponent {
 
   TagsData: Tag[] = [];
 
-  categoriesData:Icategory[] =[]
+  categoriesData: Icategory[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -48,7 +53,7 @@ export class AddOrEditProjectOrArticleComponent {
     private route: ActivatedRoute,
     private restAPIServiceService: RestAPIServiceService
   ) {
-    this.categoriesData= categories
+    this.categoriesData = categories;
     this.TagsData = Tags;
     this.addOrEditType = String(window.location.pathname).includes('add')
       ? 'Add'
@@ -69,8 +74,6 @@ export class AddOrEditProjectOrArticleComponent {
       });
     }
 
-    console.log(this.formData);
-
     if (this.projectorArticleType === 'Project') {
       this.formKeys = {
         githubLink: ['', [Validators.required]],
@@ -85,10 +88,6 @@ export class AddOrEditProjectOrArticleComponent {
       };
     }
 
-    let whatiLearnt = new FormArray<
-      FormGroup<{ point: FormControl<string | null> }>
-    >([]);
-
     this.addProjectorArticlesForm = this.formBuilder.group({
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
@@ -98,15 +97,10 @@ export class AddOrEditProjectOrArticleComponent {
       created_at: [new Date(), [Validators.required]],
       updated_at: [new Date(), [Validators.required]],
       categories: [['All'], [Validators.required]],
+      technologyUsed: ['', [Validators.required]],
 
-      whatiLearnt: whatiLearnt,
+      whatiLearnt: this.formBuilder.array([this.createWhatILearnt()]),
     });
-
-    whatiLearnt.push(
-      new FormGroup({
-        point: new FormControl('', Validators.required),
-      })
-    );
   }
 
   ngOnInit(): void {
@@ -123,11 +117,17 @@ export class AddOrEditProjectOrArticleComponent {
         linkedInLink: this.formData.linkedInLink,
         tags: this.formData.tags,
         whatiLearnt: this.formData.whatiLearnt,
+        technologyUsed: this.formData.technologyUsed,
+
         isPinned: this.formData.isPinned,
-
-
       });
     }
+  }
+
+  createWhatILearnt(): FormGroup {
+    return this.formBuilder.group({
+      point: ['', Validators.required],
+    });
   }
 
   async AddProject() {
@@ -143,6 +143,21 @@ export class AddOrEditProjectOrArticleComponent {
       const uniqueId = new Date().getTime();
 
       let formData = this.addProjectorArticlesForm.value;
+
+      formData['searchKeys'] = String(formData.title)
+        .split(' ')
+        .join('')
+        .trim()
+        .split('')
+        .concat(
+          String(
+            String(formData.technologyUsed)
+              .split(' ')
+              .join('')
+              .trim()
+              .replace(',', '')
+          ).split('')
+        );
 
       formData['uniqueId'] = String(uniqueId);
       const addtoMongoDB = await this.restAPIServiceService.addDoc(
@@ -184,6 +199,22 @@ export class AddOrEditProjectOrArticleComponent {
       this.loader = false;
 
       let formData = this.addProjectorArticlesForm.value;
+
+      formData['searchKeys'] = String(formData.title)
+        .split(' ')
+        .join('')
+        .trim()
+        .split('')
+        .concat(
+          String(
+            String(formData.technologyUsed)
+              .split(' ')
+              .join('')
+              .trim()
+              .replace(',', '')
+          ).split('')
+        );
+
       formData.updated_at = new Date();
       const updatetoMongoDB = this.restAPIServiceService.updateDoc(
         this.projectorArticleType.toLowerCase(),
@@ -214,28 +245,22 @@ export class AddOrEditProjectOrArticleComponent {
   }
 
   onAdd_Points() {
-    (<FormArray>this.addProjectorArticlesForm.get('whatiLearnt')).push(
-      new FormGroup({
-        point: new FormControl('', Validators.required),
-      })
-    );
+    this.pointsControls.push(this.createWhatILearnt());
   }
 
   onDelete_Points(index: number) {
-    (<FormArray>this.addProjectorArticlesForm.get("whatiLearnt")).removeAt(index);
+    this.pointsControls.removeAt(index);
   }
 
   get pointsControls() {
-    return (<FormArray>this.addProjectorArticlesForm.get("whatiLearnt")).controls;
+    return this.addProjectorArticlesForm.get('whatiLearnt') as FormArray;
   }
-
 
   compareLang(t1: Tag, t2: Tag): boolean {
     return t1 && t2 ? t1.lang === t2.lang : t1 === t2;
   }
 
-
-  getNumber(index:number):number{
-    return index+1
+  getNumber(index: number): number {
+    return index + 1;
   }
 }

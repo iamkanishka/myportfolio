@@ -18,6 +18,7 @@ import { noDataComponent } from '../Common/Components/no-data/no-data.component'
 import { LoaderComponent } from '../Common/Components/loader/loader.component';
 
 import { FormsModule  } from '@angular/forms';
+import { SocialIconsModule } from '../Common/Components/social-icons/social-icons.module';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,6 @@ import { FormsModule  } from '@angular/forms';
     FooterComponent,
     TagsComponent,
     noDataComponent,
-    SocialIconsComponent,
     ProjectorArticleDetailPageComponent,
     ProjectorArticleCardComponent,
     LoaderComponent,
@@ -41,6 +41,7 @@ import { FormsModule  } from '@angular/forms';
     FormsModule,
     FirebaseDBModule,
     PublicRoutingModule,
+    SocialIconsModule
    
   ]
 })

@@ -11,6 +11,7 @@ export interface ProjectorArticle {
   mediumLink: string;
   imageURL: string;
   tags?: Tag[];
+  technologyUsed?:string;
   whatiLearnt?:IWhatILearnt[],
   isPinned?:boolean
 }
