@@ -85,6 +85,21 @@
           ></textarea>
         </div>
 
+        <div class="p-2">
+          <label
+            for="email"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >{{ projectorArticleType }} Technology Used</label
+          >
+          <textarea
+            formControlName="technologyUsed"
+            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="{{ projectorArticleType }} Technology Used"
+          ></textarea>
+        </div>
+
+
+        
         <div class="flex flex-wrap">
           <div class="w-3/6 p-2">
             <label
@@ -200,17 +215,25 @@
           >
         </div>
 
-        @for(project of pointsControls; let index = $index; track index;){
-        <div class="flex flex-wrap">
-          <div class="w-11/12">
+        <div class="flex flex-wrap"   formArrayName="whatiLearnt">
+
+          <div class="w-11/12"  *ngFor="let pointForm of pointsControls.controls; let i=index" [formGroupName]="i">
+       
+   
             <input
-              formControlName="mediumLink" 
+              formControlName="point" 
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              [placeholder]="'Point No ' + getNumber(index)"
+              [placeholder]="'Point No ' + getNumber(i)"
             />
-          </div>
+         
           <div>
-            @if( pointsControls.length === 1 ||  index === pointsControls.length - 1){
+
+
+
+
+
+
+            @if( pointsControls.controls.length === 1 ||  i === pointsControls.controls.length - 1){
 
             
             <button (click)="onAdd_Points()"  
@@ -219,15 +242,17 @@
               +
             </button>
           }
-            <button (click)="onDelete_Points(index)" [ngClass]="(pointsControls.length !== 1 ||  index !== pointsControls.length - 1) ? 'mx-3' : null"
+            <button (click)="onDelete_Points(i)" [ngClass]="(pointsControls.controls.length !== 1 ||  i !== pointsControls.controls.length - 1) ? 'mx-3' : null"
               class="bg-red-500 hover:bg-red-700 text-white font-bold py-0.5 px-1 rounded mt-3"
             >
               -
             </button>
           </div>
+     
         </div>
 
-        }
+        <!-- } -->
+      </div>
       </div>
 
 

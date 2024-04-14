@@ -26,10 +26,15 @@ export class ProjectsDataComponent {
         ? 'projects'
         : 'articles';
 
-      const projects: any = await this.firebaseDBService.getAllDocuments(Type,3,null,['All'],[]);
+      const projects: any = await this.firebaseDBService.getAllDocuments(Type,5000,null,['All'],[]);
+      console.log(projects);
+      
       projects.forEach((doc: any) => {
         this.Projects.push({ id: doc.id, ...doc.data() });
       });
+
+      console.log(this.Projects);
+      
     } catch (err) {
       console.log(err);
     }

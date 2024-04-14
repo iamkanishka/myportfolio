@@ -5,11 +5,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AdminModule } from './admin/admin.module';
 import { PublicModule } from './public/public.module';
+import { TestingComponent } from './testing/testing.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
  
 @NgModule({
   declarations: [
     AppComponent,
-   
+    TestingComponent,
+ 
    
   ],
   imports: [
@@ -17,6 +21,7 @@ import { PublicModule } from './public/public.module';
     AdminModule,
     PublicModule,
     AppRoutingModule,
+    ReactiveFormsModule
 
   ],
   providers: [

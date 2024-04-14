@@ -18,6 +18,7 @@ import {
   limit,
   startAfter,
   setDoc,
+  or,
 } from '@angular/fire/firestore';
 import { ProjectorArticle } from '../Types/ProjectorArticle.type';
 import { Tag } from '../Common/Utilities/Data';
@@ -67,53 +68,78 @@ export class FirebaseDBService {
     dataType: string,
     dataLimit: number,
     tags: Tag[] | null,
-    category:String[],
+    category:String[]| [],
     searchQuery:string[]
   ): Promise<QuerySnapshot<DocumentData, DocumentData> | undefined> {
     try { 
       let querySnapshot;
-    if (tags) {
-        querySnapshot = await getDocs(
-          query(
-            collection(this.db, dataType),
-            orderBy('created_at'),
-            limit(dataLimit),
-           where('tags', 'array-contains-any', tags),
-            )
-        );
-      } else if(category) {
-        querySnapshot = await getDocs(
-          query(
-            collection(this.db, dataType),
-            orderBy('created_at'),
-            limit(dataLimit),
-            where('category', 'array-contains-any', category)
-          )
-        );
-      }else if(category&&tags) {
-        querySnapshot = await getDocs(
-          query(
-            collection(this.db, dataType),
-            orderBy('created_at'),
-            limit(dataLimit),
-            where('category', 'in', category),
-            where('tags', 'array-contains-any', tags===null?[]:tags)
+
+
+      querySnapshot = await getDocs(
+        query(
+          collection(this.db, dataType),
+          orderBy('created_at'),
+          limit(dataLimit),
+          where('tags', 'array-contains-any', ['Javascript/HTML/CSS']),
+          where('searchKeys', 'array-contains', ['']),
+       
+       ))
+
+    // if (tags) {
+    //     querySnapshot = await getDocs(
+    //       query(
+    //         collection(this.db, dataType),
+    //         orderBy('created_at'),
+    //         limit(dataLimit),
+    //        where('tags', 'array-contains-any', tags),
+    //         )
+    //     );
+    //   } else if(category) {
+    //     querySnapshot = await getDocs(
+    //       query(
+    //         collection(this.db, dataType),
+    //         orderBy('created_at'),
+    //         limit(dataLimit),
+    //         where('category', 'array-contains-any', category)
+    //       )
+    //     );
+    //   }else if(category&&tags) {
+    //     querySnapshot = await getDocs(
+    //       query(
+    //         collection(this.db, dataType),
+    //         orderBy('created_at'),
+    //         limit(dataLimit),
+    //         where('category', 'in', category),
+    //         where('tags', 'array-contains-any', tags===null?[]:tags)
     
-          )
-        );
-      }else if(category&&tags&&searchQuery) {
-        querySnapshot = await getDocs(
-          query(
-            collection(this.db, dataType),
-            orderBy('created_at'),
-            limit(dataLimit),
-            where('category', 'in', category),
-            where('searchTitle', 'in', searchQuery),
-            where('tags', 'array-contains-any', tags===null?[]:tags)
+    //       )
+    //     );
+    //   }else if(category&&tags&&searchQuery) {
+    //     querySnapshot = await getDocs(
+    //       query(
+    //         collection(this.db, dataType),
+    //         orderBy('created_at'),
+    //         limit(dataLimit),
+    //         where('category', 'array-contains-any', category),
+    //         where('searchKeys', 'in', searchQuery),
+    //         where('tags', 'array-contains-any', tags===null?[]:tags)
     
-          )
-        );
-      }
+    //       )
+    //     );
+    //   }else  if(category&&searchQuery) {
+    //     querySnapshot = await getDocs(
+    //       query(
+    //         collection(this.db, dataType),
+    //         orderBy('created_at'),
+    //         limit(dataLimit),
+    //         where('category', 'array-contains-any', category),
+    //         where('searchKeys', 'in', searchQuery),
+      
+    
+    //       )
+    //     );
+    //   }
+
       return querySnapshot;
     } catch (e) {
       console.error(`Error fetching ${dataType}  document: `, e);
