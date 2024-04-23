@@ -28,7 +28,8 @@ export class ProjectorArticleDetailPageComponent {
 
   ngOnChanges(): void {
    // console.log(this.ProjectorArticleDetails);
-
+   console.log(window.location.href);
+   
   }
 
   close() {
@@ -37,5 +38,26 @@ export class ProjectorArticleDetailPageComponent {
     this.show = !this.show;
     this.onClose.emit();
   }
+
+  copyIdToClipboard( ) {
+    const textarea = document.createElement('textarea');
+    if(window.location.href.includes('?id=')){
+      textarea.value = window.location.href;
+    }else{
+      textarea.value = `${window.location.href}?id=${String(this.ProjectorArticleDetails.id)}`;
+    }
+   
+   
+
+    textarea.style.position = 'absolute';
+    textarea.style.left = '-9999px';
+
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+ 
+  }
+
 
 }

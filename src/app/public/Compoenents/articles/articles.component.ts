@@ -2,9 +2,22 @@ import { Component } from '@angular/core';
 import { FirebaseDBService } from '../../../firebase-db/firebase-db.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
-import { Tags, Tag, articleCategories, Icategory } from '../../../Common/Utilities/Data';
+import {
+  Tags,
+  Tag,
+  articleCategories,
+  Icategory,
+} from '../../../Common/Utilities/Data';
 import { FormControl } from '@angular/forms';
 
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+} from 'rxjs/operators';
+import { fromEvent } from 'rxjs';
 
 interface ITagEmit {
   tag: Tag;
@@ -27,17 +40,16 @@ export class ArticlesComponent {
   articlesLoader: Boolean = false;
   selectedTags: Tag[] = [];
 
-  category:String[] = []
-  categoryData:Icategory[] = []
+  category: String[] = [];
+  categoryData: Icategory[] = [];
 
+  catergoryTitle: String = 'Important';
 
-
-  catergoryTitle:String = 'Important'
-
-  articleInput:string = ''
+  articleInput: string = '';
 
   searchControl = new FormControl();
 
+  projectInput: string = '';
 
   constructor(
     private firebaseDBService: FirebaseDBService,
@@ -62,17 +74,34 @@ export class ArticlesComponent {
       });
     }
 
-   this.categoryData = articleCategories;
+    this.categoryData = articleCategories;
 
-   this.category = [this.catergoryTitle];
+    this.category = [this.catergoryTitle];
 
     window.scrollTo(0, 0);
     this.getArticles();
   }
 
-
-
-
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    const searchBox = document.getElementById('search-box') as HTMLInputElement;
+    if (searchBox) {
+      fromEvent(searchBox, 'input')
+        .pipe(
+          map((e) => (e.target as HTMLInputElement).value),
+          //  filter(text => text.length > 2),
+          debounceTime(800),
+          distinctUntilChanged()
+        )
+        .subscribe((data) => {
+          // Handle the data from the API
+          this.projectInput = data;
+          this.searchbyTitle();
+          console.log(typeof data, data);
+        });
+    }
+  }
 
   async getArticles() {
     try {
@@ -82,26 +111,22 @@ export class ArticlesComponent {
         'articles',
         9,
         this.selectedTags.length != 0 ? this.selectedTags : null,
-        this.category,
-        this.articleInput.split('')
+        this.category.length != 0 ? this.category : null,
+        this.projectInput.split('').length != 0
+          ? this.projectInput.split('')
+          : null
       );
 
       articles.forEach((doc: any) => {
+        if (this.category[0] === 'Important') {
+          let articletData = { ...doc.data() };
 
-        
-        if(  this.category[0]==='Important'){
-          let articletData = {...doc.data()};
-         
-          if (this.articleInput!=="" ? (articletData.title.includes(this.articleInput) && articletData.category.includes('Important') ) :articletData.category.includes('Important'))   {
+          if (articletData.categories.includes('Important')) {
             this.Articles.push({ id: doc.id, ...doc.data() });
-
           }
-        }else{
+        } else {
           this.Articles.push({ id: doc.id, ...doc.data() });
-
         }
-
-   
       });
       this.lastArticleSanpshot = this.Articles[this.Articles.length - 1];
       this.articlesLoader = false;
@@ -144,23 +169,19 @@ export class ArticlesComponent {
         this.lastArticleSanpshot,
         9,
         this.selectedTags.length != 0 ? this.selectedTags : null,
-        this.category
+        this.projectInput.split('').length != 0
+          ? this.projectInput.split('')
+          : null
       );
       articles.forEach((doc: any) => {
-      
-        
-        if(  this.category[0]==='Important'){
-          let articletData = {...doc.data()};
-          if (this.articleInput!=="" ? (articletData.title.includes(this.articleInput) && articletData.category.includes('Important') ) :articletData.category.includes('Important'))   {
-          
-          this.Articles.push({ id: doc.id, ...doc.data() });
-
+        if (this.category[0] === 'Important') {
+          let articletData = { ...doc.data() };
+          if (articletData.categories.includes('Important')) {
+            this.Articles.push({ id: doc.id, ...doc.data() });
           }
-        }else{
+        } else {
           this.Articles.push({ id: doc.id, ...doc.data() });
-
         }
-
       });
 
       this.articlesLoader = false;
@@ -187,25 +208,25 @@ export class ArticlesComponent {
     }
 
     this.getArticles();
-  
   }
 
-
-  
-  selectCategory(category:String){
+  selectCategory(category: String) {
     this.catergoryTitle = category;
-     this.Articles = [];
-    this.category = [category]
-    this.getArticles();
- 
-   }
-
-
-   
-  searchbyTitle(){
     this.Articles = [];
+    this.category = [category];
     this.getArticles();
   }
 
+  searchbyTitle() {
+    this.Articles = [];
+    this.cleartags();
+    this.getArticles();
+  }
 
+  cleartags() {
+    this.selectedTags = [];
+    this.tagsData = Tags.map((tag: Tag) => {
+      return { ...tag, selected: false };
+    });
+  }
 }

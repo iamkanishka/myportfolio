@@ -13,19 +13,19 @@ export interface Icategory {
 export const Tags: Tag[] = [
   { lang: 'Javascript/HTML/CSS', color: '#a08f03' },
   { lang: 'Typescript', color: 'royalblue' },
-  { lang: 'Go', color: 'skyblue' },
-  { lang: 'Elixir', color: '#5a366a' },
   { lang: 'Angular', color: 'red' },
-  { lang: 'Nodejs/Deno/Bun', color: 'green' },
+  { lang: 'Nodejs/Deno', color: 'green' },
   { lang: 'Nestjs', color: 'red' },
+  { lang: 'Elixir', color: '#5a366a' },
   { lang: 'Phoenix', color: '#ff6f61' },
+  { lang: 'Go', color: 'skyblue' },
   { lang: 'Rust', color: 'black' },
   { lang: 'Solidity', color: 'black' },
   { lang: 'Ionic/Flutter', color: 'skyblue' },
   { lang: 'Nx', color: '#0f172a' },
   { lang: 'AI/ML', color: 'black' },
   { lang: 'Microservice', color: 'black' },
-  { lang: 'Microfrontend', color: 'black' },
+  { lang: 'DSA', color: 'black' },
   { lang: 'System Design', color: 'black' },
 ];
 

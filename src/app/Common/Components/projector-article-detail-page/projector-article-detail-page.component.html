@@ -54,6 +54,10 @@
               </a>
 
               }
+             <span (click)="copyIdToClipboard()" class="cursor-pointer"> 
+              <app-social-icons [icon]="'Copy'"></app-social-icons>
+            </span>
+
             </div>
             <div class="ms-3 mt-2">
               <p class="text-white text-xs">Tags:</p>
@@ -83,9 +87,11 @@
             (click)="tab = 'whatILearnt'"
             >What I learnt</span
           >
+
+       
         </div>
 
-        @if(tab==='detail'){ 
+        @if(tab==='detail'){
         <h2 class="text-3xl font-medium title-font text-white mb-1 py-1">
           {{ ProjectorArticleDetails.title }}
         </h2>
@@ -95,25 +101,23 @@
         >
           {{ ProjectorArticleDetails.description }}
         </p>
-      }
+        } @if(tab==='whatILearnt'){
 
-        @if(tab==='whatILearnt'){
+        <h2 class="text-3xl font-medium title-font text-white mb-1 py-1">
+          {{ ProjectorArticleDetails.title }}
+        </h2>
 
-          <h2 class="text-3xl font-medium title-font text-white mb-1 py-1">
-            {{ ProjectorArticleDetails.title }}
-          </h2>
-  
-          <div
-            class="text-base leading-relaxed text-white mt-2 overflow-auto md:h-72 h-72">
-        <ol>
-          @for (item of ProjectorArticleDetails.whatiLearnt; track $index) {
-          <li>
-          {{item.point}}
-          </li>
-        }
-       
-        </ol>
-      </div>
+        <div
+          class="text-base leading-relaxed text-white mt-2 overflow-auto md:h-72 h-72"
+        >
+          <ol>
+            @for (item of ProjectorArticleDetails.whatiLearnt; track $index) {
+            <li>
+              {{ item.point }}
+            </li>
+            }
+          </ol>
+        </div>
 
         }
 
@@ -135,6 +139,9 @@
           </a>
 
           }
+          <span (click)="copyIdToClipboard()" class="cursor-pointer"> 
+            <app-social-icons [icon]="'Copy'"></app-social-icons>
+          </span>
         </div>
         <!-- <div  >
           <p class="text-white text-xs">Tags:</p>

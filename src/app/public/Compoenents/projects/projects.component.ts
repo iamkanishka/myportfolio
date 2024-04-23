@@ -120,46 +120,30 @@ export class ProjectsComponent {
         'projects',
         9,
         this.selectedTags.length != 0 ? this.selectedTags : null,
-        this.category,
-        this.projectInput.split("")
-        
+        this.category.length != 0 ? this.category : null,
+        this.projectInput.split('').length != 0
+          ? this.projectInput.split('')
+          : null
       );
-
       projects.forEach((doc: any) => {
-
-        this.Projects.push({ id: doc.id, ...doc.data() });
-
-        // if (this.category[0] === 'Important') {
-        //   let projectData = { ...doc.data() };
-        //   if (
-        //     this.projectInput !== '' ? 
-        //     String(projectData.title)
-        //           .toLowerCase()
-        //           .includes(String(this.projectInput).toLowerCase()) 
-        //          && projectData.category.includes('Important')
-        //      : projectData.category.includes('Important')
-        //   ) {
-        //     this.Projects.push({ id: doc.id, ...doc.data() });
-        //   }
-        // } else  {
-        //   let projectData = { ...doc.data() };
-        //   if (
-        //     this.projectInput !== ''
-        //       ? String(projectData.title)
-        //           .toLowerCase()
-        //           .includes(String(this.projectInput).toLowerCase()) &&
-        //         projectData.category.includes('All')
-        //       : projectData.category.includes('All')
-        //   )
-                
-        //         {
-        //           this.Projects.push({ id: doc.id, ...doc.data() });
-
-        //         }
-        // }
-
-        console.log(this.Projects);
+        if (
+          this.selectedTags.length != 0 ||
+          this.projectInput.split('').length != 0
+        ) {
+          if (this.category[0] === 'Important') {
+            let projectData = { ...doc.data() };
+            if (projectData.categories.includes('Important')) {
+              this.Projects.push({ id: doc.id, ...doc.data() });
+            }
+          } else {
+            this.Projects.push({ id: doc.id, ...doc.data() });
+          }
+        } else {
+          this.Projects.push({ id: doc.id, ...doc.data() });
+        }
       });
+
+      console.log(this.Projects);
 
       this.projectsLoader = false;
       this.lastProjectSanpshot = this.Projects[this.Projects.length - 1];
@@ -204,27 +188,22 @@ export class ProjectsComponent {
         this.lastProjectSanpshot,
         9,
         this.selectedTags.length != 0 ? this.selectedTags : null,
-        this.category
+        this.projectInput.split('').length != 0
+          ? this.projectInput.split('')
+          : null
       );
-
-      // if (projects.length != 9) {
-      // }
 
       projects.forEach((doc: any) => {
         if (this.category[0] === 'Important') {
           let projectData = { ...doc.data() };
-          if (
-            this.projectInput !== ''
-              ? projectData.title.includes(this.projectInput) &&
-                projectData.category.includes('Important')
-              : projectData.category.includes('Important')
-          ) {
+          if (projectData.categories.includes('Important')) {
             this.Projects.push({ id: doc.id, ...doc.data() });
           }
         } else {
           this.Projects.push({ id: doc.id, ...doc.data() });
         }
       });
+
       this.projectsLoader = false;
 
       this.lastProjectSanpshot = this.Projects[this.Projects.length - 1];
@@ -282,7 +261,7 @@ export class ProjectsComponent {
   //     //   console.log('Scrolled to the bottom');
   //        this.loadMore();
   //     // }, 5000)
-    
+
   //   }
   // }
 }
