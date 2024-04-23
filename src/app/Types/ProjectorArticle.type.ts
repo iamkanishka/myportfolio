@@ -8,6 +8,7 @@ export interface ProjectorArticle {
   imageUrl: string;
   linkedInLink: string;
   githubLink: string;
+  externalURL?:string
   mediumLink: string;
   imageURL: string;
   tags?: Tag[];

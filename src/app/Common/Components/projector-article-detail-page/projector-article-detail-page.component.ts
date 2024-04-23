@@ -1,14 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
 
- 
 @Component({
   selector: 'app-projector-article-detail-page',
   templateUrl: './projector-article-detail-page.component.html',
-  styleUrl: './projector-article-detail-page.component.css'
+  styleUrl: './projector-article-detail-page.component.css',
 })
 export class ProjectorArticleDetailPageComponent {
-
   @Input('ProjectorArticleDetails')
   ProjectorArticleDetails!: ProjectorArticle;
 
@@ -18,37 +16,29 @@ export class ProjectorArticleDetailPageComponent {
   @Output('close')
   onClose = new EventEmitter();
 
-
-  tab:string = 'detail'
+  tab: string = 'detail';
 
   ngOnInit(): void {
     //console.log(this.ProjectorArticleDetails);
-    
   }
 
   ngOnChanges(): void {
-   // console.log(this.ProjectorArticleDetails);
-   console.log(window.location.href);
-   
+    // console.log(this.ProjectorArticleDetails);
+    console.log(window.location.hostname);
   }
 
   close() {
     // this.enableBodyScrolling()
-    this.tab = 'detail'
+    this.tab = 'detail';
     this.show = !this.show;
     this.onClose.emit();
   }
 
-  copyIdToClipboard( ) {
+  copyIdToClipboard() {
     const textarea = document.createElement('textarea');
-    if(window.location.href.includes('?id=')){
-      textarea.value = window.location.href;
-    }else{
-      textarea.value = `${window.location.href}?id=${String(this.ProjectorArticleDetails.id)}`;
-    }
-   
-   
-
+    textarea.value = `https://kanishkanaik-b3089.web.app/projects?id=${String(
+      this.ProjectorArticleDetails.id
+    )}`;
     textarea.style.position = 'absolute';
     textarea.style.left = '-9999px';
 
@@ -56,8 +46,5 @@ export class ProjectorArticleDetailPageComponent {
     textarea.select();
     document.execCommand('copy');
     document.body.removeChild(textarea);
- 
   }
-
-
 }
