@@ -14,21 +14,19 @@ export class HomeComponent {
   Articles: ProjectorArticle[] = [];
 
   isshowDetails: boolean = false;
-  
 
   mailData = {
     name: '',
     subject: '',
     body: '',
   };
- 
-  ProjectorArticleDetailsData! :ProjectorArticle
- 
+
+  ProjectorArticleDetailsData!: ProjectorArticle;
+
   isScrolled = false;
 
-  projectsLoader:Boolean=false
-  articlesLoader:Boolean=false
-
+  projectsLoader: Boolean = false;
+  articlesLoader: Boolean = false;
 
   constructor(
     private viewportScroller: ViewportScroller,
@@ -39,36 +37,30 @@ export class HomeComponent {
   }
   public onClick(elementId: string): void {
     this.clickedLink = elementId;
-    if(elementId === 'home'){
-          window.scrollTo(0,0);
-    }else{
-
-    this.viewportScroller.scrollToAnchor(elementId);
+    if (elementId === 'home') {
+      window.scrollTo(0, 0);
+    } else {
+      this.viewportScroller.scrollToAnchor(elementId);
+    }
   }
-
-  }
-
-
-
 
   async getProjects() {
     try {
-      this.projectsLoader = true
+      this.projectsLoader = true;
 
       const projects: any = await this.firebaseDBService.getAllDocuments(
         'projects',
         3,
         null,
         ['Important'],
-        []
+        null
       );
       projects.forEach((doc: any) => {
         this.Projects.push({ id: doc.id, ...doc.data() });
       });
-      this.projectsLoader = false
-
+      this.projectsLoader = false;
     } catch (err) {
-      this.projectsLoader = false
+      this.projectsLoader = false;
 
       console.log(err);
     }
@@ -80,16 +72,16 @@ export class HomeComponent {
 
       const articles: any = await this.firebaseDBService.getAllDocuments(
         'articles',
-        3, null,
+        3,
+        null,
         ['Important'],
-        []
+        null
       );
       articles.forEach((doc: any) => {
         this.Articles.push({ id: doc.id, ...doc.data() });
       });
-     
-      this.articlesLoader = false;
 
+      this.articlesLoader = false;
     } catch (err) {
       this.articlesLoader = false;
 
@@ -105,14 +97,11 @@ export class HomeComponent {
   onClose() {
     this.isshowDetails = false;
   }
- 
-  triggeMail(){
-      var anchor = document.createElement('a');
+
+  triggeMail() {
+    var anchor = document.createElement('a');
     anchor.href = `mailto:kanishkanaik97@gmail.com?subject=${this.mailData.subject}&body=${this.mailData.name}\n${this.mailData.body}`;
-    anchor.target = "_blank";
+    anchor.target = '_blank';
     anchor.click();
   }
-
- 
-
 }

@@ -68,77 +68,58 @@ export class FirebaseDBService {
     dataType: string,
     dataLimit: number,
     tags: Tag[] | null,
-    category:String[]| [],
-    searchQuery:string[]
+    category: String[] | [] | null,
+    searchQuery: string[] | null
   ): Promise<QuerySnapshot<DocumentData, DocumentData> | undefined> {
-    try { 
+    console.log(tags, category, searchQuery);
+    
+
+    try {
       let querySnapshot;
+      if (tags != null || searchQuery != null) {
+        category = null;
+      }
 
+      console.log(tags, category, searchQuery);
 
-      querySnapshot = await getDocs(
-        query(
-          collection(this.db, dataType),
-          orderBy('created_at'),
-          limit(dataLimit),
-          where('tags', 'array-contains-any', ['Javascript/HTML/CSS']),
-          where('searchKeys', 'array-contains', ['']),
-       
-       ))
-
-    // if (tags) {
-    //     querySnapshot = await getDocs(
-    //       query(
-    //         collection(this.db, dataType),
-    //         orderBy('created_at'),
-    //         limit(dataLimit),
-    //        where('tags', 'array-contains-any', tags),
-    //         )
-    //     );
-    //   } else if(category) {
-    //     querySnapshot = await getDocs(
-    //       query(
-    //         collection(this.db, dataType),
-    //         orderBy('created_at'),
-    //         limit(dataLimit),
-    //         where('category', 'array-contains-any', category)
-    //       )
-    //     );
-    //   }else if(category&&tags) {
-    //     querySnapshot = await getDocs(
-    //       query(
-    //         collection(this.db, dataType),
-    //         orderBy('created_at'),
-    //         limit(dataLimit),
-    //         where('category', 'in', category),
-    //         where('tags', 'array-contains-any', tags===null?[]:tags)
-    
-    //       )
-    //     );
-    //   }else if(category&&tags&&searchQuery) {
-    //     querySnapshot = await getDocs(
-    //       query(
-    //         collection(this.db, dataType),
-    //         orderBy('created_at'),
-    //         limit(dataLimit),
-    //         where('category', 'array-contains-any', category),
-    //         where('searchKeys', 'in', searchQuery),
-    //         where('tags', 'array-contains-any', tags===null?[]:tags)
-    
-    //       )
-    //     );
-    //   }else  if(category&&searchQuery) {
-    //     querySnapshot = await getDocs(
-    //       query(
-    //         collection(this.db, dataType),
-    //         orderBy('created_at'),
-    //         limit(dataLimit),
-    //         where('category', 'array-contains-any', category),
-    //         where('searchKeys', 'in', searchQuery),
-      
-    
-    //       )
-    //     );
-    //   }
+      if (tags) {
+        querySnapshot = await getDocs(
+          query(
+            collection(this.db, dataType),
+            orderBy('created_at'),
+            limit(dataLimit),
+            where('tags', 'array-contains-any', tags)
+          )
+        );
+      } else if (searchQuery) {
+        querySnapshot = await getDocs(
+          query(
+            collection(this.db, dataType),
+            orderBy('created_at'),
+            limit(dataLimit),
+            where('searchKeys', 'array-contains-any', searchQuery)
+          )
+        );
+      } else if (category) {
+        querySnapshot = await getDocs(
+          query(
+            collection(this.db, dataType),
+            orderBy('created_at'),
+            limit(dataLimit),
+            where('categories', 'array-contains-any', category)
+          )
+        );
+      } else if (searchQuery && tags) {
+        querySnapshot = await getDocs(
+          query(
+            collection(this.db, dataType),
+            orderBy('created_at'),
+            limit(dataLimit),
+            where('tags', 'array-contains-any', tags),
+            where('searchKeys', 'in', searchQuery)
+          )
+        );
+      }
 
       return querySnapshot;
     } catch (e) {
@@ -221,48 +202,43 @@ export class FirebaseDBService {
     lastDoc: ProjectorArticle,
     dataLimit: number,
     tags: Tag[] | null,
-    category:String[]
+    searchQuery: string[] | null
   ) {
     try {
-       let querySnapshot;
-       if (tags) {
+      let querySnapshot;
+      if (tags) {
         querySnapshot = await getDocs(
           query(
             collection(this.db, dataType),
             orderBy('created_at'),
             limit(dataLimit),
             where('tags', 'array-contains-any', tags),
-            )
-        );
-      } else if(category) {
-        querySnapshot = await getDocs(
-          query(
-            collection(this.db, dataType),
-            orderBy('created_at'),
-            limit(dataLimit),
-            where('category', 'array-contains-any', category)
+            startAfter(lastDoc)
           )
         );
-      }else if(category&&tags) {
+      } else if (searchQuery) {
         querySnapshot = await getDocs(
           query(
             collection(this.db, dataType),
             orderBy('created_at'),
             limit(dataLimit),
-            where('category', 'in', category),
-            where('tags', 'array-contains-any', tags===null?[]:tags)
-    
+            where('searchKeys', 'in', ['']),
+            startAfter(lastDoc)
+          )
+        );
+      } else if (searchQuery && tags) {
+        querySnapshot = await getDocs(
+          query(
+            collection(this.db, dataType),
+            orderBy('created_at'),
+            limit(dataLimit),
+            where('tags', 'array-contains-any', ['Javascript/HTML/CSS']),
+            where('searchKeys', 'array-contains', ['']),
+            startAfter(lastDoc)
           )
         );
       }
       return querySnapshot;
-
-
-
-
-
-
-
     } catch (e) {
       console.error(`Error fetching ${dataType}  document: `, e);
       return;
