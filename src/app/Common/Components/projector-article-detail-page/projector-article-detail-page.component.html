@@ -1,6 +1,6 @@
 <section
   *ngIf="show"
-  class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-25"
+  class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-25 h-max pt-auto" 
 >
   <svg
     (click)="this.close()"
@@ -18,7 +18,7 @@
     />
   </svg>
 
-  <div class="bg-black p-1 rounded shadow-md md:w-11/12 w-full">
+  <div class="bg-black p-1 rounded shadow-md md:w-11/12 w-full pt-auto">
     <div class="flex flex-wrap m-2">
       <div class="p-4 md:w-full sm:mb-0">
         <div class="flex">

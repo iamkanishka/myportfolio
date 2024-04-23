@@ -26,7 +26,7 @@ export class ProjectsDataComponent {
         ? 'projects'
         : 'articles';
 
-      const projects: any = await this.firebaseDBService.getAllDocuments(Type,5000,null,['All'],[]);
+      const projects: any = await this.firebaseDBService.getAllDocuments(Type,5000,null,['All'],null);
       console.log(projects);
       
       projects.forEach((doc: any) => {

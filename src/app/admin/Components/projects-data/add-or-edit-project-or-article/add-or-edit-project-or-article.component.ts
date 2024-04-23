@@ -92,7 +92,10 @@ export class AddOrEditProjectOrArticleComponent {
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
       imageURL: ['', [Validators.required]],
+      
       ...this.formKeys,
+      externalURL: ['', []],
+      
       tags: ['', [Validators.required]],
       created_at: [new Date(), [Validators.required]],
       updated_at: [new Date(), [Validators.required]],
