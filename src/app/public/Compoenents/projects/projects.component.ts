@@ -108,7 +108,7 @@ export class ProjectsComponent {
           // Handle the data from the API
           this.projectInput = data;
           this.searchbyTitle();
-          console.log(typeof data, data);
+          
         });
     }
   }
@@ -142,8 +142,6 @@ export class ProjectsComponent {
           this.Projects.push({ id: doc.id, ...doc.data() });
         }
       });
-
-      console.log(this.Projects);
 
       this.projectsLoader = false;
       this.lastProjectSanpshot = this.Projects[this.Projects.length - 1];

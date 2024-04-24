@@ -1,4 +1,4 @@
-import { IWhatILearnt, Tag } from '../Common/Utilities/Data';
+import { IWhatILearnt, Tag, Icategory } from '../Common/Utilities/Data';
 
 export interface ProjectorArticle {
   id?: string;
@@ -14,5 +14,5 @@ export interface ProjectorArticle {
   tags?: Tag[];
   technologyUsed?:string;
   whatiLearnt?:IWhatILearnt[],
-  isPinned?:boolean
+ categories:String[]
 }

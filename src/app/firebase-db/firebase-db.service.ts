@@ -72,7 +72,6 @@ export class FirebaseDBService {
     searchQuery: string[] | null
   ): Promise<QuerySnapshot<DocumentData, DocumentData> | undefined> {
     console.log(tags, category, searchQuery);
-    
 
     try {
       let querySnapshot;
@@ -80,9 +79,11 @@ export class FirebaseDBService {
         category = null;
       }
 
-      console.log(tags, category, searchQuery);
+     
 
-      if (tags) {
+      if (tags && category == null && searchQuery === null) {
+        console.log('tags', tags);
+
         querySnapshot = await getDocs(
           query(
             collection(this.db, dataType),
@@ -91,16 +92,20 @@ export class FirebaseDBService {
             where('tags', 'array-contains-any', tags)
           )
         );
-      } else if (searchQuery) {
+      } else if (searchQuery && tags === null && category == null) {
+        console.log('searchQuery', searchQuery);
+
         querySnapshot = await getDocs(
           query(
             collection(this.db, dataType),
             orderBy('created_at'),
             limit(dataLimit),
-            where('searchKeys', 'array-contains-any', searchQuery)
+            where('searchKeys', 'array-contains', searchQuery)
           )
         );
-      } else if (category) {
+      } else if (category && searchQuery === null && tags === null) {
+        console.log('Category',category);
+
         querySnapshot = await getDocs(
           query(
             collection(this.db, dataType),
@@ -109,7 +114,8 @@ export class FirebaseDBService {
             where('categories', 'array-contains-any', category)
           )
         );
-      } else if (searchQuery && tags) {
+      } else if (searchQuery && tags && category === null) {
+        console.log('tags,searchQuery', tags, searchQuery);
         querySnapshot = await getDocs(
           query(
             collection(this.db, dataType),

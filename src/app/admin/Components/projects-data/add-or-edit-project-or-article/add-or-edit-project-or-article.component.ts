@@ -65,12 +65,10 @@ export class AddOrEditProjectOrArticleComponent {
       : 'Article';
 
     if (this.addOrEditType === 'Edit') {
-      console.log(this.addOrEditType);
-
-      this.route.queryParams.subscribe((params: any) => {
-        console.log(params);
-
-        this.formData = JSON.parse(params.data);
+       this.route.queryParams.subscribe((params: any) => {
+         this.formData = JSON.parse(params.data);
+        console.log(this.formData);
+        
       });
     }
 
@@ -92,10 +90,10 @@ export class AddOrEditProjectOrArticleComponent {
       title: ['', [Validators.required]],
       description: ['', [Validators.required]],
       imageURL: ['', [Validators.required]],
-      
+
       ...this.formKeys,
       externalURL: ['', []],
-      
+
       tags: ['', [Validators.required]],
       created_at: [new Date(), [Validators.required]],
       updated_at: [new Date(), [Validators.required]],
@@ -121,8 +119,9 @@ export class AddOrEditProjectOrArticleComponent {
         tags: this.formData.tags,
         whatiLearnt: this.formData.whatiLearnt,
         technologyUsed: this.formData.technologyUsed,
-
-        isPinned: this.formData.isPinned,
+        externalURL: this.formData.externalURL,
+        categories:this.formData.categories
+        
       });
     }
   }
@@ -148,6 +147,7 @@ export class AddOrEditProjectOrArticleComponent {
       let formData = this.addProjectorArticlesForm.value;
 
       formData['searchKeys'] = String(formData.title)
+        .toLowerCase()
         .split(' ')
         .join('')
         .trim()
@@ -155,6 +155,7 @@ export class AddOrEditProjectOrArticleComponent {
         .concat(
           String(
             String(formData.technologyUsed)
+              .toLowerCase()
               .split(' ')
               .join('')
               .trim()
@@ -204,6 +205,7 @@ export class AddOrEditProjectOrArticleComponent {
       let formData = this.addProjectorArticlesForm.value;
 
       formData['searchKeys'] = String(formData.title)
+        .toLowerCase()
         .split(' ')
         .join('')
         .trim()
@@ -211,6 +213,7 @@ export class AddOrEditProjectOrArticleComponent {
         .concat(
           String(
             String(formData.technologyUsed)
+              .toLowerCase()
               .split(' ')
               .join('')
               .trim()
