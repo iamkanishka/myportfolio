@@ -24,8 +24,7 @@ export class ProjectorArticleDetailPageComponent {
 
   ngOnChanges(): void {
     // console.log(this.ProjectorArticleDetails);
-    console.log(window.location.hostname);
-  }
+   }
 
   close() {
     // this.enableBodyScrolling()
