@@ -3,6 +3,17 @@ import { FirebaseDBService } from '../../../firebase-db/firebase-db.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
 import { RestAPIServiceService } from '../../../firebase-db/MongodbRESTAPIDB/rest-apiservice.service';
+import {
+  Icategory,
+  Tag,
+  Tags,
+  projectCategories,
+} from '../../../Common/Utilities/Data';
+
+interface ITagEmit {
+  tag: Tag;
+  operationType: 'remove' | 'add';
+}
 
 @Component({
   selector: 'app-projects-data',
@@ -11,31 +22,68 @@ import { RestAPIServiceService } from '../../../firebase-db/MongodbRESTAPIDB/res
 })
 export class ProjectsDataComponent {
   Projects: ProjectorArticle[] = [];
+  selectedTags: Tag[] = [];
+  tagsData: Tag[] = [];
+
+  projectInput: string = '';
+
+  projectsLoader: boolean = false;
+
+  category: String[] = [];
+
+  catergoryTitle: String = 'All';
+
+  categoryData: Icategory[] = [];
 
   constructor(
     private firebaseDBService: FirebaseDBService,
     private restAPIServiceService: RestAPIServiceService,
     private router: Router
   ) {
+    this.tagsData = Tags;
+    this.category = ['All'];
+    this.categoryData = projectCategories;
     this.getProjects();
   }
 
+
+
   async getProjects() {
     try {
-      let Type = String(window.location).includes('project')
-        ? 'projects'
-        : 'articles';
-
-      const projects: any = await this.firebaseDBService.getAllDocuments(Type,5000,null,['All'],null);
-      console.log(projects);
-      
+      this.projectsLoader = true;
+      const projects: any = await this.firebaseDBService.getAllDocuments(
+        'projects',
+        9,
+        this.selectedTags.length != 0 ? this.selectedTags : null,
+        this.category.length != 0 ? this.category : null,
+        // this.projectInput.split('').length != 0
+        //   ? this.projectInput.split('')
+        //   :
+        null
+      );
       projects.forEach((doc: any) => {
-        this.Projects.push({ id: doc.id, ...doc.data() });
+        if (
+          this.selectedTags.length != 0 ||
+          this.projectInput.split('').length != 0
+        ) {
+          if (this.category[0] === 'Important') {
+            let projectData = { ...doc.data() };
+            if (projectData.categories.includes('Important')) {
+              this.Projects.push({ id: doc.id, ...doc.data() });
+            }
+          } else {
+            this.Projects.push({ id: doc.id, ...doc.data() });
+          }
+        } else {
+          this.Projects.push({ id: doc.id, ...doc.data() });
+        }
       });
 
-      console.log(this.Projects);
-      
+      this.projectsLoader = false;
+      //  this.lastProjectSanpshot = this.Projects[this.Projects.length - 1];
     } catch (err) {
+      this.projectsLoader = false;
+
       console.log(err);
     }
   }
@@ -71,5 +119,28 @@ export class ProjectsDataComponent {
     } else {
       text = 'You canceled!';
     }
+  }
+
+  selectTag(tag: ITagEmit) {
+    this.Projects = [];
+    let tempTag = JSON.parse(JSON.stringify(tag.tag));
+    delete tempTag.selected;
+
+    if (tag.operationType === 'remove') {
+      this.selectedTags.splice(
+        this.selectedTags.findIndex((tagData) => tagData.lang === tempTag.lang),
+        1
+      );
+    } else {
+      this.selectedTags.push(tempTag);
+    }
+    this.getProjects();
+  }
+
+  selectCategory(category: String) {
+    this.catergoryTitle = category;
+    this.Projects = [];
+    this.category = [category];
+    this.getProjects();
   }
 }
