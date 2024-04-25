@@ -13,6 +13,7 @@ import { FirebaseDBService } from '../firebase-db/firebase-db.service';
 import { HeaderComponent } from './Components/header/header.component';
 import { SocialIconsComponent } from '../Common/Components/social-icons/social-icons.component';
 import { SocialIconsModule } from '../Common/Components/social-icons/social-icons.module';
+import { TagsModule } from '../Common/Components/tags/tags.module';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { SocialIconsModule } from '../Common/Components/social-icons/social-icon
     FirebaseDBModule,
     ReactiveFormsModule,
     AdminRoutingModule,
-    SocialIconsModule
+    SocialIconsModule,
+    TagsModule
   ],
   providers:[FirebaseDBService]
 })

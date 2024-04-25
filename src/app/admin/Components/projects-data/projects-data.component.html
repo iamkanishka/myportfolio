@@ -21,7 +21,35 @@
       </div>
     </div>
 
-    <div class="relative overflow-x-auto my-8">
+
+
+    <div>
+      @for (item of categoryData; track $index) {
+        <button
+            (click)="selectCategory(item.value)"
+            [ngClass]="catergoryTitle === item.value ? 'border-4 border-indigo-500/100' : null"
+            class="py-2 my-1 px-4 shadow-md no-underline rounded-full bg-gray-50 font-sans font-semibold text-xs border-blue btn-primary focus:outline-none active:shadow-none mr-2"
+            [ngStyle]="{ color: 'black' }"
+          >
+             {{item.name}}
+          </button>
+        }
+    </div>
+    
+    <div class="hidden md:block">
+      <app-tags
+        [CustomOption]="{
+          tagsData: tagsData!,
+          disableShowMore: true,
+          totalTagsVisible: 0,
+          clickable: true 
+        }"
+        (emitSelectedtag)="selectTag($event)"
+      ></app-tags>
+    </div>
+
+
+    <div class="overflow-x-auto my-8">
       <table
         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border-2 table-fixed"
       >
@@ -36,6 +64,7 @@
             <th scope="col" class="px-6 py-3">Github Link</th>
             <th scope="col" class="px-6 py-3">Medium Link</th>
             <th scope="col" class="px-6 py-3">LinkedIn Link</th>
+            <th scope="col" class="px-6 py-3">Category</th>
             <!-- <th scope="col" class="px-6 py-3">Tags</th> -->
 
             <th scope="col" class="px-6 py-3">Action</th>
@@ -87,7 +116,10 @@
               <span>NA</span>
               }
             </td>
-            <!-- <td class="px-6 py-4"></td> -->
+             <td class="px-6 py-4">
+
+                {{project.categories.join(", ")}}
+            </td> 
 
             <td class="px-6 py-4 cursor-pointer">
               <a

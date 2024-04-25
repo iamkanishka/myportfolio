@@ -10,7 +10,7 @@ import { HeaderComponent } from './Compoenents/header/header.component';
 import { FirebaseDBModule } from '../firebase-db/firebase-db.module';
 import { ArticlesComponent } from './Compoenents/articles/articles.component';
 import { FooterComponent } from './Compoenents/footer/footer.component';
-import { TagsComponent } from '../Common/Components/tags/tags.component';
+
 import { SocialIconsComponent } from '../Common/Components/social-icons/social-icons.component';
 import { ProjectorArticleDetailPageComponent } from '../Common/Components/projector-article-detail-page/projector-article-detail-page.component';
 import { ProjectorArticleCardComponent } from '../Common/Components/projector-article-card/projector-article-card.component';
@@ -19,6 +19,7 @@ import { LoaderComponent } from '../Common/Components/loader/loader.component';
 
 import { FormsModule  } from '@angular/forms';
 import { SocialIconsModule } from '../Common/Components/social-icons/social-icons.module';
+import { TagsModule } from '../Common/Components/tags/tags.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,6 @@ import { SocialIconsModule } from '../Common/Components/social-icons/social-icon
     HeaderComponent,
     ArticlesComponent,
     FooterComponent,
-    TagsComponent,
     noDataComponent,
     ProjectorArticleDetailPageComponent,
     ProjectorArticleCardComponent,
@@ -41,7 +41,8 @@ import { SocialIconsModule } from '../Common/Components/social-icons/social-icon
     FormsModule,
     FirebaseDBModule,
     PublicRoutingModule,
-    SocialIconsModule
+    SocialIconsModule,
+    TagsModule
    
   ]
 })
