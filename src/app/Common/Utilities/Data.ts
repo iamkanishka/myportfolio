@@ -22,11 +22,15 @@ export const Tags: Tag[] = [
   { lang: 'Go', color: 'skyblue' },
   { lang: 'Rust', color: 'black' },
   { lang: 'Microservice', color: 'black' },
-  { lang: 'Solidity', color: 'black' },
+  { lang: 'Blockchain', color: 'black' },
   { lang: 'Ionic/Flutter', color: 'skyblue' },
   { lang: 'AI/ML', color: 'black' },
   { lang: 'DSA', color: 'black' },
   { lang: 'System Design', color: 'black' },
+  { lang: 'AWS/GCP/Azure', color: 'black' },
+  { lang: 'Astronomy', color: 'black' },
+
+
 ];
 
 export interface IWhatILearnt {

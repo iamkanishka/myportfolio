@@ -46,6 +46,23 @@ export class AddOrEditProjectOrArticleComponent {
 
   categoriesData: Icategory[] = [];
 
+  moduleQuil = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+      [{ header: [1, 2, 3, 4, 5, 6, false] }], // Headers
+
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+      [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+      [{ align: [] }],
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+
+      ['link'], // link and image, video
+
+      ['clean'], // remove formatting button
+    ],
+  };
+
   constructor(
     private formBuilder: FormBuilder,
     private firebaseDB: FirebaseDBService,
@@ -65,10 +82,9 @@ export class AddOrEditProjectOrArticleComponent {
       : 'Article';
 
     if (this.addOrEditType === 'Edit') {
-       this.route.queryParams.subscribe((params: any) => {
-         this.formData = JSON.parse(params.data);
+      this.route.queryParams.subscribe((params: any) => {
+        this.formData = JSON.parse(params.data);
         console.log(this.formData);
-        
       });
     }
 
@@ -120,8 +136,7 @@ export class AddOrEditProjectOrArticleComponent {
         whatiLearnt: this.formData.whatiLearnt,
         technologyUsed: this.formData.technologyUsed,
         externalURL: this.formData.externalURL,
-        categories:this.formData.categories
-        
+        categories: this.formData.categories,
       });
     }
   }

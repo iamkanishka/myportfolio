@@ -54,6 +54,16 @@
               </a>
 
               }
+
+              
+              @if(ProjectorArticleDetails.externalURL){
+
+                <a [href]="ProjectorArticleDetails.externalURL" target="_blank">
+                  <app-social-icons [icon]="'Link'"></app-social-icons>
+                </a>
+  
+                }
+
              <span (click)="copyIdToClipboard()" class="cursor-pointer"> 
               <app-social-icons [icon]="'Copy'"></app-social-icons>
             </span>
@@ -99,7 +109,7 @@
         <p
           class="text-base leading-relaxed text-white mt-2 overflow-auto md:h-72 h-72"
         >
-          {{ ProjectorArticleDetails.description }}
+         <span [innerHTML]="ProjectorArticleDetails.description"></span>
         </p>
         } @if(tab==='whatILearnt'){
 
