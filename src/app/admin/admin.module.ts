@@ -11,17 +11,15 @@ import { ArticlesDataComponent } from './Components/articles-data/articles-data.
 import { AddOrEditProjectOrArticleComponent } from './Components/projects-data/add-or-edit-project-or-article/add-or-edit-project-or-article.component';
 import { FirebaseDBService } from '../firebase-db/firebase-db.service';
 import { HeaderComponent } from './Components/header/header.component';
-import { SocialIconsComponent } from '../Common/Components/social-icons/social-icons.component';
 import { SocialIconsModule } from '../Common/Components/social-icons/social-icons.module';
 import { TagsModule } from '../Common/Components/tags/tags.module';
-
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
     AdminComponent,
     LoginComponent,
     ProjectsDataComponent,
-    
     ArticlesDataComponent,
     AddOrEditProjectOrArticleComponent,
     HeaderComponent,
@@ -33,8 +31,29 @@ import { TagsModule } from '../Common/Components/tags/tags.module';
     ReactiveFormsModule,
     AdminRoutingModule,
     SocialIconsModule,
-    TagsModule
+    TagsModule,
+    QuillModule.forRoot(
+    //   {
+    //   modules:{
+    //     toolbar: [
+    //       ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+    //       [{ header: [1, 2, 3, 4, 5, 6, false] }], // Headers
+    
+    //       [{ list: 'ordered' }, { list: 'bullet' }],
+    //       [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+    //       [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+    //       [{ align: [] }],
+    //       [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+    
+    //       ['link'], // link and image, video
+    
+    //       ['clean'], // remove formatting button
+    //     ],
+    //   }
+    // }
+  )
   ],
   providers:[FirebaseDBService]
-})
+}
+)
 export class AdminModule { }
