@@ -120,9 +120,7 @@ export class ArticlesComponent {
         9,
         this.selectedTags.length != 0 ? this.selectedTags : null,
         this.category.length != 0 ? this.category : null,
-        this.projectInput.split('').length != 0
-          ? this.projectInput.split('')
-          : null
+        
       );
 
       articles.forEach((doc: any) => {

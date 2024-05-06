@@ -52,15 +52,11 @@ export class ArticlesDataComponent {
         9,
         this.selectedTags.length != 0 ? this.selectedTags : null,
         this.category.length != 0 ? this.category : null,
-        // this.projectInput.split('').length != 0
-        //   ? this.projectInput.split('')
-        //   :
-        null
+       
       );
       projects.forEach((doc: any) => {
         if (
-          this.selectedTags.length != 0 ||
-          this.projectInput.split('').length != 0
+          this.selectedTags.length != 0 
         ) {
           if (this.category[0] === 'Important') {
             let projectData = { ...doc.data() };

@@ -53,27 +53,27 @@ export class RestAPIServiceService {
   }
 
   async GetDocsBySearch(dataType: string, query: string): Promise<any> {
+    let url = // encodeURIComponent(
+      `${environment.MongoRESTAPIURL}${dataType}/search/${query}`
+   // );
     try {
-      return await this.http
-        .get(`${environment.MongoRESTAPIURL}${dataType}/search/${query}`)
-        .toPromise();
+      return await this.http.get(url).toPromise();
     } catch (err) {
       return;
       console.log(err);
     }
   }
 
-
-  
   async GetDocbyUniqueId(dataType: string, query: string): Promise<any> {
     try {
       return await this.http
-        .get(`${environment.MongoRESTAPIURL}${dataType}/findByUniqueId/${query}`)
+        .get(
+          `${environment.MongoRESTAPIURL}${dataType}/findByUniqueId/${query}`
+        )
         .toPromise();
     } catch (err) {
       return;
       console.log(err);
     }
   }
-
 }
