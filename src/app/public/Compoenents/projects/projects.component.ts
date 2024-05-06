@@ -91,6 +91,7 @@ export class ProjectsComponent {
         this.categoryData = projectCategories;
 
         this.getProjects();
+      
       });
     }
   }
@@ -111,7 +112,7 @@ export class ProjectsComponent {
       fromEvent(searchBox, 'input')
         .pipe(
           map((e) => (e.target as HTMLInputElement).value),
-          filter((text) => text.length > 5),
+         // filter((text) => {console.log(text.length); return (text.length > 5 || text.length == 0  ) } ),
           debounceTime(800),
           distinctUntilChanged()
         )
@@ -137,9 +138,7 @@ export class ProjectsComponent {
         9,
         this.selectedTags.length != 0 ? this.selectedTags : null,
         this.category.length != 0 ? this.category : null,
-        this.projectInput.split('').length != 0
-          ? this.projectInput.split('')
-          : null
+      
       );
       projects.forEach((doc: any) => {
         if (this.selectedTags.length != 0) {
@@ -278,7 +277,7 @@ export class ProjectsComponent {
 
       const filterString = JSON.stringify({
         alternativeTags: alterTags.length != 0 ? alterTags : null,
-        category: this.category.length != 0 ? this.category : null,
+        categories: this.category.length != 0 ? this.category : null,
         searchKeys:
           this.projectInput.length != 0
             ? this.projectInput.toLowerCase()
@@ -288,6 +287,10 @@ export class ProjectsComponent {
             ? null
             : this.lastbackupProjectSanpshot.created_at,
       });
+
+console.log(filterString);
+
+
       const projects = await this.restAPIServiceService.GetDocsBySearch(
         'project',
         filterString

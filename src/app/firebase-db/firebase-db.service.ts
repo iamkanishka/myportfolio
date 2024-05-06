@@ -69,11 +69,10 @@ export class FirebaseDBService {
     dataLimit: number,
     tags: Tag[] | null,
     category: String[] | [] | null,
-    searchQuery: string[] | null
+  
   ): Promise<QuerySnapshot<DocumentData, DocumentData> | undefined> {
-    console.log(tags, category, searchQuery);
-
-    try {
+ 
+  try {
       let querySnapshot;
       if (tags != null) {
         category = null;

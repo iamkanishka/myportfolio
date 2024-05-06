@@ -53,7 +53,7 @@ export class HomeComponent {
         3,
         null,
         ['Important'],
-        null
+    
       );
       projects.forEach((doc: any) => {
         this.Projects.push({ id: doc.id, ...doc.data() });
@@ -75,7 +75,7 @@ export class HomeComponent {
         3,
         null,
         ['Important'],
-        null
+        
       );
       articles.forEach((doc: any) => {
         this.Articles.push({ id: doc.id, ...doc.data() });
