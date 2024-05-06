@@ -1,15 +1,14 @@
 export const environment = {
   firebaseConfig: {
-    apiKey: 'AIzaSyACpszFjUW7-HDPFqwrAcZ44jF4xMV3oFg',
-    authDomain: 'kanishkanaik-c6343.firebaseapp.com',
-    projectId: 'kanishkanaik-c6343',
-    storageBucket: 'kanishkanaik-c6343.appspot.com',
-    messagingSenderId: '1085591658643',
-    appId: '1:1085591658643:web:caf07f5455cabc75f4ad66',
-    measurementId: 'G-F1TMZDKQ17',
+    apiKey: 'AIzaSyCsKJbn6mK1h8MOo3Jm8vyiHWPQnQDxKmc',
+    authDomain: 'kanishkanaik-d95f4.firebaseapp.com',
+    projectId: 'kanishkanaik-d95f4',
+    storageBucket: 'kanishkanaik-d95f4.appspot.com',
+    messagingSenderId: '953312189302',
+    appId: '1:953312189302:web:e4e02e2f1f06de907cb857',
+    measurementId: 'G-XEV72ZSYBX',
   },
 
   MongoRESTAPIURL: 'https://different-goat-buckle.cyclic.app/',
   MongoRESTAPIURLTest: 'https://localhost:3000/',
-
 };
