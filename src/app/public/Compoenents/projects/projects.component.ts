@@ -9,7 +9,12 @@ import {
 } from '../../../Common/Utilities/Data';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+} from 'rxjs/operators';
 import { fromEvent } from 'rxjs';
 import { RestAPIServiceService } from '../../../firebase-db/MongodbRESTAPIDB/rest-apiservice.service';
 
@@ -56,6 +61,7 @@ export class ProjectsComponent {
     private activatedRoute: ActivatedRoute,
     private restAPIServiceService: RestAPIServiceService
   ) {
+    window.scrollTo(0, 0);
     if (this.activatedRoute.queryParams) {
       this.activatedRoute.queryParams.subscribe((params) => {
         if (params.hasOwnProperty('tags')) {
@@ -70,16 +76,23 @@ export class ProjectsComponent {
         } else if (params.hasOwnProperty('id')) {
           this.getProjectById(String(params['id']));
           this.initializeTagData();
+        } else if (params.hasOwnProperty('category')) {
+          this.catergoryTitle = String(params['category']);
+          this.category = [String(params['category'])];
+          this.initializeTagData();
+        } else if (params.hasOwnProperty('search')) {
+          this.projectInput = String(params['search']);
+          this.initializeTagData();
         } else {
+          this.category = ['Important'];
           this.initializeTagData();
         }
+
+        this.categoryData = projectCategories;
+
+        this.getProjects();
       });
     }
-
-    this.categoryData = projectCategories;
-    this.category = ['Important'];
-    window.scrollTo(0, 0);
-    this.getProjects();
   }
 
   initializeTagData() {
@@ -98,7 +111,7 @@ export class ProjectsComponent {
       fromEvent(searchBox, 'input')
         .pipe(
           map((e) => (e.target as HTMLInputElement).value),
-            filter(text => text.length > 5),
+          filter((text) => text.length > 5),
           debounceTime(800),
           distinctUntilChanged()
         )
@@ -162,6 +175,7 @@ export class ProjectsComponent {
         this.showDetails(projectData!.data() as ProjectorArticle);
       }
     } catch (err) {
+      this.getProjectByUnqId(id);
       console.log(err);
     }
   }
@@ -288,6 +302,17 @@ export class ProjectsComponent {
       this.projectsLoader = false;
 
       console.log(err);
+    }
+  }
+
+  async getProjectByUnqId(unqid: string) {
+    let projectData = await this.restAPIServiceService.GetDocbyUniqueId(
+      'project',
+      unqid
+    );
+
+    if (projectData!.data() != undefined) {
+      this.showDetails(projectData!.data() as ProjectorArticle);
     }
   }
 }
