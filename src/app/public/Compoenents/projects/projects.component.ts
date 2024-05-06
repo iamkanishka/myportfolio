@@ -9,14 +9,9 @@ import {
 } from '../../../Common/Utilities/Data';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { fromEvent } from 'rxjs';
+import { RestAPIServiceService } from '../../../firebase-db/MongodbRESTAPIDB/rest-apiservice.service';
 
 // export for others scripts to use
 
@@ -39,6 +34,7 @@ export class ProjectsComponent {
   Projects: ProjectorArticle[] = [];
 
   lastProjectSanpshot!: ProjectorArticle;
+  lastbackupProjectSanpshot!: ProjectorArticle;
 
   projectsLoader: Boolean = false;
 
@@ -54,9 +50,11 @@ export class ProjectsComponent {
   originalState!: any;
 
   searchControl = new FormControl();
+
   constructor(
     private firebaseDBService: FirebaseDBService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private restAPIServiceService: RestAPIServiceService
   ) {
     if (this.activatedRoute.queryParams) {
       this.activatedRoute.queryParams.subscribe((params) => {
@@ -100,7 +98,7 @@ export class ProjectsComponent {
       fromEvent(searchBox, 'input')
         .pipe(
           map((e) => (e.target as HTMLInputElement).value),
-          //  filter(text => text.length > 2),
+            filter(text => text.length > 5),
           debounceTime(800),
           distinctUntilChanged()
         )
@@ -108,7 +106,6 @@ export class ProjectsComponent {
           // Handle the data from the API
           this.projectInput = data;
           this.searchbyTitle();
-          
         });
     }
   }
@@ -116,6 +113,12 @@ export class ProjectsComponent {
   async getProjects() {
     try {
       this.projectsLoader = true;
+
+      if (this.projectInput.split('').length != 0) {
+        this.getProjectsfromBackup();
+        return;
+      }
+
       const projects: any = await this.firebaseDBService.getAllDocuments(
         'projects',
         9,
@@ -126,10 +129,7 @@ export class ProjectsComponent {
           : null
       );
       projects.forEach((doc: any) => {
-        if (
-          this.selectedTags.length != 0 ||
-          this.projectInput.split('').length != 0
-        ) {
+        if (this.selectedTags.length != 0) {
           if (this.category[0] === 'Important') {
             let projectData = { ...doc.data() };
             if (projectData.categories.includes('Important')) {
@@ -146,9 +146,8 @@ export class ProjectsComponent {
       this.projectsLoader = false;
       this.lastProjectSanpshot = this.Projects[this.Projects.length - 1];
     } catch (err) {
-      this.projectsLoader = false;
-
       console.log(err);
+      this.getProjectsfromBackup();
     }
   }
 
@@ -181,24 +180,29 @@ export class ProjectsComponent {
     try {
       this.projectsLoader = true;
 
+      if (this.projectInput.split('').length != 0) {
+        this.getProjectsfromBackup();
+        return;
+      }
+
       const projects: any = await this.firebaseDBService.paginateLoadMore(
         'projects',
         this.lastProjectSanpshot,
         9,
         this.selectedTags.length != 0 ? this.selectedTags : null,
-        this.projectInput.split('').length != 0
-          ? this.projectInput.split('')
-          : null
+        this.category.length != 0 ? this.category : null
       );
 
       projects.forEach((doc: any) => {
-        if (this.category[0] === 'Important') {
-          let projectData = { ...doc.data() };
-          if (projectData.categories.includes('Important')) {
+        if (this.selectedTags.length != 0) {
+          if (this.category[0] === 'Important') {
+            let projectData = { ...doc.data() };
+            if (projectData.categories.includes('Important')) {
+              this.Projects.push({ id: doc.id, ...doc.data() });
+            }
+          } else {
             this.Projects.push({ id: doc.id, ...doc.data() });
           }
-        } else {
-          this.Projects.push({ id: doc.id, ...doc.data() });
         }
       });
 
@@ -250,16 +254,53 @@ export class ProjectsComponent {
     });
   }
 
-  // @HostListener('window:scroll', ['$event'])
-  // onScroll(event: Event) {
-  //   // Check if the user has scrolled to the bottom
-  //   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-  //     // User has scrolled to the bottom, you can perform your action here
-  //     // setTimeout(()=>{
-  //     //   console.log('Scrolled to the bottom');
-  //        this.loadMore();
-  //     // }, 5000)
+  async getProjectsfromBackup() {
+    try {
+      this.projectsLoader = true;
 
-  //   }
-  // }
+      let alterTags = this.selectedTags.map((tag: Tag) => {
+        return tag.lang;
+      });
+
+      const filterString = JSON.stringify({
+        alternativeTags: alterTags.length != 0 ? alterTags : null,
+        category: this.category.length != 0 ? this.category : null,
+        searchKeys:
+          this.projectInput.length != 0
+            ? this.projectInput.toLowerCase()
+            : null,
+        skip:
+          this.lastbackupProjectSanpshot === (null || undefined)
+            ? null
+            : this.lastbackupProjectSanpshot.created_at,
+      });
+      const projects = await this.restAPIServiceService.GetDocsBySearch(
+        'project',
+        filterString
+      );
+      console.log(projects);
+      this.Projects = projects;
+
+      this.lastbackupProjectSanpshot = this.Projects[this.Projects.length - 1];
+
+      this.projectsLoader = false;
+    } catch (err) {
+      this.projectsLoader = false;
+
+      console.log(err);
+    }
+  }
 }
+
+// @HostListener('window:scroll', ['$event'])
+// onScroll(event: Event) {
+//   // Check if the user has scrolled to the bottom
+//   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+//     // User has scrolled to the bottom, you can perform your action here
+//     // setTimeout(()=>{
+//     //   console.log('Scrolled to the bottom');
+//        this.loadMore();
+//     // }, 5000)
+
+//   }
+// }

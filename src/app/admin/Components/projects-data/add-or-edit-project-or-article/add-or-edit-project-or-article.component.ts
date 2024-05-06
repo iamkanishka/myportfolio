@@ -178,11 +178,17 @@ export class AddOrEditProjectOrArticleComponent {
           ).split('')
         );
 
+
+        formData['alternativeTags'] = formData.map((tag:Tag)=>{return tag.lang})
+
+
       formData['uniqueId'] = String(uniqueId);
       const addtoMongoDB = await this.restAPIServiceService.addDoc(
         this.projectorArticleType.toLowerCase(),
         formData
       );
+
+
 
       const addtofireDB = await this.firebaseDB.setDocument(
         this.projectorArticleType.toLowerCase().concat('s'),
@@ -219,12 +225,11 @@ export class AddOrEditProjectOrArticleComponent {
 
       let formData = this.addProjectorArticlesForm.value;
 
-      formData['searchKeys'] = String(formData.title)
+      formData['searchText'] = String(formData.title)
         .toLowerCase()
         .split(' ')
         .join('')
         .trim()
-        .split('')
         .concat(
           String(
             String(formData.technologyUsed)
@@ -233,15 +238,20 @@ export class AddOrEditProjectOrArticleComponent {
               .join('')
               .trim()
               .replace(',', '')
-          ).split('')
+          )
         );
 
       formData.updated_at = new Date();
+
+      formData['alternativeTags'] = formData.map((tag:Tag)=>{return tag.lang})
+
       const updatetoMongoDB = this.restAPIServiceService.updateDoc(
         this.projectorArticleType.toLowerCase(),
         formData,
         this.formData.id!
       );
+
+
 
       const updatetofireDB = this.firebaseDB.updateDocumentId(
         String(this.formData.id),

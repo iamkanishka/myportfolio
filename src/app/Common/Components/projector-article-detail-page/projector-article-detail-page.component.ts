@@ -36,7 +36,7 @@ export class ProjectorArticleDetailPageComponent {
   copyIdToClipboard() {
     const textarea = document.createElement('textarea');
     textarea.value = `https://kanishkanaik-b3089.web.app/projects?id=${String(
-      this.ProjectorArticleDetails.id
+      this.ProjectorArticleDetails.uniqueId
     )}`;
     textarea.style.position = 'absolute';
     textarea.style.left = '-9999px';

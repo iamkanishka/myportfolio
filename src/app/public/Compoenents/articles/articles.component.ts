@@ -18,6 +18,7 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import { fromEvent } from 'rxjs';
+import { RestAPIServiceService } from '../../../firebase-db/MongodbRESTAPIDB/rest-apiservice.service';
 
 interface ITagEmit {
   tag: Tag;
@@ -48,12 +49,14 @@ export class ArticlesComponent {
   articleInput: string = '';
 
   searchControl = new FormControl();
+  lastbackupProjectSanpshot!: ProjectorArticle;
 
   projectInput: string = '';
 
   constructor(
     private firebaseDBService: FirebaseDBService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private restAPIServiceService: RestAPIServiceService
   ) {
     if (this.activatedRoute.queryParams) {
       this.activatedRoute.queryParams.subscribe((params) => {
@@ -90,7 +93,7 @@ export class ArticlesComponent {
       fromEvent(searchBox, 'input')
         .pipe(
           map((e) => (e.target as HTMLInputElement).value),
-          //  filter(text => text.length > 2),
+          filter((text) => text.length > 5),
           debounceTime(800),
           distinctUntilChanged()
         )
@@ -107,6 +110,11 @@ export class ArticlesComponent {
     try {
       this.articlesLoader = true;
 
+      if (this.projectInput.split('').length != 0) {
+        this.getProjectsfromBackup();
+        return;
+      }
+
       const articles: any = await this.firebaseDBService.getAllDocuments(
         'articles',
         9,
@@ -118,14 +126,16 @@ export class ArticlesComponent {
       );
 
       articles.forEach((doc: any) => {
-        if (this.category[0] === 'Important') {
-          let articletData = { ...doc.data() };
+        if (this.selectedTags.length != 0) {
+          if (this.category[0] === 'Important') {
+            let articletData = { ...doc.data() };
 
-          if (articletData.categories.includes('Important')) {
+            if (articletData.categories.includes('Important')) {
+              this.Articles.push({ id: doc.id, ...doc.data() });
+            }
+          } else {
             this.Articles.push({ id: doc.id, ...doc.data() });
           }
-        } else {
-          this.Articles.push({ id: doc.id, ...doc.data() });
         }
       });
       this.lastArticleSanpshot = this.Articles[this.Articles.length - 1];
@@ -164,23 +174,29 @@ export class ArticlesComponent {
   async loadMore() {
     try {
       this.articlesLoader = true;
+
+      if (this.projectInput.split('').length != 0) {
+        this.getProjectsfromBackup();
+        return;
+      }
+
       const articles: any = await this.firebaseDBService.paginateLoadMore(
         'articles',
         this.lastArticleSanpshot,
         9,
         this.selectedTags.length != 0 ? this.selectedTags : null,
-        this.projectInput.split('').length != 0
-          ? this.projectInput.split('')
-          : null
+        this.category.length != 0 ? this.category : null
       );
       articles.forEach((doc: any) => {
-        if (this.category[0] === 'Important') {
-          let articletData = { ...doc.data() };
-          if (articletData.categories.includes('Important')) {
+        if (this.selectedTags.length != 0) {
+          if (this.category[0] === 'Important') {
+            let articletData = { ...doc.data() };
+            if (articletData.categories.includes('Important')) {
+              this.Articles.push({ id: doc.id, ...doc.data() });
+            }
+          } else {
             this.Articles.push({ id: doc.id, ...doc.data() });
           }
-        } else {
-          this.Articles.push({ id: doc.id, ...doc.data() });
         }
       });
 
@@ -228,5 +244,41 @@ export class ArticlesComponent {
     this.tagsData = Tags.map((tag: Tag) => {
       return { ...tag, selected: false };
     });
+  }
+
+  async getProjectsfromBackup() {
+    this.articlesLoader = true;
+
+    try {
+      let alterTags = this.selectedTags.map((tag: Tag) => {
+        return tag.lang;
+      });
+
+      const filterString = JSON.stringify({
+        alternativeTags: alterTags.length != 0 ? alterTags : null,
+        category: this.category.length != 0 ? this.category : null,
+        searchKeys:
+          this.projectInput.length != 0
+            ? this.projectInput.toLowerCase()
+            : null,
+        skip:
+          this.lastbackupProjectSanpshot === (null || undefined)
+            ? null
+            : this.lastbackupProjectSanpshot.created_at,
+      });
+      const projects = await this.restAPIServiceService.GetDocsBySearch(
+        'article',
+        filterString
+      );
+
+      this.Articles = projects;
+
+      this.lastbackupProjectSanpshot = this.Articles[this.Articles.length - 1];
+
+      this.articlesLoader = false;
+    } catch (err) {
+      this.articlesLoader = false;
+      console.log(err);
+    }
   }
 }

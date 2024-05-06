@@ -46,4 +46,21 @@ async  deleteDoc(
   }
 }
 
+
+async  GetDocsBySearch(
+  dataType: string, query: string): Promise<any> {
+  try {
+    return await this.http.get(`${environment.MongoRESTAPIURL}${dataType}/search/${query}`,).toPromise()
+  } catch (err) {
+    return 
+    console.log(err);
+    
+  }
+}
+
+
+
+
+
+
 }

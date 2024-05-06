@@ -10,4 +10,6 @@ export const environment = {
   },
 
   MongoRESTAPIURL: 'https://different-goat-buckle.cyclic.app/',
+  MongoRESTAPIURLTest: 'https://localhost:3000/',
+
 };

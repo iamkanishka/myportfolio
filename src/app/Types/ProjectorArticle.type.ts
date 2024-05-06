@@ -15,4 +15,6 @@ export interface ProjectorArticle {
   technologyUsed?:string;
   whatiLearnt?:IWhatILearnt[],
  categories:String[]
+ updated_at?:Date
+ created_at?:Date
 }
