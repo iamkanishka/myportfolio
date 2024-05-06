@@ -75,15 +75,11 @@ export class FirebaseDBService {
 
     try {
       let querySnapshot;
-      if (tags != null || searchQuery != null) {
+      if (tags != null) {
         category = null;
       }
 
-     
-
-      if (tags && category == null && searchQuery === null) {
-        console.log('tags', tags);
-
+      if (tags && category === null) {
         querySnapshot = await getDocs(
           query(
             collection(this.db, dataType),
@@ -92,37 +88,13 @@ export class FirebaseDBService {
             where('tags', 'array-contains-any', tags)
           )
         );
-      } else if (searchQuery && tags === null && category == null) {
-        console.log('searchQuery', searchQuery);
-
-        querySnapshot = await getDocs(
-          query(
-            collection(this.db, dataType),
-            orderBy('created_at'),
-            limit(dataLimit),
-            where('searchKeys', 'array-contains', searchQuery)
-          )
-        );
-      } else if (category && searchQuery === null && tags === null) {
-        console.log('Category',category);
-
-        querySnapshot = await getDocs(
+      } else if (category && tags === null) {
+         querySnapshot = await getDocs(
           query(
             collection(this.db, dataType),
             orderBy('created_at'),
             limit(dataLimit),
             where('categories', 'array-contains-any', category)
-          )
-        );
-      } else if (searchQuery && tags && category === null) {
-        console.log('tags,searchQuery', tags, searchQuery);
-        querySnapshot = await getDocs(
-          query(
-            collection(this.db, dataType),
-            orderBy('created_at'),
-            limit(dataLimit),
-            where('tags', 'array-contains-any', tags),
-            where('searchKeys', 'in', searchQuery)
           )
         );
       }
@@ -208,11 +180,18 @@ export class FirebaseDBService {
     lastDoc: ProjectorArticle,
     dataLimit: number,
     tags: Tag[] | null,
-    searchQuery: string[] | null
+    category: String[] | [] | null,
+    
   ) {
     try {
       let querySnapshot;
-      if (tags) {
+ 
+
+      if (tags != null) {
+        category = null;
+      }
+
+      if (tags && category === null) {
         querySnapshot = await getDocs(
           query(
             collection(this.db, dataType),
@@ -222,28 +201,20 @@ export class FirebaseDBService {
             startAfter(lastDoc)
           )
         );
-      } else if (searchQuery) {
-        querySnapshot = await getDocs(
+      } else if (category && tags === null) {
+         querySnapshot = await getDocs(
           query(
             collection(this.db, dataType),
             orderBy('created_at'),
             limit(dataLimit),
-            where('searchKeys', 'in', ['']),
-            startAfter(lastDoc)
-          )
-        );
-      } else if (searchQuery && tags) {
-        querySnapshot = await getDocs(
-          query(
-            collection(this.db, dataType),
-            orderBy('created_at'),
-            limit(dataLimit),
-            where('tags', 'array-contains-any', ['Javascript/HTML/CSS']),
-            where('searchKeys', 'array-contains', ['']),
+            where('categories', 'array-contains-any', category),
             startAfter(lastDoc)
           )
         );
       }
+
+
+
       return querySnapshot;
     } catch (e) {
       console.error(`Error fetching ${dataType}  document: `, e);
