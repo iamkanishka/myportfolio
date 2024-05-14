@@ -24,7 +24,7 @@ interface ITagEmit {
 
       <button
         (click)="emitTag(tag, index)"
-        [ngClass]="tag.selected && CustomOption.clickable ? 'border-4 border-indigo-500/100' : null"
+        [ngClass]="tag.selected && CustomOption.clickable ? 'border-4 border-indigo-500/100 py-2 my-1 px-4 text-xs ' : null"
         class="py-2 my-1 px-4 shadow-md no-underline rounded-full bg-gray-50 font-sans font-semibold text-xs border-blue btn-primary focus:outline-none active:shadow-none mr-2"
         [ngStyle]="{ color: tag.color }"
       >
