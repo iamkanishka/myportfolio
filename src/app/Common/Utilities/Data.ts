@@ -16,9 +16,9 @@ export const Tags: Tag[] = [
   { lang: 'Angular', color: 'red' },
   { lang: 'Nodejs || Deno', color: 'green' },
   { lang: 'Nestjs', color: 'red' },
-  { lang: 'Nx', color: '#0f172a' },
   { lang: 'Elixir', color: '#5a366a' },
   { lang: 'Phoenix', color: '#ff6f61' },
+  { lang: 'Cpp || C', color: 'black' },
   { lang: 'Go', color: 'skyblue' },
   { lang: 'Rust', color: 'black' },
   { lang: 'Architecture', color: 'black' },
@@ -28,9 +28,7 @@ export const Tags: Tag[] = [
   { lang: 'DSA', color: 'black' },
   { lang: 'System Design', color: 'black' },
   { lang: 'AWS || GCP || Azure', color: 'black' },
-  { lang: 'Astronomy || Cosmos', color: 'black' },
-
-
+  { lang: 'Astronomy', color: 'black' },
 ];
 
 export interface IWhatILearnt {
