@@ -14,9 +14,9 @@ export const routes: Routes = [
     component: PublicComponent,
     children: [
       { path: 'home', component: HomeComponent },
-      { path: 'articles', component: ArticlesComponent },
-      { path: 'projects', component: ProjectsComponent },
-      { path: 'aboutme', component: AboutMeComponent },
+      // { path: 'articles', component: ArticlesComponent },
+      // { path: 'projects', component: ProjectsComponent },
+      // { path: 'aboutme', component: AboutMeComponent },
       
       ],
      

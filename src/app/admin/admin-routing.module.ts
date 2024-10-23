@@ -12,32 +12,32 @@ export const routes: Routes = [
   {
     path: '',
     component: AdminComponent,
-    children: [
-      {
-        path: 'admin',
-        children: [
-          { path: 'crudProjectsandBlogs', component: LoginComponent },
-          { path: 'project',   
-          //  canActivate: [authGuard],
-              children:[
-            { path: 'list', component: ProjectsDataComponent}, 
-            { path: 'add', component: AddOrEditProjectOrArticleComponent}, 
-            { path: 'edit', component: AddOrEditProjectOrArticleComponent}, 
+    // children: [
+    //   {
+    //     path: 'admin',
+    //     children: [
+    //       { path: 'crudProjectsandBlogs', component: LoginComponent },
+    //       { path: 'project',   
+    //       //  canActivate: [authGuard],
+    //           children:[
+    //         { path: 'list', component: ProjectsDataComponent}, 
+    //         { path: 'add', component: AddOrEditProjectOrArticleComponent}, 
+    //         { path: 'edit', component: AddOrEditProjectOrArticleComponent}, 
             
-           ]
-        },
-          { path: 'article',
-          // canActivate: [authGuard],
-             children:[
-            { path: 'list', component: ArticlesDataComponent}, 
-            { path: 'add', component: AddOrEditProjectOrArticleComponent}, 
-            { path: 'edit', component: AddOrEditProjectOrArticleComponent}, 
+    //        ]
+    //     },
+    //       { path: 'article',
+    //       // canActivate: [authGuard],
+    //          children:[
+    //         { path: 'list', component: ArticlesDataComponent}, 
+    //         { path: 'add', component: AddOrEditProjectOrArticleComponent}, 
+    //         { path: 'edit', component: AddOrEditProjectOrArticleComponent}, 
             
-           ]
-          },
-        ],
-      },
-    ],
+    //        ]
+    //       },
+    //     ],
+    //   },
+    // ],
   },
 ];
 
