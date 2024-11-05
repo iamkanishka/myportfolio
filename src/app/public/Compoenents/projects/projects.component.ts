@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener } from '@angular/core';
 import { FirebaseDBService } from '../../../firebase-db/firebase-db.service';
 import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
 import {
@@ -7,7 +7,7 @@ import {
   Icategory,
   projectCategories,
 } from '../../../Common/Utilities/Data';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import {
   debounceTime,
@@ -29,6 +29,7 @@ interface ITagEmit {
   selector: 'app-projects',
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectsComponent {
   isshowDetails: boolean = false;
@@ -59,11 +60,15 @@ export class ProjectsComponent {
   constructor(
     private firebaseDBService: FirebaseDBService,
     private activatedRoute: ActivatedRoute,
-    private restAPIServiceService: RestAPIServiceService
+    private restAPIServiceService: RestAPIServiceService,
+    private router: Router
   ) {
     window.scrollTo(0, 0);
+
     if (this.activatedRoute.queryParams) {
       this.activatedRoute.queryParams.subscribe((params) => {
+        console.log(params);
+
         if (params.hasOwnProperty('tags')) {
           var tags: String[] = String(params['tags']).split(',');
           this.tagsData = Tags.map((tag: Tag) => {
@@ -91,7 +96,6 @@ export class ProjectsComponent {
         this.categoryData = projectCategories;
 
         this.getProjects();
-      
       });
     }
   }
@@ -112,7 +116,7 @@ export class ProjectsComponent {
       fromEvent(searchBox, 'input')
         .pipe(
           map((e) => (e.target as HTMLInputElement).value),
-         // filter((text) => {console.log(text.length); return (text.length > 5 || text.length == 0  ) } ),
+          // filter((text) => {console.log(text.length); return (text.length > 5 || text.length == 0  ) } ),
           debounceTime(800),
           distinctUntilChanged()
         )
@@ -137,8 +141,7 @@ export class ProjectsComponent {
         'projects',
         9,
         this.selectedTags.length != 0 ? this.selectedTags : null,
-        this.category.length != 0 ? this.category : null,
-      
+        this.category.length != 0 ? this.category : null
       );
       projects.forEach((doc: any) => {
         if (this.selectedTags.length != 0) {
@@ -239,12 +242,29 @@ export class ProjectsComponent {
         this.selectedTags.findIndex((tagData) => tagData.lang === tempTag.lang),
         1
       );
+    console.log(this.selectedTags);
+
     } else {
       this.selectedTags.push(tempTag);
     }
-    console.log(this.selectedTags, this.category);
+    console.log(this.selectedTags);
+    
 
-    this.getProjects();
+  if(this.selectedTags.length!==0){
+    this.router.navigate([],  {
+      queryParams: {tags: this.scrapeTagsLang().join(',')},
+    } )
+  }else{
+    this.router.navigate(['/projects'])
+  }
+    
+    // this.getProjects();
+  }
+
+  scrapeTagsLang() {
+    return this.selectedTags.map((tags) => {
+      return tags.lang;
+    });
   }
 
   selectCategory(category: String) {
@@ -283,13 +303,13 @@ export class ProjectsComponent {
             ? this.projectInput.toLowerCase()
             : null,
         skip:
-          this.lastbackupProjectSanpshot === (null || undefined)
+          this.lastbackupProjectSanpshot === null &&
+          this.lastbackupProjectSanpshot === undefined
             ? null
             : this.lastbackupProjectSanpshot.created_at,
       });
 
-console.log(filterString);
-
+      console.log(filterString);
 
       const projects = await this.restAPIServiceService.GetDocsBySearch(
         'project',
