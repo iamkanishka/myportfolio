@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Tag } from '../../Utilities/Data';
 
 interface ICustomOption {
   totalTagsVisible: number;
   disableShowMore: boolean;
   tagsData: Tag[];
-  clickable:boolean
+  clickable: boolean;
 }
 
 interface ITagEmit {
@@ -17,16 +17,20 @@ interface ITagEmit {
   selector: 'app-tags',
   //  templateUrl: './tags.component.html',
   template: `
-    <div class="flex flex-wrap">
+    <div class="flex flex-wrap gap-3">
       @for (tag of CustomOption.tagsData.slice(0, CustomOption.totalTagsVisible
       === 0 ? CustomOption.tagsData.length : CustomOption.totalTagsVisible );
       let index = $index; track index) {
 
       <button
         (click)="emitTag(tag, index)"
-        [ngClass]="tag.selected && CustomOption.clickable ? 'border-4 border-indigo-500/100 py-2 my-1 px-4 text-xs ' : null"
-        class="py-2 my-1 px-4 shadow-md no-underline rounded-full bg-gray-50 font-sans font-semibold text-xs border-blue btn-primary focus:outline-none active:shadow-none mr-2"
-        [ngStyle]="{ color: tag.color }"
+        class=" py-2  px-3 shadow-md no-underline rounded-full  font-sans font-semibold text-xs  "
+        [ngClass]="
+          tag.selected && CustomOption.clickable
+            ? 'bg-black border-2 border-indigo-500/100'
+            : 'bg-gray-50'
+        "
+        [ngStyle]="{ color: tag.selected && CustomOption.clickable ? 'white' : tag.color }"
       >
         {{ tag.lang }}
       </button>
@@ -50,6 +54,7 @@ interface ITagEmit {
   `,
   // styleUrl: './tags.component.css'
   styles: [],
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TagsComponent {
   @Input('CustomOption')

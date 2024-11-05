@@ -32,8 +32,8 @@ export class HomeComponent {
     private viewportScroller: ViewportScroller,
     private firebaseDBService: FirebaseDBService
   ) {
-    // this.getProjects();
-    // this.getArticles();
+    this.getProjects();
+    this.getArticles();
   }
   public onClick(elementId: string): void {
     this.clickedLink = elementId;
