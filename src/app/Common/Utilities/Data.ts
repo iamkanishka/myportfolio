@@ -13,8 +13,7 @@ export interface Icategory {
 export const Tags: Tag[] = [
   { lang: 'HTML || CSS || JS || TS', color: '#a08f03' },
   { lang: 'Angular', color: 'red' },
-  { lang: 'Nodejs || ', color: 'green' },
-  { lang: 'Nestjs', color: 'red' },
+  { lang: 'Nodejs || Nestjs', color: 'black' },
   { lang: 'Elixir || Phoenix', color: '#5a366a' },
   { lang: 'Cpp || C', color: 'black' },
   { lang: 'Go', color: 'skyblue' },
