@@ -15,10 +15,10 @@ export const Tags: Tag[] = [
   { lang: 'Angular', color: 'red' },
   { lang: 'Nodejs || Nestjs', color: 'black' },
   { lang: 'Elixir || Phoenix', color: '#5a366a' },
-
   { lang: 'Go', color: 'skyblue' },
-  // { lang: 'Rust', color: 'black' },
-  { lang: 'Nativescript || Flutter', color: 'skyblue' },
+  { lang: 'Solidity', color: '#363636' },
+
+  { lang: 'NS || Flutter', color: 'skyblue' },
   { lang: 'AI || ML', color: 'black' },
   { lang: 'SASS', color: 'black' },
   { lang: 'System Design', color: 'black' },
