@@ -17,7 +17,6 @@ export const Tags: Tag[] = [
   { lang: 'Elixir || Phoenix', color: '#5a366a' },
   { lang: 'Go', color: 'skyblue' },
   { lang: 'Solidity', color: '#363636' },
-
   { lang: 'NS || Flutter', color: 'skyblue' },
   { lang: 'AI || ML', color: 'black' },
   { lang: 'SASS', color: 'black' },
