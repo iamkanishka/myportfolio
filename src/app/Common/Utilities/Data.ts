@@ -23,8 +23,8 @@ export const Tags: Tag[] = [
   { lang: 'System Design', color: 'black' },
   { lang: 'AWS || GCP || Azure', color: 'black' },
   { lang: 'Blockchain', color: 'black' },
-  { lang: 'Healthcare ', color: 'black' },
-  { lang: 'Finance ', color: 'black' },
+  { lang: 'Healthcare', color: 'black' },
+  { lang: 'Finance', color: 'black' },
   { lang: 'Astronomy', color: 'black' },
 ];
 
