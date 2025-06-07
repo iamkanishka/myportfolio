@@ -4,6 +4,8 @@ import { Component } from '@angular/core';
   selector: 'app-about-me',
   templateUrl: './about-me.component.html',
   styleUrl: './about-me.component.css'
+  standalone: true,
+
 })
 export class AboutMeComponent {
   Projects:any[]=[]
