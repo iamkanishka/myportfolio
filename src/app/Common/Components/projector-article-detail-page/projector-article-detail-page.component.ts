@@ -4,6 +4,8 @@ import { ProjectorArticle } from '../../../Types/ProjectorArticle.type';
 @Component({
   selector: 'app-projector-article-detail-page',
   templateUrl: './projector-article-detail-page.component.html',
+  standalone: true,
+
   styleUrl: './projector-article-detail-page.component.css',
 })
 export class ProjectorArticleDetailPageComponent {
