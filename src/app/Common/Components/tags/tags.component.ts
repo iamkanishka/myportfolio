@@ -16,6 +16,8 @@ interface ITagEmit {
 @Component({
   selector: 'app-tags',
   //  templateUrl: './tags.component.html',
+  standalone: true,
+
   template: `
     <div class="flex flex-wrap gap-3">
       @for (tag of CustomOption.tagsData.slice(0, CustomOption.totalTagsVisible
