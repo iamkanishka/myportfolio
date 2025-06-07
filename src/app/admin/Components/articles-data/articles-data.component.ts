@@ -16,7 +16,7 @@ interface ITagEmit {
 
 @Component({
   selector: 'app-articles-data',
-  standalone: false,
+  standalone: true,
   templateUrl: './articles-data.component.html',
   styleUrl: './articles-data.component.css',
 })
