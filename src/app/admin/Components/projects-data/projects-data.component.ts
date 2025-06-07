@@ -19,6 +19,8 @@ interface ITagEmit {
   selector: 'app-projects-data',
   templateUrl: './projects-data.component.html',
   styleUrl: './projects-data.component.css',
+  standalone: true,
+
 })
 export class ProjectsDataComponent {
   Projects: ProjectorArticle[] = [];
