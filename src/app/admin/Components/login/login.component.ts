@@ -8,6 +8,8 @@ export { signInWithEmailAndPassword } from 'firebase/auth';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
+  standalone: true,
+
 })
 export class LoginComponent {
   loginForm: FormGroup;
