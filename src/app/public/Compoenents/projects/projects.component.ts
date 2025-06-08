@@ -237,9 +237,17 @@ export class ProjectsComponent {
     let tempTag = JSON.parse(JSON.stringify(tag.tag));
     delete tempTag.selected;
 
+
+    const index = this.selectedTags.findIndex(
+      (tagData) => String(tagData.lang).toLowerCase() === String(tempTag.lang).toLowerCase()
+    );
+    console.log('Index to remove:', index);
+
+    console.log(tag.operationType );
+    
     if (tag.operationType === 'remove') {
       this.selectedTags.splice(
-        this.selectedTags.findIndex((tagData) => tagData.lang === tempTag.lang),
+        index,
         1
       );
     console.log(this.selectedTags);
