@@ -1,9 +1,0 @@
-<form [formGroup]="myForm">
-    <div formArrayName="emails">
-      <div *ngFor="let email of emailForms.controls; let i=index" [formGroupName]="i">
-        <input type="email" formControlName="email" placeholder="Email {{i + 1}}">
-        <button type="button" (click)="removeEmail(i)">Remove</button>
-      </div>
-    </div>
-    <button type="button" (click)="addEmail()">Add Email</button>
-  </form>
