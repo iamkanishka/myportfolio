@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { BlackHoleComponent } from '../black-hole/black-hole';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [BlackHoleComponent],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App {
   protected title = 'myportfolio';
