@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { Tag } from '../../utilities/Data';
+import { Tag } from '../../utilities/data';
 
 interface ICustomOption {
   totalTagsVisible: number;
