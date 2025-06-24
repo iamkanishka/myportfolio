@@ -21,6 +21,7 @@ import {
   ScreenTrackingService,
   UserTrackingService,
 } from '@angular/fire/analytics';
+import { provideQuillConfig } from 'ngx-quill/config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,6 +35,13 @@ export const appConfig: ApplicationConfig = {
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideAnalytics(() => getAnalytics()),
+
+    provideQuillConfig({
+      modules: {
+        syntax: true,
+        toolbar: [],
+      },
+    }),
 
     ScreenTrackingService,
     UserTrackingService,
