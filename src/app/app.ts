@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BlackHoleComponent } from '../black-hole/black-hole';
+import { BlackHoleComponent } from '../common/components/black-hole/black-hole';
 
 @Component({
   selector: 'app-root',
