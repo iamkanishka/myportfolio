@@ -11,7 +11,34 @@ const routes: Routes = [
         loadComponent: () => import('./auth/auth').then((m) => m.AuthComponent),
       },
       {
-        path: 'project',
+        path: 'projects',
+        canActivate: [authGuard],
+        children: [
+          {
+            path: 'list',
+            loadComponent: () =>
+              import('./project-article-list/project-article-list').then(
+                (m) => m.ProjectArticleList
+              ),
+          },
+          {
+            path: 'add',
+            loadComponent: () =>
+              import('./project-article-form/project-article-form').then(
+                (m) => m.ProjectArticleForm
+              ),
+          },
+          {
+            path: 'edit/:id',
+            loadComponent: () =>
+              import('./project-article-form/project-article-form').then(
+                (m) => m.ProjectArticleForm
+              ),
+          },
+        ],
+      },
+      {
+        path: 'articles',
         canActivate: [authGuard],
         children: [
           {
