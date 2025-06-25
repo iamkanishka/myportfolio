@@ -30,7 +30,7 @@ export class AuthComponent {
         this.authForm.value.password
       );
 
-      this.router.navigate(['/admin/project/list']);
+      this.router.navigate(['/admin/projects/list']);
     } catch (err) {
       console.log('Error signing in:', err);
       
