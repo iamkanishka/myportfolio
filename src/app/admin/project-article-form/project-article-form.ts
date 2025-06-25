@@ -7,27 +7,23 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
- 
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectorArticle } from '../../types/projectorarticle';
 import { Tag, Icategory, categories, Tags } from '../../common/utilities/data';
 import { FirebaseDBService } from '../../db/firebase.service';
 import { RestAPIServiceService } from '../../db/mongo.service';
-import { QuillModule } from 'ngx-quill'
-import { NgClass, NgStyle } from '@angular/common';
- 
- 
+import { QuillModule } from 'ngx-quill';
+import { NgClass, NgFor, NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-project-article-form',
-  imports: [QuillModule, ReactiveFormsModule, NgClass, NgStyle],
+  imports: [QuillModule, ReactiveFormsModule, NgStyle, NgFor],
   templateUrl: './project-article-form.html',
-  styleUrl: './project-article-form.scss'
+  styleUrl: './project-article-form.scss',
 })
 export class ProjectArticleForm {
-
-
-    addProjectorArticlesForm: FormGroup;
+  addProjectorArticlesForm: FormGroup;
 
   addOrEditType: string = '';
   projectorArticleType: string = '';
@@ -182,17 +178,16 @@ export class ProjectArticleForm {
           ).split('')
         );
 
-
-        formData['alternativeTags'] = formData.map((tag:Tag)=>{return tag.lang})
-
+      formData['alternativeTags'] = formData['tags'].map((tag: Tag) => {
+        return tag.lang;
+      });
 
       formData['uniqueId'] = String(uniqueId);
+
       const addtoMongoDB = await this.restAPIServiceService.addDoc(
         this.projectorArticleType.toLowerCase(),
         formData
       );
-
-
 
       const addtofireDB = await this.firebaseDB.setDocument(
         this.projectorArticleType.toLowerCase().concat('s'),
@@ -247,15 +242,15 @@ export class ProjectArticleForm {
 
       formData.updated_at = new Date();
 
-      formData['alternativeTags'] = formData.map((tag:Tag)=>{return tag.lang})
+      formData['alternativeTags'] = formData.map((tag: Tag) => {
+        return tag.lang;
+      });
 
       const updatetoMongoDB = this.restAPIServiceService.updateDoc(
         this.projectorArticleType.toLowerCase(),
         formData,
         this.formData.id!
       );
-
-
 
       const updatetofireDB = this.firebaseDB.updateDocumentId(
         String(this.formData.id),
@@ -299,4 +294,28 @@ export class ProjectArticleForm {
     return index + 1;
   }
 
+  dropdownOpen = false;
+
+  // Available options
+  options = ['JavaScript', 'TypeScript', 'Elixir', 'Go', 'Solidity'];
+
+  // Selected values
+  selectedOptions = new FormControl<string[]>([], { nonNullable: true });
+
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  isSelected(option: Tag): boolean {
+    return this.selectedOptions.value.includes(option.lang);
+  }
+
+  toggleOption(option: Tag) {
+    const current = this.selectedOptions.value;
+    if (current.includes(option.lang)) {
+      this.selectedOptions.setValue(current.filter((o) => o !== option.lang));
+    } else {
+      this.selectedOptions.setValue([...current, option.lang]);
+    }
+  }
 }
