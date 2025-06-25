@@ -1,6 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 export { signInWithEmailAndPassword } from 'firebase/auth';
 
@@ -8,10 +13,9 @@ export { signInWithEmailAndPassword } from 'firebase/auth';
   selector: 'app-auth',
   imports: [ReactiveFormsModule],
   templateUrl: './auth.html',
-  styleUrl: './auth.scss'
+  styleUrl: './auth.scss',
 })
 export class AuthComponent {
-
   authForm: FormGroup;
   private auth: Auth = inject(Auth);
 
@@ -29,12 +33,9 @@ export class AuthComponent {
         this.authForm.value.email,
         this.authForm.value.password
       );
-
       this.router.navigate(['/admin/projects/list']);
     } catch (err) {
       console.log('Error signing in:', err);
-      
     }
   }
-
 }
