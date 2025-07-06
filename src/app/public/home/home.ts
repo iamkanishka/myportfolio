@@ -1,7 +1,7 @@
 import { NgClass, ViewportScroller } from '@angular/common';
 import { Component } from '@angular/core';
 import { FirebaseDBService } from '../../db/firebase.service';
-import { ProjectorArticle } from '../../types/projectorarticle';
+import { ProjectorArticle } from '../../types/project-article';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ProjectorArticleCard } from '../../common/components/project-article-card/project-article-card';
