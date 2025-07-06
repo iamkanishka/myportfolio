@@ -9,12 +9,13 @@ import {
 } from '@angular/forms';
 
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectorArticle } from '../../types/projectorarticle';
+import { ProjectorArticle } from '../../types/project-article';
 import { Tag, Icategory, categories, Tags } from '../../common/utilities/data';
 import { FirebaseDBService } from '../../db/firebase.service';
 import { RestAPIServiceService } from '../../db/mongo.service';
 import { QuillModule } from 'ngx-quill';
 import { NgClass, NgFor, NgStyle } from '@angular/common';
+import { ObjectId } from 'bson';
 
 @Component({
   selector: 'app-project-article-form',
@@ -157,7 +158,7 @@ export class ProjectArticleForm {
     this.loader = true;
     try {
       this.loader = false;
-      const uniqueId = new Date().getTime();
+      const uniqueId = new ObjectId().toHexString();
 
       let formData = this.addProjectorArticlesForm.value;
 
@@ -185,7 +186,7 @@ export class ProjectArticleForm {
       formData['uniqueId'] = String(uniqueId);
 
       const addtoMongoDB = await this.restAPIServiceService.addDoc(
-        this.projectorArticleType.toLowerCase(),
+        this.projectorArticleType.toLowerCase().concat('s'),
         formData
       );
 
@@ -200,7 +201,7 @@ export class ProjectArticleForm {
       this.responseToast = 'success';
       this.addProjectorArticlesForm.reset;
       this.router.navigate([
-        `/admin/${this.projectorArticleType.toLowerCase()}/list`,
+        `/admin/${this.projectorArticleType.toLowerCase()}s/list`,
       ]);
     } catch (err) {
       this.toastText = 'Something went wrong';
@@ -242,12 +243,12 @@ export class ProjectArticleForm {
 
       formData.updated_at = new Date();
 
-      formData['alternativeTags'] = formData.map((tag: Tag) => {
+      formData['alternativeTags'] = formData['tags'].map((tag: Tag) => {
         return tag.lang;
       });
 
       const updatetoMongoDB = this.restAPIServiceService.updateDoc(
-        this.projectorArticleType.toLowerCase(),
+        this.projectorArticleType.toLowerCase().concat('s'),
         formData,
         this.formData.id!
       );
@@ -263,7 +264,7 @@ export class ProjectArticleForm {
       this.responseToast = 'success';
       this.addProjectorArticlesForm.reset;
       this.router.navigate([
-        `/admin/${this.projectorArticleType.toLowerCase()}/list`,
+        `/admin/${this.projectorArticleType.toLowerCase()}s/list`,
       ]);
     } catch (err) {
       this.toastText = 'Something went wrong';
