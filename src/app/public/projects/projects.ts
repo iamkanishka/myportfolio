@@ -16,7 +16,7 @@ import {
 } from '../../common/utilities/data';
 import { FirebaseDBService } from '../../db/firebase.service';
 import { RestAPIServiceService } from '../../db/mongo.service';
-import { ProjectorArticle } from '../../types/projectorarticle';
+import { ProjectorArticle } from '../../types/project-article';
 import { Loader } from '../../common/components/loader/loader';
 
 interface ITagEmit {
