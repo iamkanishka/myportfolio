@@ -19,7 +19,7 @@ import {
   setDoc,
 } from 'firebase/firestore'; // ⚠️ Use firebase native here
 import { Firestore } from '@angular/fire/firestore'; // ✅ Angular DI wrapper
-import { ProjectorArticle } from '../types/projectorarticle';
+import { ProjectorArticle } from '../types/project-article';
 import { Tag } from '../common/utilities/data';
 
 @Injectable({ providedIn: 'root' })
