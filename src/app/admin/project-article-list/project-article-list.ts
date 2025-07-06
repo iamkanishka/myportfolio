@@ -8,7 +8,7 @@ import {
 } from '../../common/utilities/data';
 import { FirebaseDBService } from '../../db/firebase.service';
 import { RestAPIServiceService } from '../../db/mongo.service';
-import { ProjectorArticle } from '../../types/projectorarticle';
+import { ProjectorArticle } from '../../types/project-article';
 import { SocialIconsComponent } from '../../common/components/social-icons/social-icons';
 import { NgClass, NgStyle } from '@angular/common';
 import { TagsComponent } from '../../common/components/tags/tags';
@@ -89,8 +89,11 @@ export class ProjectArticleList {
       queryParamsHandling: 'merge',
     };
 
+    let Type = String(window.location).includes('project')
+      ? 'projects'
+      : 'articles';
     // Navigate to the login page with extras
-    this.router.navigate(['/admin/project/edit'], navigationExtras);
+    this.router.navigate([`/admin/${Type}/edit`], navigationExtras);
   }
 
   async DeleteProject(id: string | undefined, index: number) {
