@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ProjectorArticle } from '../types/projectorarticle';
+import { ProjectorArticle } from '../types/project-article';
 import { environment } from '../../environments/environment.development';
 
 @Injectable({
