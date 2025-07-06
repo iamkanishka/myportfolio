@@ -29,7 +29,7 @@ const routes: Routes = [
               ),
           },
           {
-            path: 'edit/:id',
+            path: 'edit',
             loadComponent: () =>
               import('./project-article-form/project-article-form').then(
                 (m) => m.ProjectArticleForm
@@ -56,7 +56,7 @@ const routes: Routes = [
               ),
           },
           {
-            path: 'edit/:id',
+            path: 'edit',
             loadComponent: () =>
               import('./project-article-form/project-article-form').then(
                 (m) => m.ProjectArticleForm
