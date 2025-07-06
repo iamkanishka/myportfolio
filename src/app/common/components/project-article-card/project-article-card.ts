@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ProjectorArticle } from '../../../types/projectorarticle';
+import { ProjectorArticle } from '../../../types/project-article';
 import { TagsComponent } from '../tags/tags';
 import { SlicePipe } from '@angular/common';
 
