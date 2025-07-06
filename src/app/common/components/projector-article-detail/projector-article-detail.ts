@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ProjectorArticle } from '../../../types/projectorarticle';
+import { ProjectorArticle } from '../../../types/project-article';
 import { SocialIconsComponent } from '../social-icons/social-icons';
 import { NgClass } from '@angular/common';
 import { TagsComponent } from '../tags/tags';
