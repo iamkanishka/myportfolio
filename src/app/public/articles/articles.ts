@@ -17,7 +17,7 @@ import { TagsComponent } from '../../common/components/tags/tags';
 import { Tag, Icategory, Tags, articleCategories } from '../../common/utilities/data';
 import { FirebaseDBService } from '../../db/firebase.service';
 import { RestAPIServiceService } from '../../db/mongo.service';
-import { ProjectorArticle } from '../../types/projectorarticle';
+import { ProjectorArticle } from '../../types/project-article';
 import { Loader } from '../../common/components/loader/loader';
 
 
