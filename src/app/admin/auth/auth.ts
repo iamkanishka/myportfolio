@@ -33,6 +33,8 @@ export class AuthComponent {
         this.authForm.value.email,
         this.authForm.value.password
       );
+      const token = await auth.user.getIdToken();
+      localStorage.setItem('token', token);
       this.router.navigate(['/admin/projects/list']);
     } catch (err) {
       console.log('Error signing in:', err);
