@@ -9,5 +9,5 @@ export const environment = {
     measurementId: 'G-XEV72ZSYBX',
   },
 
-  MongoRESTAPIURL: 'https://different-goat-buckle.cyclic.app/',
+  MongoRESTAPIURL: 'https://myportfolio-be-ge5b.onrender.com/',
 };
