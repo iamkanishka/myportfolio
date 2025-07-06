@@ -8,7 +8,7 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { environment } from '../environments/environment.development';
 
@@ -22,6 +22,7 @@ import {
   UserTrackingService,
 } from '@angular/fire/analytics';
 import { provideQuillConfig } from 'ngx-quill/config';
+import { AuthInterceptor } from '../interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -35,6 +36,8 @@ export const appConfig: ApplicationConfig = {
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideAnalytics(() => getAnalytics()),
+
+    provideHttpClient(withInterceptors([AuthInterceptor])),
 
     provideQuillConfig({
       modules: {
